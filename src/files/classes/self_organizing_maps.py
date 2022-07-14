@@ -97,7 +97,7 @@ class SelfOrganizingMaps:
             # print(f"Residuals MAD: {residuals_mad}. Min of residuals: {np.min(residuals)}. Max of residuals: {np.max(residuals)}. Mean of residuals: {np.mean(residuals)}")
             if len(outlier_factors) > 0:
                 outliers_mad = (np.median(outlier_factors) +
-                                 mad(outlier_factors))*in_th
+                                mad(outlier_factors))*in_th
                 idxs = np.where(outlier_factors < outliers_mad)
                 residuals = np.array([euclidean_distance(p, pr)
                                      for p, pr in zip(data, self.predict(data))])

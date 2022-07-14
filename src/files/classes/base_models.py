@@ -1,3 +1,4 @@
+from scipy import optimize
 from files.utils.constants import *
 from files.utils.utility_functions import *
 
@@ -55,10 +56,10 @@ class LineEstimator(BaseEstimator):
         residuals = self.get_residuals(data)
         return data[residuals**2 < in_th**2]
 
-from scipy import optimize
 
 def estimate_circle(data):
-    x, y = data[:,0], data[:,1]
+    x, y = data[:, 0], data[:, 1]
+
     def calc_R(xc, yc):
         """ calculate the distance of each data points from the center (xc, yc) """
         return np.sqrt((x-xc)**2 + (y-yc)**2)
@@ -71,17 +72,17 @@ def estimate_circle(data):
     def Df_2b(c):
         """ Jacobian of f_2b
         The axis corresponding to derivatives must be coherent with the col_deriv option of leastsq"""
-        xc, yc     = c
-        df2b_dc    = np.empty((len(c), x.size))
+        xc, yc = c
+        df2b_dc = np.empty((len(c), x.size))
 
         Ri = calc_R(xc, yc)
         df2b_dc[0] = (xc - x)/Ri                   # dR/dxc
         df2b_dc[1] = (yc - y)/Ri                   # dR/dyc
-        df2b_dc    = df2b_dc - df2b_dc.mean(axis=1)[:, np.newaxis]
+        df2b_dc = df2b_dc - df2b_dc.mean(axis=1)[:, np.newaxis]
 
         return df2b_dc
 
-    center, ier = optimize.leastsq(f_2b, (0,0), Dfun=Df_2b, col_deriv=True)
+    center, ier = optimize.leastsq(f_2b, (0, 0), Dfun=Df_2b, col_deriv=True)
 
     return center, calc_R(*center).mean()    # center (x, y), radius r
 
@@ -98,24 +99,6 @@ class CircleEstimator(BaseEstimator):
     def fit(self, data, epochs=0):
         assert len(data) == 3
         self.center, self.radius = estimate_circle(data)
-        # matrix = np.zeros(shape=(3, 4))
-        # for i, p in enumerate(data):
-        #     x, y = p
-        #     matrix[i, 0] = x**2 + y**2
-        #     matrix[i, 1] = x
-        #     matrix[i, 2] = y
-        #     matrix[i, 3] = 1
-        # M11 = np.linalg.det(np.delete(matrix, 0, axis=1))
-        # M12 = np.linalg.det(np.delete(matrix, 1, axis=1))
-        # M13 = np.linalg.det(np.delete(matrix, 2, axis=1))
-        # M14 = np.linalg.det(np.delete(matrix, 3, axis=1))
-# 
-        # x0 = 0.5 * M12 / M11
-        # y0 = - 0.5 * M13 / M11
-# 
-        # self.center = (x0, y0)
-        # self.radius = np.sqrt(x0**2 + y0**2 + M14 / M11)
-
         return self
 
     def get_residuals(self, data):

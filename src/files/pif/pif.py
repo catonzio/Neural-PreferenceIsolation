@@ -189,7 +189,9 @@ class PreferenceIsolationForest:
         self.models_ithrs = np.array(models_ithrs)
         return self.models_ithrs
 
-    def build_models(self, num_models=30, mss=2, delete=False):
+    def build_models(self, num_models=30, mss=2, delete=False, **params):
+        if bool(params):
+            params = params["params"]
         if self.verbose > 0:
             print('-'*50+"\nBuilding RanSac models")
         # models_ithrs = []
@@ -203,9 +205,10 @@ class PreferenceIsolationForest:
         mss = 2 if self.model_name == LINE else 3 if self.model_name == CIRCLE else mss
 
         sampled_ds_idxs = np.random.randint(
-                    0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
-        
-        sampled_ds_s = np.array([sampling_data[idxs] for idxs in sampled_ds_idxs])
+            0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
+
+        sampled_ds_s = np.array([sampling_data[idxs]
+                                for idxs in sampled_ds_idxs])
         if self.model_name == AE:
             dev = torch.device('cpu')
             sampled_ds_s = tensor_from_np(sampled_ds_s, device=dev)
@@ -213,11 +216,20 @@ class PreferenceIsolationForest:
             [
                 LineEstimator() if self.model_name == LINE else
                 CircleEstimator() if self.model_name == CIRCLE else
-                SelfOrganizingMaps(4, 4, data=sampled_ds_s[i], n_dimensions=self.n_dimensions, init_type=GRID) if self.model_name == SOM else
-                AEModel(n_inputs=self.n_dimensions, n_first_hidden=8, n_outputs=self.n_dimensions) if self.model_name == AE else
+
+                SelfOrganizingMaps(n_rows=params["SOM_structure"]["n_rows"],
+                                   n_cols=params["SOM_structure"]["n_cols"],
+                                   data=sampled_ds_s[i], n_dimensions=self.n_dimensions, init_type=GRID) if self.model_name == SOM else
+
+                AEModel(n_inputs=params["AE_structure"]["n_inputs"],
+                        n_first_hidden=params["AE_structure"]["n_hidden"],
+                        n_outputs=params["AE_structure"]["n_outputs"],
+                        activation=params["AE_structure"]["activation"]) if self.model_name == AE else
+
                 MSSModel(mss=sampled_ds_s[i]),
 
-                self.in_ths if isinstance(self.in_ths, Number) else self.in_ths[np.random.randint(0, len(self.in_ths))]
+                self.in_ths if isinstance(
+                    self.in_ths, Number) else self.in_ths[np.random.randint(0, len(self.in_ths))]
             ]
             for i in range(num_models)])
 
@@ -279,11 +291,12 @@ class PreferenceIsolationForest:
 
         return new_preferences, new_clusters
 
-    def anomaly_detection(self, num_models=30, mss=2, delete=False):
+    def anomaly_detection(self, num_models=30, mss=2, delete=False, **params):
+        if bool(params): params = params["params"]
         if self.verbose > 0:
             print("Anomaly Detection")
         if self.models_ithrs is None:
-            self.build_models(num_models, delete=delete)
+            self.build_models(num_models, delete=delete, params=params)
         else:
             if self.verbose > 0:
                 print('-'*50+"\nNot building models Pool because already generated.")
@@ -307,6 +320,7 @@ class PreferenceIsolationForest:
             print('-'*50+"\nDone")
         return scores
 
+
 if __name__ == "__main__":
     ds, gt = load_dataset_by_name("circle5")
     # plot_clusters(gt, ds, show=True)
@@ -316,6 +330,6 @@ if __name__ == "__main__":
     scores = pif.anomaly_detection(num_models=1000)
     print(f"Elapsed time: {time.time() - st}")
     fig, (ax1, ax2) = plt.subplots(1, 2, dpi=150)
-    ax1.scatter(ds[:,0], ds[:,1], c=scores, cmap="jet")
+    ax1.scatter(ds[:, 0], ds[:, 1], c=scores, cmap="jet")
     make_roc(gt, scores, ax=ax2)
     plt.show()
