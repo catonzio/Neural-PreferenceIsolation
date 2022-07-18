@@ -16,7 +16,7 @@ def euclidean_distance(arr1, arr2, single=False):
 
 
 def manhattan_distance(arr1, arr2):
-    return np.abs(pos2[0] - pos1[0]) + np.abs(pos2[1] - pos1[1])
+    return np.abs(arr2[0] - arr1[0]) + np.abs(arr2[1] - arr1[1])
 
 
 def jaccard_distance(arr1, arr2):
@@ -165,15 +165,15 @@ def plot(inp, title="", s=20, alpha=0.7, c=None, label="", show=False, new_fig=F
         plt.show()
 
 
-def plot_clusters(clusters, data, dpi=100, n_models=np.inf, ax=None, show=False):
+def plot_clusters(clusters, data, dpi=100, c='#cc5500', n_models=np.inf, ax=None, show=False):
     if ax is None:
-        fig, ax = plt.subplots(1, 1, dpi=dpi)
+        fig, new_ax = plt.subplots(1, 1, dpi=dpi)
     for i in range(min(max(clusters)+1, n_models)):
         arr = data[np.where(clusters == i)]
         if i == 0:
-            plot(arr, label="Outliers", c='gray', alpha=0.3, dpi=dpi, ax=ax)
+            plot(arr, label="Outliers", c='gray', alpha=0.3, dpi=dpi, ax=new_ax)
         else:
-            plot(arr, label=f"{i}", ax=ax)
+            plot(arr, label=f"{i}", c=c, ax=new_ax)
     if show:
         plt.show()
 

@@ -1,5 +1,8 @@
 .svg
 .png
+.tiff
+.csv
+datasets/
 test/results
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,pycharm,jupyternotebooks

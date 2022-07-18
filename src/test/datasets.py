@@ -53,8 +53,8 @@ def create_datasets_with_outliers():
 
 def main():
     name = "star11"
-    ds = read_np_array(joinpath("..", "datasets", "2d", "lines", "with_outliers", f"{name}.csv"))
-    gt = read_np_array(joinpath("..", "datasets", "2d", "lines", "with_outliers", f"{name}_gt.csv")).astype(int)
+    ds = read_np_array(joinpath("datasets", "2d", "lines", "with_outliers", f"{name}.csv"))
+    gt = read_np_array(joinpath("datasets", "2d", "lines", "with_outliers", f"{name}_gt.csv")).astype(int)
     gt = gt.reshape(gt.shape[0])
     plot_clusters(gt, ds, show=True)
 
