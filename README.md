@@ -20,6 +20,7 @@ At the root, the folders are structured in this way
 
     .
     ├── src                   # Source code files
+    ├── main                  # Folder from which run the tests
     ├── LICENSE               # License file
     ├── README.md             # This readme
     ├── install.sh            # Installation file
@@ -42,12 +43,10 @@ Digging into `src` folder, it is composed as follows
     │   ├── __init__.py
     │   ├── main                                # Folder from which start the project
     │   │   ├── anomaly_detection_tests.py
-    │   │   ├── results
-    │   │   └── voronoi_scale_trials.py
+    │   │   ├── parameters.json
     │   ├── pif                                 # Folder containing PIF source code and Voronoi Tesselation
     │   │   ├── __init__.py
     │   │   ├── pif.py
-    │   │   ├── __pycache__
     │   │   ├── voronoi_iforest.py
     │   │   ├── voronoi_inode.py
     │   │   └── voronoi_itree.py
@@ -61,10 +60,7 @@ Digging into `src` folder, it is composed as follows
     │       └── ...
     ├── setup.py                                # File for installing the module
     └── test                                    # Test folder
-        ├── datasets.py
-        ├── extract_results_prototyping.ipynb
-        ├── __init__.py
-        └── inspect_results.py
+        └── ...
 
 ## Run Locally
 
@@ -88,7 +84,7 @@ Go to main folder
 
 After setting parameters in ```parameters.json```, run main file
 ```bash
-    python main.py parameters.json
+    python main.py
 ```
 
 

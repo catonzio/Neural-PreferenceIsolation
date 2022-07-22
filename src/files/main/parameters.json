@@ -1,0 +1,53 @@
+{
+    "root_path": "/home/catonz/Neural-PreferenceIsolationForest",
+
+    "mss": 2,
+    "num_models": 2000,
+    "training_epochs": 500,
+    "n_jobs": 8,
+    
+    "cool_visualization": false,
+    "delete": false,
+    "make_rocs_plots": true,
+    "make_scores&rocs_plots": true,
+    "__comment__1": "For models to use refer to src/utilities/constants.py, there will be all naming conventions",
+    "models_to_use": ["ae"],
+
+    "AE_structure": {
+        "n_inputs": 2,
+        "__comment__1": "if 0, the structure of the AE will be (2,1,2)",
+        "n_hidden": 0,
+        "n_outputs": 2,
+        "__comment__2": "Supported activations: 'tanh', 'sigmoid', 'identity'. Others are treated as 'identity'",
+        "activation": "identity"
+    },
+
+    "SOM_structure": {
+        "n_rows": 5,
+        "n_cols": 5
+    },
+
+    "std_multiples": [0.5, 1, 2, 6, 10, 14, 16],
+    "datasets_std": {
+        "stair3":   0.003,
+        "stair4":   0.004,
+        "star5":    0.009,
+
+        "star11":   0.005,
+        "circle3":  0.006,
+        "circle4":  0.004,
+
+        "circle5":  0.003,
+
+        "circles_parable3": 0.02,
+        "lines_rects4": 0.02
+    },
+
+    "ivor_parameters": {
+        "num_trees": 100,
+        "max_samples": 256,
+        "branching_factor": 2,
+        "metric": "tanimoto",
+        "n_jobs": 2
+    }
+}

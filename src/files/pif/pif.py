@@ -98,7 +98,7 @@ ivor_parameters: dict = {'num_trees': 100, 'max_samples': 256, 'branching_factor
 
 class PreferenceIsolationForest:
 
-    def __init__(self, data, model_name, in_th=None, verbose=1, images=0, epochs=1, sampling=UNIFORM):
+    def __init__(self, data, model_name, ivor_parameters=ivor_parameters, in_th=None, verbose=1, images=0, epochs=1, sampling=UNIFORM):
         self.original_data = data.copy()
         self.new_data = data.copy()
         self.model_name = model_name
