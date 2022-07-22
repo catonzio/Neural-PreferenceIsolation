@@ -1,6 +1,6 @@
 from files.utils.constants import *
 from files.utils.utility_functions import *
-
+from files.functions.results_extractors import *
 
 def make_scores_rocs_plots(root_path, base_path, results=None, towrite=False):
     results = extract_results_models(

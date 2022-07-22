@@ -257,11 +257,6 @@ def test_base_model():
 
 
 if __name__ == "__main__":
-    # possible_hiddens = [2, 2, 2, 4, 4, 8, 16, 32]
-    # np.random.shuffle(possible_hiddens)
-    # model = AEModel(n_first_hidden=possible_hiddens[np.random.choice(
-    #     range(len(possible_hiddens)))])
-    # print(model)
     from files.utils.constants import *
     from files.utils.dataset_creator import *
     from files.utils.utility_functions import *
@@ -274,14 +269,10 @@ if __name__ == "__main__":
     gt = read_np_array(joinpath("datasets", "2d", "lines",
                        "with_outliers", "stair4_gt.csv"))
     gt = gt.astype(int).reshape(len(gt))
-    # plot(ds, c=gt)
-
-    # before: 3m 23s
-    std = 0.004
-    # [1/3*std, 1/2*std, std, 3/2*std, 2*std, 3*std, 5*std]
-    thresholds = [0.008]
-    scores_list = []
-    for threshold in thresholds:
-        ransac = PreferenceIsolationForest(
-            data=ds, model_name=AE, in_th=threshold)
-        scores_list.append(ransac.anomaly_detection(num_models=1000))
+    
+    model = AEModel(n_inputs=2, n_first_hidden=32, n_outputs=2)#, activation=lambda x: x)
+    model.fit(ds, print_training=False, epochs=100)
+    preds = model.predict(ds)
+    plot(ds, c='gray', alpha=0.3)
+    plot(preds)
+    plt.show()

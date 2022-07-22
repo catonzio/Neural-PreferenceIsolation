@@ -4,7 +4,8 @@
 .csv
 datasets/
 test/results
-
+results/
+images/
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,pycharm,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,pycharm,jupyternotebooks
 

@@ -134,8 +134,8 @@ class SelfOrganizingMaps:
                 neighb_idxs = find_neighbors_idxs(
                     weights, (a, b), to_be_indexed=True)
                 dict[tuple(weight)] = weights[neighb_idxs]
-        w = 0.00005  # Errorwidth
-        h = 0.05   # Errorhead width
+        w = 1e-5  # Errorwidth
+        h = 0.5   # Errorhead width
 
         if ax is None:
             fig, ax = plt.subplots(dpi=dpi)
@@ -151,11 +151,12 @@ class SelfOrganizingMaps:
                 dy = outgoing[1] - point[1]
                 ax.arrow(point[0], point[1],
                          dx, dy,
+                         alpha=0.3,
                          width=w,
                          facecolor="k")
 
             ax.plot(*point,
-                    marker="o", markersize=2,
+                    marker="o", markersize=3,
                     markeredgecolor="k",
                     markerfacecolor="red")
 

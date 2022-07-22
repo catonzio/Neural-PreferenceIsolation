@@ -18,39 +18,24 @@ class BaseEstimator:
     def get_inliers(self, data, in_th=1, v=None):
         pass
 
-
+# Fonte: https://www.inf.ed.ac.uk/teaching/courses/cg/lectures/implicit.pdf
 class LineEstimator(BaseEstimator):
 
     def __init__(self):
         super(LineEstimator, self).__init__(class_type=LINE)
-        self.slope = np.inf
-        self.intercept = np.inf
+        self.a, self.b, self.c = np.inf, np.inf, np.inf
 
     # epochs is for consistency
     def fit(self, data, epochs=0):
         assert len(data) == 2
-        p1, p2 = data
-        # if two points have same x-coord
-        if np.abs(p1[0] - p2[0]) < 1e-3:
-            self.slope = np.inf
-            self.intercept = p1[0]
-        # if two points have same y-coord
-        elif np.abs(p1[1] - p2[1]) < 1e-3:
-            self.slope = 0
-            self.intercept = p1[1]
-        else:
-            self.slope = (p1[1] - p2[1]) / (p1[0] - p2[0])
-            self.intercept = -self.slope*p1[0] + p1[1]
+        (x1, y1), (x2, y2) = data
+        self.a = y2 - y1
+        self.b = x1 - x2
+        self.c = x2*y1 - y2*x1
         return self
 
     def get_residuals(self, data):
-        # residuals: distance of each point from the rect
-        if self.slope != np.inf:
-            return np.ones(shape=(len(data)))*(np.abs(data[:, 1] - (self.slope*data[:, 0]+self.intercept)) / (np.sqrt(1 + self.slope**2)))
-        elif self.slope == 0:
-            return np.ones(shape=(len(data)))*(data[:, 1]-self.intercept)
-        else:
-            return np.ones(shape=(len(data)))*(data[:, 0]-self.intercept)
+        return (self.a*data[:,0] + self.b*data[:,1] + self.c) / np.sqrt(self.a**2 + self.b**2)
 
     def get_inliers(self, data, in_th=1, v=None):
         residuals = self.get_residuals(data)

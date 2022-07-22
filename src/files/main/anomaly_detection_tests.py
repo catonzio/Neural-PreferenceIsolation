@@ -3,25 +3,27 @@ from files.utils.utility_functions import *
 from files.pif.pif import *
 from files.classes.neural_models import AEModel
 from files.classes.self_organizing_maps import SelfOrganizingMaps
+from files.functions.results_extractors import *
+from files.functions.results_rocs_maker import *
 
 from multiprocessing.pool import Pool
 import time
 import collections
 import traceback
 
-# k = np.array([0.5, 1, 2, 6, 10, 14, 16],)
-k = np.array([1, 3, 5, 10, 25, 50, 75, 100],)
+k = np.array([0.5, 1, 2, 6, 10, 14, 16],)
+# k = np.array([1, 3, 5, 10, 25, 50, 75, 100],)
 params = {
-    "mss": 5,
-    "num_models": 1,
-    "training_epochs": 1,
-    "base_path": joinpath("test", "results", "july", f"test_{time.strftime('%d-%m-%H-%M-%S')}"),
-    "root_path": joinpath(os.path.dirname(os.path.abspath(__file__)), "../"),
+    "mss": 2,
+    "num_models": 2000,
+    "training_epochs": 500,
+    "base_path": joinpath("results", "pif_benchmark", f"test_{time.strftime('%d-%m-%H-%M-%S')}"),
+    "root_path": joinpath(os.path.dirname(os.path.abspath(__file__)), "..", "..", "../"),
     "cool_visualization": False,
     "delete": False,
     "make_rocs_plots": True,
     "make_scores&rocs_plots": True,
-    "models_to_use": [AE],# SOM, LINE],  # SUBS],
+    "models_to_use": [LINE],# SOM, AE],  # SUBS],
 
     "AE_structure": {
         "n_inputs": 2,
@@ -38,17 +40,17 @@ params = {
     "samplings": [UNIFORM],  # LOCALIZED],
     "datasets": {
         "stair3":   0.003*k,
-        # "stair4":   0.004*k,
-        # "star5":    0.009*k,
+        "stair4":   0.004*k,
+        "star5":    0.009*k,
 
-        # "star11":   0.005*k,
-        # "circle3":  0.006*k,
-        # "circle4":  0.004*k,
+        "star11":   0.005*k,
+        "circle3":  0.006*k,
+        "circle4":  0.004*k,
 
-        # "circle5":  0.003*k,
+        "circle5":  0.003*k,
 
-        # "circles_parable3": 0.2*k/10,
-        # "lines_rects4": 0.2*k/10
+        "circles_parable3": 0.2*k/10,
+        "lines_rects4": 0.2*k/10
     }
 }
 
@@ -59,7 +61,7 @@ def test(inp):
 
     in_th_str = f"{float(threshold):.3f}".replace('.', '_')
     results_path = joinpath(
-        params["base_path"], dataset_name, model_name, f"in_th_{in_th_str}", sampling)
+        params["base_path"], dataset_name, model_name, f"in_th_{in_th_str}")
 
     os.makedirs(results_path, exist_ok=True)
 
@@ -143,19 +145,8 @@ def main(params):
     os.makedirs(params["base_path"], exist_ok=True)
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
 
-    models = []
-    # with Pool() as p:
-    #     models = p.map(test, all_combinations)
-    models = test(all_combinations[0])
-
-    model = set(models)
-    for model in models:
-        if isinstance(model, AEModel):
-            params["AEModel_structure"] = {
-                "n_inputs": model.n_inputs, "n_first_hidden": model.n_first_hidden, "n_outputs": model.n_outputs}
-        if isinstance(model, SelfOrganizingMaps):
-            params["SOM_structure"] = {"n_rows": model.n_rows, "n_cols": model.n_cols,
-                                       "sigma": model.sigma, "n_dimensions": model.n_dimensions}
+    with Pool() as p:
+        p.map(test, all_combinations)
 
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
 
@@ -180,14 +171,14 @@ if __name__ == "__main__":
     try:
         main(params)
         print("Wii short.mp3")
-        # os.system("mpg123 -q ~/Downloads/Wii\ short.mp3")
+        os.system("mpg123 -q ~/Downloads/Wii\ short.mp3")
     except:
         print(traceback.format_exc())
         print("fail-trombone-03.mp3")
-        # os.system("mpg123 -q ~/Downloads/fail-trombone-03.mp3")
+        os.system("mpg123 -q ~/Downloads/fail-trombone-03.mp3")
 
     end_time = time.time()
     print(f"Started at: {datetime.fromtimestamp(start_time)}")
     print(f"End at: {datetime.fromtimestamp(end_time)}")
     print(f"Elapsed time: {timedelta(seconds=end_time - start_time)}")
-    # os.system("systemctl suspend")
+    os.system("systemctl suspend")
