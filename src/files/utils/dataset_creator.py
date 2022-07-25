@@ -205,10 +205,6 @@ def rotate_dataset(ds, theta):
     return ds @ rot_matrx(theta)
 
 
-def normalize_points(ds):
-    return (ds - np.mean(ds)) / np.std(ds)
-
-
 def normalize_points_old(x, rescale=False):
     """
         Input:

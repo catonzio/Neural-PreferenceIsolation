@@ -74,7 +74,7 @@ def test(inp):
     exec_time = time.monotonic() - start_time
 
     auc, tpr, fpr, thr, fig = make_roc(
-        gt, scores, show=False, title=f"{dataset_name} Model: {model_name}, Thr: {in_th_str}, Smpl: {sampling}")
+        gt, scores, show=False, title=f"{dataset_name} Model: {model_name}, Thr: {in_th_str}")
     fig.tight_layout()
     fig.savefig(fname=joinpath(results_path, "roc.svg"), bbox_inches="tight")
     plt.close(fig)

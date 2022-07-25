@@ -108,8 +108,6 @@ class NeuralNetwork(torch.nn.Module):
             return res
 
     def forward(self, x):
-        print(self.activation)
-        print(x.shape)
         x = self.tensor_from_np([x])
         # if len(x.shape) < 2: x = x.reshape(1,-1)
         for layer in self.layers[:-1]:

@@ -37,34 +37,17 @@ def extract_results_models(base_path, towrite=False):
         if in_th not in final_results[mn][ds_name].keys():
             final_results[mn][ds_name][in_th] = {}
 
-        if LOCALIZED in path:
-            final_results[mn][ds_name][in_th]["roc_auc_localized"] = params["roc_auc"]
-        elif UNIFORM in path:
-            final_results[mn][ds_name][in_th]["roc_auc_uniform"] = params["roc_auc"]
+        final_results[mn][ds_name][in_th]["roc_auc"] = params["roc_auc"]
         final_results[mn][ds_name][in_th]["scores_path"] = params["scores_path"]
         final_results[mn][ds_name][in_th]["exec_time_seconds"] = params["exec_time_seconds"]
 
     for mn, dict1 in final_results.items():
         for ds_name, dict2 in dict1.items():
             thresholds = list(dict2.keys())
-            try:
-                roc_aucs = [dict2[v]["roc_auc_localized"]
-                            for v in thresholds]
-                final_results[mn][ds_name]["roc_auc_localized_median"] = np.median(
-                    roc_aucs)
-                final_results[mn][ds_name]["roc_auc_localized_mean"] = np.mean(
-                    roc_aucs)
-            except KeyError:
-                pass
-            try:
-                roc_aucs = [dict2[v]["roc_auc_uniform"]
-                            for v in thresholds]
-                final_results[mn][ds_name]["roc_auc_uniform_median"] = np.median(
-                    roc_aucs)
-                final_results[mn][ds_name]["roc_auc_uniform_mean"] = np.mean(
-                    roc_aucs)
-            except KeyError:
-                pass
+            roc_aucs = [dict2[v]["roc_auc"]
+                        for v in thresholds]
+            final_results[mn][ds_name]["roc_auc_median"] = np.median(roc_aucs)
+            final_results[mn][ds_name]["roc_auc_mean"] = np.mean(roc_aucs)
             exec_times = [dict2[v]["exec_time_seconds"]
                           for v in thresholds]
             final_results[mn][ds_name]["exec_time_seconds_mean"] = np.mean(
@@ -96,10 +79,7 @@ def extract_results_datasets(base_path, towrite=False):
         if in_th not in final_results[ds_name][mn].keys():
             final_results[ds_name][mn][in_th] = {}
 
-        if LOCALIZED in path:
-            final_results[ds_name][mn][in_th]["roc_auc_localized"] = params["roc_auc"]
-        elif UNIFORM in path:
-            final_results[ds_name][mn][in_th]["roc_auc_uniform"] = params["roc_auc"]
+        final_results[ds_name][mn][in_th]["roc_auc"] = params["roc_auc"]
         final_results[ds_name][mn][in_th]["scores_path"] = params["scores_path"]
         final_results[ds_name][mn][in_th]["exec_time_seconds"] = params["exec_time_seconds"]
 

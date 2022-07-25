@@ -11,8 +11,8 @@ def make_scores_rocs_plots(root_path, base_path, results=None, towrite=False):
     for model, dict1 in results.items():
         if model != SUBS:
             for ds_name, dict2 in dict1.items():
-                ds, gt = load_dataset_by_name(ds_name, file_path=joinpath(
-                    root_path, f"datasets/2d/{'circles' if 'circle' in ds_name else 'lines'}/with_outliers"))
+                ds, gt = load_dataset_by_name(ds_name, base_path=root_path)#, file_path=joinpath(
+                    #root_path, f"datasets/2d/{'circles' if 'circle' in ds_name else 'lines'}/with_outliers"))
                 for threshold, dict3 in dict2.items():
                     try:
                         threshold = float(threshold)
@@ -35,7 +35,7 @@ def make_scores_rocs_plots(root_path, base_path, results=None, towrite=False):
                     ax2.set_aspect("equal")
 
                     # Plot uniform sampling results
-                    uniform_scores_path = root_path + dict3["scores_path"]
+                    uniform_scores_path = dict3["scores_path"]
                     uniform_scores = np.array(
                         read_arr_json(uniform_scores_path))
 
@@ -102,7 +102,7 @@ def make_rocs_barplot(base_path, results=None, towrite=False):
                 ax = axes
             else:
                 ax = axes[i]
-            aucs = [float(dict1[model][th]["roc_auc_uniform"])
+            aucs = [float(dict1[model][th]["roc_auc"])
                     for model in models]
             ax.barh([i for i in range(len(models))], aucs,
                     align='center', color=['#B93A32', '#6ea331', '#217fbe'])

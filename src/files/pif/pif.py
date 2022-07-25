@@ -2,7 +2,7 @@ from files.utils.constants import *
 from files.utils.utility_functions import *
 
 from files.models.self_organizing_maps import SelfOrganizingMaps
-from files.models.neural_models import AEModel
+from files.models.neural_models import AEModel, NeuralNetwork
 from files.models.base_models import *
 
 from files.mss_model import MSSModel
@@ -70,18 +70,16 @@ def clustering(pref_m, verbose=0):
     return pref_m, clusters
 
 
-def build_preference_matrix(data, models_ithrs, verbose=0, images=0):
+def build_preference_matrix(data, models, threshold, verbose=0, images=0):
     if verbose > 0:
         print('-'*50+"\nBuilding preference matrix")
-    models = models_ithrs[:, 0]
-    thresholds = models_ithrs[:, 1].astype(float)
 
     residuals = np.array([m.get_residuals(data) for m in models]).astype(float)
 
     preference_matrix = np.array([
-        (r < 3*t).astype(float) *  # 1 if r[i] < 3*t, 0 otherwise
+        (r < 3*threshold).astype(float) *  # 1 if r[i] < 3*t, 0 otherwise
         # gaussian preference value
-        np.exp(-r**2/t) for r, t in zip(residuals, thresholds)
+        np.exp(-r**2/threshold) for r in residuals
     ]).T
 
     if images > 1:
@@ -98,21 +96,16 @@ ivor_parameters: dict = {'num_trees': 100, 'max_samples': 256, 'branching_factor
 
 class PreferenceIsolationForest:
 
-    def __init__(self, data, model_name, ivor_parameters=ivor_parameters, in_th=None, verbose=1, images=0, epochs=1, sampling=UNIFORM):
+    def __init__(self, data, model_name, ivor_parameters=ivor_parameters, verbose=1, images=0, sampling=UNIFORM):
         self.original_data = data.copy()
         self.new_data = data.copy()
         self.model_name = model_name
         self.n_dimensions = data.shape[-1]
-        if in_th is None:
-            self.in_ths = [0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.75, 1]
-        else:
-            self.in_ths = in_th
         self.verbose = verbose
         self.images = images
-        self.epochs = epochs
         self.sampling = sampling
         self.voronoi = VoronoiIForest(**ivor_parameters)
-        self.models_ithrs = None
+        self.models = None
         self.preference_matrix = None
 
     def build_models_OLD(self, num_models=30, mss=2, delete=False):
@@ -189,20 +182,19 @@ class PreferenceIsolationForest:
         self.models_ithrs = np.array(models_ithrs)
         return self.models_ithrs
 
-    def build_models(self, num_models=30, mss=2, delete=False, **params):
+    def build_models(self, **params):
         if bool(params):
             params = params["params"]
         if self.verbose > 0:
             print('-'*50+"\nBuilding RanSac models")
-        # models_ithrs = []
-        # k = 0
-        # it = 0
 
         chars_to_print = 30
         start_time = time.monotonic()
 
         sampling_data = self.new_data.copy()
-        mss = 2 if self.model_name == LINE else 3 if self.model_name == CIRCLE else mss
+        mss = 2 if self.model_name == LINE else 3 if self.model_name == CIRCLE else params[
+            "mss"]
+        num_models = params["num_models"]
 
         sampled_ds_idxs = np.random.randint(
             0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
@@ -212,30 +204,23 @@ class PreferenceIsolationForest:
         if self.model_name == AE:
             dev = torch.device('cpu')
             sampled_ds_s = tensor_from_np(sampled_ds_s, device=dev)
-        models_ithrs = np.array([
-            [
-                LineEstimator() if self.model_name == LINE else
-                CircleEstimator() if self.model_name == CIRCLE else
+        models = np.array([
+            LineEstimator() if self.model_name == LINE else
+            CircleEstimator() if self.model_name == CIRCLE else
 
-                SelfOrganizingMaps(n_rows=params["SOM_structure"]["n_rows"],
-                                   n_cols=params["SOM_structure"]["n_cols"],
-                                   data=sampled_ds_s[i], n_dimensions=self.n_dimensions, init_type=GRID) if self.model_name == SOM else
+            SelfOrganizingMaps(n_rows=params["SOM_structure"]["n_rows"],
+                               n_cols=params["SOM_structure"]["n_cols"],
+                               data=sampled_ds_s[i], n_dimensions=self.n_dimensions, init_type=GRID) if self.model_name == SOM else
 
-                AEModel(n_inputs=params["AE_structure"]["n_inputs"],
-                        n_first_hidden=params["AE_structure"]["n_hidden"],
-                        n_outputs=params["AE_structure"]["n_outputs"],
-                        activation=params["AE_structure"]["activation"]) if self.model_name == AE else
+            NeuralNetwork(neurons=params["AE_structure"]["neurons"],
+                          activation=params["AE_structure"]["activation"]) if self.model_name == AE else
 
-                MSSModel(mss=sampled_ds_s[i]),
-
-                self.in_ths if isinstance(
-                    self.in_ths, Number) else self.in_ths[np.random.randint(0, len(self.in_ths))]
-            ]
-            for i in range(num_models)])
+            MSSModel(mss=sampled_ds_s[i])
+            for i in range(params["num_models"])])
 
         def build_model(inp):
-            it, ((model, in_th), sampled_ds) = inp
-            model.fit(data=sampled_ds, epochs=self.epochs)
+            it, (model, sampled_ds) = inp
+            model.fit(data=sampled_ds, epochs=params["training_epochs"])
             if self.verbose > 0:
                 perc = int(it / num_models * chars_to_print)
                 dt = timedelta(seconds=time.monotonic() - start_time)
@@ -243,14 +228,14 @@ class PreferenceIsolationForest:
                     chars_to_print-perc) + f"] ({int(it/num_models*100)}%) ETA: {dt}")
                 sys.stdout.flush()
 
-        list(map(build_model, enumerate(zip(models_ithrs, sampled_ds_s))))
+        list(map(build_model, enumerate(zip(models, sampled_ds_s))))
         if self.verbose > 0:
             dt = timedelta(seconds=time.monotonic()-start_time)
             print(f"\rIteration {num_models}/{num_models}: [" + "="*chars_to_print +
                   f"] (100%) ETA: {dt}")
 
-        self.models_ithrs = np.array(models_ithrs)
-        return self.models_ithrs
+        self.models = np.array(models)
+        return self.models
 
     def t_linkage(self, num_models=30, mss=2, n_models=-1, sort_clusters=True,
                   delete=False):
@@ -291,18 +276,20 @@ class PreferenceIsolationForest:
 
         return new_preferences, new_clusters
 
-    def anomaly_detection(self, num_models=30, mss=2, delete=False, **params):
-        if bool(params): params = params["params"]
+    def anomaly_detection(self, in_th=1, **params):
+        if bool(params):
+            params = params["params"]
         if self.verbose > 0:
             print("Anomaly Detection")
-        if self.models_ithrs is None:
-            self.build_models(num_models, delete=delete, params=params)
+        if self.models is None:
+            self.build_models(params=params)
         else:
             if self.verbose > 0:
                 print('-'*50+"\nNot building models Pool because already generated.")
+
         if self.preference_matrix is None:
             self.preference_matrix, self.new_data = build_preference_matrix(
-                data=self.new_data, models_ithrs=self.models_ithrs, verbose=self.verbose, images=self.images)
+                data=self.new_data, models=self.models, threshold=in_th, verbose=self.verbose, images=self.images)
         else:
             if self.verbose > 0:
                 print(

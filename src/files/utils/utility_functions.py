@@ -116,10 +116,10 @@ def read_dict_json(path):
     return data
 
 
-def load_dataset_by_name(name, file_path="", with_outliers=True):
-    file_path = joinpath("datasets", "2d",
+def load_dataset_by_name(name, base_path="", with_outliers=True):
+    file_path = joinpath(base_path, "datasets", "2d",
                          "circles" if "circle" in name.lower() else "lines",
-                         "with_outliers" if with_outliers else "no_outliers") if file_path == "" else file_path
+                         "with_outliers" if with_outliers else "no_outliers")
     if with_outliers:
         ds = read_np_array(joinpath(file_path, f"{name}.csv"))
         real_gt = read_np_array(joinpath(file_path, f"{name}_gt.csv"))
@@ -142,7 +142,8 @@ def load_dataset_by_name(name, file_path="", with_outliers=True):
 
 #    Visualization functions
 
-def plot(inp, title="", s=20, alpha=0.7, c=None, label="", show=False, new_fig=False, dpi=150, ax=None, equal=False):
+
+def plot(inp, title="", s=20, alpha=0.7, c=None, cmap="jet", label="", show=False, new_fig=False, dpi=150, ax=None, equal=False):
     inp = inp.detach().numpy() if isinstance(inp, torch.Tensor) else inp
     if ax is not None:
         ax.scatter(inp[:, 0], inp[:, 1], s=s, alpha=alpha, c=c, label=label)
@@ -155,7 +156,7 @@ def plot(inp, title="", s=20, alpha=0.7, c=None, label="", show=False, new_fig=F
                 fig.suptitle(title)
         if equal:
             plt.axis('equal')
-        plt.scatter(inp[:, 0], inp[:, 1], s=s, alpha=alpha, c=c, label=label)
+        plt.scatter(inp[:, 0], inp[:, 1], s=s, alpha=alpha, c=c, cmap=cmap, label=label)
     if label:   # != ""
         if ax is None:
             plt.legend()
@@ -171,7 +172,8 @@ def plot_clusters(clusters, data, dpi=100, c='#cc5500', n_models=np.inf, ax=None
     for i in range(min(max(clusters)+1, n_models)):
         arr = data[np.where(clusters == i)]
         if i == 0:
-            plot(arr, label="Outliers", c='gray', alpha=0.3, dpi=dpi, ax=new_ax)
+            plot(arr, label="Outliers", c='gray',
+                 alpha=0.3, dpi=dpi, ax=new_ax)
         else:
             plot(arr, label=f"{i}", c=c, ax=new_ax)
     if show:
@@ -185,6 +187,7 @@ def idx_2d_to1d(pos, width):
 
 def idx_1d_to2d(index, width):
     return int(index / width), index % width
+
 
 #   Sampling
 
@@ -216,6 +219,7 @@ def localized_sampling(src_pts, k, ni=1 / 3):
 
 
 #   Miscellaneous
+
 
 def mad(arr):
     return np.median(np.absolute(arr - np.median(arr)))
@@ -266,6 +270,11 @@ def arr_contains(arr, p):
         return np.any(res.all(1))
     else:
         return False
+
+
+def normalize_points(ds):
+    return (ds - np.mean(ds)) / np.std(ds)
+
 
 #   Errors
 

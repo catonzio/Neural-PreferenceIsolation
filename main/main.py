@@ -19,7 +19,8 @@ def read_parameters(path="parameters.json"):
     params["datasets"] = {a: v*np.array(params["std_multiples"])
                           for a, v in params["datasets_std"].items()}
     act = params["AE_structure"]["activation"].lower()
-    params["AE_structure"]["activation"] = torch.tanh if act == "tanh" else \
+    params["AE_structure"]["activation"] = \
+        torch.tanh if act == "tanh" else \
         torch.sigmoid if act == "sigmoid" else \
         lambda x: x
     params["models_to_use"] = list(
@@ -33,7 +34,10 @@ params = read_parameters()
 
 def test(inp):
     (dataset_name, threshold), model_name = inp
-    dataset, gt = load_dataset_by_name(dataset_name)
+    dataset, gt = load_dataset_by_name(
+        name=dataset_name, base_path=params["root_path"])
+    if params["datasets_normalization"]:
+        dataset = normalize_points(dataset)
 
     in_th_str = f"{float(threshold):.3f}".replace('.', '_')
     results_path = joinpath(
@@ -47,12 +51,10 @@ def test(inp):
     pif = PreferenceIsolationForest(
         data=dataset,
         model_name=model_name,
-        in_th=float(threshold),
         verbose=0,
         ivor_parameters=params["ivor_parameters"]
     )
-    scores = pif.anomaly_detection(
-        num_models=params["num_models"], mss=params["mss"], params=params)
+    scores = pif.anomaly_detection(in_th=float(threshold), params=params)
     write_arr_json(path=joinpath(results_path, "scores.json"), arr=scores)
 
     if params["cool_visualization"]:
@@ -74,7 +76,7 @@ def test(inp):
     exec_time = time.monotonic() - start_time
 
     auc, tpr, fpr, thr, fig = make_roc(
-        gt, scores, show=False, title=f"{dataset_name} Model: {model_name}, Thr: {in_th_str}, Smpl: {sampling}")
+        gt, scores, show=False, title=f"{dataset_name} Model: {model_name}, Thr: {in_th_str}")
     fig.tight_layout()
     fig.savefig(fname=joinpath(results_path, "roc.svg"), bbox_inches="tight")
     plt.close(fig)
@@ -124,13 +126,16 @@ def main(params):
         p.map(test, all_combinations)
 
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
-
+    print("Saved parameters.json at ", joinpath(
+        params["base_path"], "parameters.json"))
     if params["make_scores&rocs_plots"]:
         make_scores_rocs_plots(
             params["root_path"], params["base_path"], towrite=True)
+        print("Made scores rocs plots")
 
     if params["make_rocs_plots"]:
         make_rocs_barplot(params["base_path"], towrite=True)
+        print("Made rocs barplot")
 
     time.sleep(100)
 
@@ -145,11 +150,11 @@ if __name__ == "__main__":
     try:
         main(params)
         print("Wii short.mp3")
-        os.system("mpg123 -q ~/Downloads/Wii\ short.mp3")
+        os.system(f"mpg123 -q {params['root_path']}/datasets/Wii\ short.mp3")
     except:
         print(traceback.format_exc())
         print("fail-trombone-03.mp3")
-        os.system("mpg123 -q ~/Downloads/fail-trombone-03.mp3")
+        os.system(f"mpg123 -q {params['root_path']}/datasets/fail-trombone-03.mp3")
 
     end_time = time.time()
     print(f"Started at: {datetime.fromtimestamp(start_time)}")
