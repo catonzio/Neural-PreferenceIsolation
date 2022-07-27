@@ -336,10 +336,11 @@ def compute_clustering_errors(cluster_mask_est, cluster_mask_gt):
     return errors
 
 
-def make_roc(gt, scores, show=True, title="", orig_ax=None):
+def make_roc(gt, scores, show=True, title="", orig_ax=None, to_plot=True):
     # Pos score is 0 because the higher the score, the more it is an outlier
     fpr, tpr, thr = roc_curve(gt, scores, pos_label=0)
     roc_auc: float = auc(fpr, tpr)
+    if not to_plot: return roc_auc, fpr, tpr, thr, None
 
     lw = 2
     if orig_ax is None:

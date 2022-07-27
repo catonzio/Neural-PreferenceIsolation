@@ -19,6 +19,8 @@ class BaseEstimator:
         pass
 
 # Fonte: https://www.inf.ed.ac.uk/teaching/courses/cg/lectures/implicit.pdf
+
+
 class LineEstimator(BaseEstimator):
 
     def __init__(self):
@@ -35,7 +37,7 @@ class LineEstimator(BaseEstimator):
         return self
 
     def get_residuals(self, data):
-        return (self.a*data[:,0] + self.b*data[:,1] + self.c) / np.sqrt(self.a**2 + self.b**2)
+        return (self.a*data[:, 0] + self.b*data[:, 1] + self.c) / np.sqrt(self.a**2 + self.b**2)
 
     def get_inliers(self, data, in_th=1, v=None):
         residuals = self.get_residuals(data)
@@ -95,5 +97,44 @@ class CircleEstimator(BaseEstimator):
 
     def get_inliers(self, data, in_th=1, v=None):
         # residuals: distance of each point from the rect
+        residuals = self.get_residuals(data)
+        return data[residuals**2 < in_th**2]
+
+
+class PlaneEstimator(BaseEstimator):
+
+    def __init__(self):
+        super(PlaneEstimator, self).__init__(class_type=PLANE)
+        self.a, self.b, self.c, self.d = self.alpha = np.array([np.inf, np.inf, np.inf, np.inf])
+
+    # epochs is for consistency
+    def fit(self, data, epochs=0):
+        assert len(data) == 3
+        p1, p2, p3 = data
+        n1 = p2 - p1
+        n2 = p3 - p1
+        a, b, c = cross_ = np.cross(n1, n2)
+        d = -np.dot(cross_, p1)
+        # p1, p2, p3 = data
+        # x1, x2 = p1
+        # y1, y2 = p2
+        # z1, z2 = p3
+        # a1 = x2 - x1
+        # b1 = y2 - y1
+        # c1 = z2 - z1
+        # a2 = x3 - x1
+        # b2 = y3 - y1
+        # c2 = z3 - z1
+        # a = b1 * c2 - b2 * c1
+        # b = a2 * c1 - a1 * c2
+        # c = a1 * b2 - b1 * a2
+        # d = (- a * x1 - b * y1 - c * z1)
+        self.a, self.b, self.c, self.d = self.alpha = np.array([a, b, c, d])
+        return self.alpha
+
+    def get_residuals(self, data):
+        return (np.abs(np.dot(data, self.alpha[:-1])) + self.alpha[-1]) / np.sqrt(np.sum(self.alpha[:-1]**2))
+
+    def get_inliers(self, data, in_th=1, v=None):
         residuals = self.get_residuals(data)
         return data[residuals**2 < in_th**2]

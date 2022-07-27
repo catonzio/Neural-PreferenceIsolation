@@ -30,6 +30,7 @@ class VoronoiIForest:
 		with ThreadPoolExecutor(max_workers=self.n_jobs) as executor:
 			futures: list = []
 			for i in range(self.num_trees):
+				if len(data) < self.max_samples: break
 				sampled_data: ndarray = data[choice(data.shape[0], size=self.max_samples, replace=False)]
 				futures.append(executor.submit(VoronoiITree(self.branching_factor, self.metric).build, sampled_data))
 			wait(futures)

@@ -29,7 +29,8 @@ GRID = 2
 
 LINE = "line"
 CIRCLE = "circle"
-MIXED = "mixed"
+PLANE = "plane"
+
 SOM = "som"
 AE = "ae"
 SUBS = "subsampling"

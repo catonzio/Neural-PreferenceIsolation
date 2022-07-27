@@ -1,11 +1,12 @@
 from files.utils.constants import *
 from files.utils.utility_functions import *
 
-from files.models.self_organizing_maps import SelfOrganizingMaps
-from files.models.neural_models import AEModel, NeuralNetwork
-from files.models.base_models import *
+from files.classes.self_organizing_maps import SelfOrganizingMaps
+from files.classes.neural_models import AEModel, NeuralNetwork
+from files.classes.base_models import *
+from files.classes.base_models import PlaneEstimator
+from files.classes.mss_model import MSSModel
 
-from files.mss_model import MSSModel
 from files.pif.voronoi_iforest import *
 from datetime import timedelta
 from numbers import Number
@@ -183,6 +184,7 @@ class PreferenceIsolationForest:
         return self.models_ithrs
 
     def build_models(self, **params):
+        print("Hello")
         if bool(params):
             params = params["params"]
         if self.verbose > 0:
@@ -192,8 +194,9 @@ class PreferenceIsolationForest:
         start_time = time.monotonic()
 
         sampling_data = self.new_data.copy()
-        mss = 2 if self.model_name == LINE else 3 if self.model_name == CIRCLE else params[
-            "mss"]
+        mss = 2 if self.model_name == LINE \
+            else 3 if (self.model_name == CIRCLE or self.model_name == PLANE) \
+            else params["mss"]
         num_models = params["num_models"]
 
         sampled_ds_idxs = np.random.randint(
@@ -207,6 +210,7 @@ class PreferenceIsolationForest:
         models = np.array([
             LineEstimator() if self.model_name == LINE else
             CircleEstimator() if self.model_name == CIRCLE else
+            PlaneEstimator() if self.model_name == PLANE else
 
             SelfOrganizingMaps(n_rows=params["SOM_structure"]["n_rows"],
                                n_cols=params["SOM_structure"]["n_cols"],
