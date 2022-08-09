@@ -150,11 +150,11 @@ if __name__ == "__main__":
     try:
         main(params)
         print("Wii short.mp3")
-        os.system(f"mpg123 -q {params['root_path']}/datasets/Wii\ short.mp3")
+        os.system(f"mpg123 -q {params['root_path']}/assets/Wii\ short.mp3")
     except:
         print(traceback.format_exc())
         print("fail-trombone-03.mp3")
-        os.system(f"mpg123 -q {params['root_path']}/datasets/fail-trombone-03.mp3")
+        os.system(f"mpg123 -q {params['root_path']}/assets/fail-trombone-03.mp3")
 
     end_time = time.time()
     print(f"Started at: {datetime.fromtimestamp(start_time)}")

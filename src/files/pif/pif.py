@@ -88,7 +88,7 @@ def build_preference_matrix(data, models, threshold, verbose=0, images=0):
         plt.imshow(preference_matrix, cmap="Blues")
         plt.colorbar()
         plt.axis("off")
-    return preference_matrix, data
+    return preference_matrix# , data
 
 
 ivor_parameters: dict = {'num_trees': 100, 'max_samples': 256, 'branching_factor': 2, 'metric': 'tanimoto',
@@ -184,7 +184,6 @@ class PreferenceIsolationForest:
         return self.models_ithrs
 
     def build_models(self, **params):
-        print("Hello")
         if bool(params):
             params = params["params"]
         if self.verbose > 0:
