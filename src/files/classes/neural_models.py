@@ -1,3 +1,7 @@
+from files.utils.constants import *
+from files.pif.pif import *
+from files.utils.utility_functions import *
+from files.utils.dataset_creator import *
 import numpy as np
 import torch
 from torch import Tensor
@@ -20,13 +24,11 @@ def fast_train(epochs, model, dataset):
             model.optimizer.step()
 
 
-def train(epochs, model, dataset, X_val=None, y_val=None, print_training=True):
+def train(epochs, model, dataset, print_training=True):
     # model.train(True)
     mean_loss_epochs = 0
     chars_to_print = 30
     loss_list_epochs = []
-    validation_loss = []
-    to_do_validation = X_val is not None and y_val is not None
 
     for t in range(1, epochs+1):
         start_time = time.monotonic()
@@ -46,30 +48,23 @@ def train(epochs, model, dataset, X_val=None, y_val=None, print_training=True):
             loss = model.loss(prediction, b_y)
             loss.backward()                     # backpropagation, compute gradients
             model.optimizer.step()              # apply gradients
-
-            if print_training:
-                loss_list.append(loss.item())
-                mean_loss_epochs = np.mean(loss_list)
-                perc = int(i/len(dataset) * chars_to_print)
-                dt = timedelta(seconds=time.monotonic()-start_time)
-                sys.stdout.write(f"\rEpoch {t}/{epochs}. Batch {i}/{len(dataset)}: [" + "="*perc + ">" + "."*(
-                    chars_to_print-perc) + f"] ({int(i/len(dataset)*100)}%) ETA: {dt} Mean Loss: {mean_loss_epochs:.4f}")
-                sys.stdout.flush()
-
-            loss_list_epochs.append(loss_list)
-
-        if to_do_validation:
-            score = model.score(X_val, y_val)
-            validation_loss.append(score)
-        else:
-            validation_loss.append(0)
+            loss_list.append(loss.item())
+        loss_list_epochs.append(np.mean(loss_list))
 
         if print_training:
+            mean_loss_epochs = np.mean(loss_list_epochs)
+            perc = int(t/epochs * chars_to_print)
             dt = timedelta(seconds=time.monotonic()-start_time)
-            print(f"\rEpoch {t}/{epochs}. Batch {i+1}/{len(dataset)}: [" + "="*chars_to_print +
-                  f"] (100%) ETA: {dt} Mean Loss: {mean_loss_epochs:.4f}" + (f" Validation loss: {validation_loss[-1]:.4f}\n" if to_do_validation else ""))
+            sys.stdout.write(f"\rEpoch {t}/{epochs}: [" + "="*perc + ">" + "."*(
+                chars_to_print-perc) + f"] ({int(t/epochs*100)}%) ETA: {dt} Mean Loss: {mean_loss_epochs:.4f}")
+            sys.stdout.flush()
 
-    return model, loss_list_epochs, validation_loss
+    if print_training:
+        dt = timedelta(seconds=time.monotonic()-start_time)
+        print(f"\rEpoch {epochs}/{epochs}: [" + "="*chars_to_print +
+              f"] (100%) ETA: {dt} Mean Loss: {mean_loss_epochs:.4f}")
+
+    return model, loss_list_epochs
 
 
 class NeuralNetwork(torch.nn.Module):
@@ -146,8 +141,8 @@ class NeuralNetwork(torch.nn.Module):
             'device': self.device,
         }
 
-    def fit(self, data, X_val=None, y_val=None, epochs=5, lr=1e-2, bs=16, print_training=False):
-        data, X_val, y_val = self.tensor_from_np([data, X_val, y_val])
+    def fit(self, data, epochs=5, lr=1e-2, bs=16, print_training=False):
+        data = self.tensor_from_np([data])
 
         torch_dataset = Data.TensorDataset(data, data)  # [:,1].unsqueeze(1))
         loader = Data.DataLoader(
@@ -161,8 +156,6 @@ class NeuralNetwork(torch.nn.Module):
         return train(epochs=epochs,
                      model=self,
                      dataset=loader,
-                     X_val=X_val,
-                     y_val=y_val,
                      print_training=print_training
                      )
 
@@ -211,6 +204,14 @@ class AEModel(NeuralNetwork):
         #     dataset=torch_dataset, shuffle=True)
         fast_train(epochs=epochs, model=self, dataset=data)
 
+    def get_projections(self, data):
+        x = tensor_from_np([data])
+        for layer in self.layers:
+            x = self.activation(layer(x))
+            if len(layer.weight) < data.shape[-1]:
+                break
+        return x.detach().numpy()
+
 
 def test_base_model():
     import matplotlib.pyplot as plt
@@ -254,23 +255,29 @@ def test_base_model():
     plt.show()
 
 
-if __name__ == "__main__":
-    from files.utils.constants import *
-    from files.utils.dataset_creator import *
-    from files.utils.utility_functions import *
+# from files.NeuralRansac import *
 
-    # from files.NeuralRansac import *
-    from files.pif.pif import *
+
+def test2():
 
     ds = read_np_array(joinpath("datasets", "2d", "lines",
                        "with_outliers", "stair4.csv")).astype(float)
     gt = read_np_array(joinpath("datasets", "2d", "lines",
                        "with_outliers", "stair4_gt.csv"))
     gt = gt.astype(int).reshape(len(gt))
-    
-    model = AEModel(n_inputs=2, n_first_hidden=32, n_outputs=2)#, activation=lambda x: x)
+
+    # , activation=lambda x: x)
+    model = AEModel(n_inputs=2, n_first_hidden=32, n_outputs=2)
     model.fit(ds, print_training=False, epochs=100)
     preds = model.predict(ds)
     plot(ds, c='gray', alpha=0.3)
     plot(preds)
     plt.show()
+
+
+if __name__ == "__main__":
+    ds, gt = load_dataset_by_name("circle5")
+    nn = AEModel()
+    nn.fit(ds, 100, print_training=True)
+    projs = nn.get_projections(ds)
+    print(projs.shape)

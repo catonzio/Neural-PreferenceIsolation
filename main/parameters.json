@@ -15,9 +15,9 @@
     "models_to_use": ["ae"],
 
     "AE_structure": {
-        "neurons": [2, 4, 8, 16, 8, 4, 2],
+        "neurons": [2, 1, 2],
         "__comment__2": "Supported activations: 'tanh', 'sigmoid', 'identity'. Others are treated as 'identity'",
-        "activation": "sigmoid"
+        "activation": "identity"
     },
 
     "SOM_structure": {
@@ -25,7 +25,7 @@
         "n_cols": 5
     },
 
-    "std_multiples": [0.5, 1, 2, 6, 10, 14, 16, 50],
+    "std_multiples": [10, 25, 50, 75, 100],
     "datasets_std": {
         "stair3":   0.003,
         "stair4":   0.004,

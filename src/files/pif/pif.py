@@ -291,7 +291,7 @@ class PreferenceIsolationForest:
                 print('-'*50+"\nNot building models Pool because already generated.")
 
         if self.preference_matrix is None:
-            self.preference_matrix, self.new_data = build_preference_matrix(
+            self.preference_matrix = build_preference_matrix(
                 data=self.new_data, models=self.models, threshold=in_th, verbose=self.verbose, images=self.images)
         else:
             if self.verbose > 0:

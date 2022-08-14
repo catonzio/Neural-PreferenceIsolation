@@ -1,0 +1,8 @@
+matplotlib==3.4.2
+minisom==2.3.0
+numpy==1.21.2
+plotly==5.9.0
+scikit_learn==1.1.2
+scipy==1.7.1
+setuptools==58.0.4
+torch==1.12.1
