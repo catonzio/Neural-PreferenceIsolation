@@ -3,7 +3,8 @@
 .tiff
 .csv
 
-datasets/
+datasets/original
+datasets/potato
 test/results
 results/
 images/
