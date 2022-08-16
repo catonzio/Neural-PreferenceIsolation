@@ -3,6 +3,7 @@
 .tiff
 .csv
 
+server/
 datasets/original
 datasets/potato
 test/results
