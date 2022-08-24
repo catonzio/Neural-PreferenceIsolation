@@ -28,13 +28,22 @@
         "n_rows": 5,
         "n_cols": 5
     },
+<<<<<<< HEAD
     "std_multiples": [
         5
     ],
+=======
+
+    "std_multiples": [5, 10, 25, 50, 75, 100],
+>>>>>>> 68851e50b8f09eecd685e32290bf8bce69ae2609
     "datasets_std": {
         "stair3": 0.003
     },
     "datasets_normalization": false,
+<<<<<<< HEAD
+=======
+
+>>>>>>> 68851e50b8f09eecd685e32290bf8bce69ae2609
     "ivor_parameters": {
         "num_trees": 100,
         "max_samples": 256,
