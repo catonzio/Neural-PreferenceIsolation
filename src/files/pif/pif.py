@@ -98,7 +98,7 @@ ivor_parameters: dict = {'num_trees': 100, 'max_samples': 256, 'branching_factor
 class PreferenceIsolationForest:
 
     def __init__(self, data, model_name, ivor_parameters=ivor_parameters, verbose=1, images=0, sampling=UNIFORM):
-        self.original_data = data.copy()
+        # self.original_data = data.copy()
         self.new_data = data.copy()
         self.model_name = model_name
         self.n_dimensions = data.shape[-1]
@@ -192,7 +192,7 @@ class PreferenceIsolationForest:
         chars_to_print = 30
         start_time = time.monotonic()
 
-        sampling_data = self.new_data.copy()
+        sampling_data = self.new_data#.copy()
         mss = 2 if self.model_name == LINE \
             else 3 if (self.model_name == CIRCLE or self.model_name == PLANE) \
             else params["mss"]
@@ -200,12 +200,14 @@ class PreferenceIsolationForest:
 
         sampled_ds_idxs = np.random.randint(
             0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
-
+        
         sampled_ds_s = np.array([sampling_data[idxs]
                                 for idxs in sampled_ds_idxs])
+
         if self.model_name == AE:
             dev = torch.device('cpu')
-            sampled_ds_s = tensor_from_np(sampled_ds_s, device=dev)
+            sampled_ds_s = torch.FloatTensor(sampled_ds_s, device=dev)
+            
         models = np.array([
             LineEstimator() if self.model_name == LINE else
             CircleEstimator() if self.model_name == CIRCLE else

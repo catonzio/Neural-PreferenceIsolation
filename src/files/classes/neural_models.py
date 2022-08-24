@@ -37,6 +37,7 @@ def train(epochs, model, dataset, print_training=True):
         for i, (b_x, b_y) in enumerate(dataset):
             if b_x is None or b_y is None:
                 raise Exception()
+
             model.optimizer.zero_grad()   # clear gradients for next train
             # input x and predict based on x
             prediction = model(b_x)
@@ -145,6 +146,7 @@ class NeuralNetwork(torch.nn.Module):
         data = self.tensor_from_np([data])
 
         torch_dataset = Data.TensorDataset(data, data)  # [:,1].unsqueeze(1))
+
         loader = Data.DataLoader(
             dataset=torch_dataset,
             batch_size=bs,
