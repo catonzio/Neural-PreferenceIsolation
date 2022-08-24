@@ -3,6 +3,8 @@
 .tiff
 .csv
 
+main/parameters*.json
+server/
 datasets/original
 datasets/potato
 test/results

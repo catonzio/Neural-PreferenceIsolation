@@ -25,7 +25,7 @@
         "n_cols": 5
     },
 
-    "std_multiples": [10, 25, 50, 75, 100],
+    "std_multiples": [5, 10, 25, 50, 75, 100],
     "datasets_std": {
         "stair3":   0.003,
         "stair4":   0.004,
@@ -40,7 +40,7 @@
         "circles_parable3": 0.02,
         "lines_rects4": 0.02
     },
-    "datasets_normalization": true,
+    "datasets_normalization": false,
 
     "ivor_parameters": {
         "num_trees": 100,

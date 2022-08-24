@@ -28,8 +28,9 @@ def read_parameters(path="parameters.json"):
 
     return params
 
-
-params = read_parameters()
+import pathlib
+curr_dir = pathlib.Path(__file__).parent.resolve()
+params = read_parameters(joinpath(curr_dir, "parameters_fast.json"))
 
 
 def test(inp):
@@ -91,12 +92,10 @@ def test(inp):
     results["roc_auc"] = auc
 
     results["exec_time_seconds"] = exec_time
-    results["in_th_to_test"] = pif.in_ths
+    results["in_th_to_test"] = threshold
     results["model_name"] = model_name
     write_dict_json(results, joinpath(results_path, "results.json"))
     print(f"Done {results_path}")
-
-    return pif.models_ithrs[0][0]
 
 
 def main(params):
@@ -137,7 +136,7 @@ def main(params):
         make_rocs_barplot(params["base_path"], towrite=True)
         print("Made rocs barplot")
 
-    time.sleep(100)
+    # time.sleep(100)
 
 
 if __name__ == "__main__":
