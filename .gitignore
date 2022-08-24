@@ -3,7 +3,10 @@
 .tiff
 .csv
 
+<<<<<<< HEAD
 main/parameters*.json
+=======
+>>>>>>> c5b8cd509212d16090c048b88d80fb31c8abdc05
 server/
 datasets/original
 datasets/potato
