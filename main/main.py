@@ -28,8 +28,9 @@ def read_parameters(path="parameters.json"):
 
     return params
 
-
-params = read_parameters()
+import pathlib
+curr_dir = pathlib.Path(__file__).parent.resolve()
+params = read_parameters(joinpath(curr_dir, "parameters.json"))
 
 
 def test(inp):
@@ -91,12 +92,12 @@ def test(inp):
     results["roc_auc"] = auc
 
     results["exec_time_seconds"] = exec_time
-    results["in_th_to_test"] = pif.in_ths
+    results["in_th_to_test"] = threshold
     results["model_name"] = model_name
     write_dict_json(results, joinpath(results_path, "results.json"))
     print(f"Done {results_path}")
 
-    return pif.models_ithrs[0][0]
+    # return pif.models_ithrs[0][0]
 
 
 def main(params):
@@ -122,7 +123,7 @@ def main(params):
     os.makedirs(params["base_path"], exist_ok=True)
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
 
-    with Pool(params["n_jobs"]) as p:
+    with Pool(int(params["n_jobs"])) as p:
         p.map(test, all_combinations)
 
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
