@@ -28,9 +28,10 @@ def read_parameters(path="parameters.json"):
 
     return params
 
+
 import pathlib
 curr_dir = pathlib.Path(__file__).parent.resolve()
-params = read_parameters(joinpath(curr_dir, "parameters_fast.json"))
+params = read_parameters(joinpath(curr_dir, "parameters.json"))
 
 
 def test(inp):
@@ -121,7 +122,7 @@ def main(params):
     os.makedirs(params["base_path"], exist_ok=True)
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))
 
-    with Pool(params["n_jobs"]) as p:
+    with Pool(int(params["n_jobs"])) as p:
         p.map(test, all_combinations)
 
     write_dict_json(params, joinpath(params["base_path"], "parameters.json"))

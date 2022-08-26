@@ -1,47 +1,53 @@
 {
-    "root_path": "/home/catonz/Neural-PreferenceIsolation",
-
-    "mss": 10,
+    "root_path": "/home/daniloc97/thesis/Neural-PreferenceIsolation",
+    "mss": 2,
     "num_models": 2000,
     "training_epochs": 500,
-    "n_jobs": 8,
+    "n_jobs": 16,
     "single_threshold": 0.1,
-    
     "cool_visualization": false,
     "delete": false,
     "make_rocs_plots": true,
     "make_scores&rocs_plots": true,
     "__comment__1": "For models to use refer to src/utilities/constants.py, there will be all naming conventions",
-    "models_to_use": ["ae"],
-
+    "models_to_use": [
+        "ae"
+    ],
     "AE_structure": {
-        "neurons": [2, 1, 2],
+        "neurons": [
+            2,
+            4,
+            1,
+            4,
+            2
+        ],
         "__comment__2": "Supported activations: 'tanh', 'sigmoid', 'identity'. Others are treated as 'identity'",
-        "activation": "identity"
+        "activation": "tanh"
     },
-
     "SOM_structure": {
         "n_rows": 5,
         "n_cols": 5
     },
-
-    "std_multiples": [5, 10, 25, 50, 75, 100],
+    "std_multiples": [
+        5,
+        10,
+        25,
+        50,
+        75,
+        100
+    ],
     "datasets_std": {
-        "stair3":   0.003,
-        "stair4":   0.004,
-        "star5":    0.009,
-
-        "star11":   0.005,
-        "circle3":  0.006,
-        "circle4":  0.004,
-
-        "circle5":  0.003,
-
+        "stair3": 0.003,
+        "stair4": 0.004,
+        "star5": 0.009,
+        "star11": 0.005,
+        "circle3": 0.006,
+        "circle4": 0.004,
+        "circle5": 0.003,
         "circles_parable3": 0.02,
         "lines_rects4": 0.02
     },
     "datasets_normalization": false,
-
     "ivor_parameters": {
         "num_trees": 100,
         "max_samples": 256,
