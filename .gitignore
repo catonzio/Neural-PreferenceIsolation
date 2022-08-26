@@ -3,7 +3,6 @@
 .tiff
 .csv
 
-
 main/parameters*.json
 server/
 datasets/original
