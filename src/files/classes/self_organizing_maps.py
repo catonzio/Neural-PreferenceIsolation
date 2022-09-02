@@ -41,7 +41,7 @@ def find_neighbors_idxs(weights, pos, itself=False, to_be_indexed=False, diagona
 class SelfOrganizingMaps:
 
     def __init__(self, n_rows, n_cols, data=None, lr=1, sigma=None, init_type=RND, n_dimensions=2, regularization=False):
-        sigma = (n_rows*n_cols)/10 if sigma is None else sigma
+        sigma = (n_rows*n_cols)/10 - 0.1 if sigma is None else sigma
         self.sigma = sigma
         self.n_dimensions = n_dimensions
         self.n_rows = n_rows

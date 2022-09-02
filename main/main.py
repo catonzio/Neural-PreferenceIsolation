@@ -23,6 +23,10 @@ def read_parameters(path="parameters.json"):
         torch.tanh if act == "tanh" else \
         torch.sigmoid if act == "sigmoid" else \
         lambda x: x
+    sigma = params["SOM_structure"]["sigma"]
+    sigma = None if sigma.lower() == "default" else sigma
+    params["SOM_structure"]["sigma"] = sigma
+    
     params["models_to_use"] = list(
         map(lambda x: x.lower(), params["models_to_use"]))
 
