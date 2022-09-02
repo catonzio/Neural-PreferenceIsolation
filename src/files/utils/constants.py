@@ -6,6 +6,13 @@ import torch, time, traceback
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 
+import seaborn as sns
+sns.set()
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.serif": ["Palatino"]})
+
 torch.manual_seed(2022)
 np.random.seed(2022)
 

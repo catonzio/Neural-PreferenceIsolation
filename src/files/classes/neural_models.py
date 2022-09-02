@@ -30,8 +30,8 @@ def train(epochs, model, dataset, print_training=True):
     chars_to_print = 30
     loss_list_epochs = []
 
+    start_time = time.monotonic()
     for t in range(1, epochs+1):
-        start_time = time.monotonic()
         loss_list = []
 
         for i, (b_x, b_y) in enumerate(dataset):
