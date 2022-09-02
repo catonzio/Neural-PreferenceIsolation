@@ -215,6 +215,7 @@ class PreferenceIsolationForest:
 
             SelfOrganizingMaps(n_rows=params["SOM_structure"]["n_rows"],
                                n_cols=params["SOM_structure"]["n_cols"],
+                               sigma=params["SOM_structure"]["sigma"],
                                data=sampled_ds_s[i], n_dimensions=self.n_dimensions, init_type=GRID) if self.model_name == SOM else
 
             NeuralNetwork(neurons=params["AE_structure"]["neurons"],

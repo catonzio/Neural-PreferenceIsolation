@@ -3,7 +3,7 @@
     "mss": 2,
     "num_models": 2000,
     "training_epochs": 500,
-    "n_jobs": 16,
+    "n_jobs": 10,
     "single_threshold": 0.1,
     "cool_visualization": false,
     "delete": false,
@@ -11,7 +11,7 @@
     "make_scores&rocs_plots": true,
     "__comment__1": "For models to use refer to src/utilities/constants.py, there will be all naming conventions",
     "models_to_use": [
-        "ae"
+        "som"
     ],
     "AE_structure": {
         "neurons": [
@@ -25,15 +25,17 @@
         "activation": "tanh"
     },
     "SOM_structure": {
-        "n_rows": 5,
-        "n_cols": 5
+        "n_rows": 1,
+        "n_cols": 10,
+        "sigma": "default"
     },
     "std_multiples": [
-        5,
+        1,
+        4,
+        7,
         10,
         25,
         50,
-        75,
         100
     ],
     "datasets_std": {
@@ -44,8 +46,8 @@
         "circle3": 0.006,
         "circle4": 0.004,
         "circle5": 0.003,
-        "circles_parable3": 0.02,
-        "lines_rects4": 0.02
+        "circles_parable3": 0.01,
+        "lines_rects4": 0.01
     },
     "datasets_normalization": false,
     "ivor_parameters": {
