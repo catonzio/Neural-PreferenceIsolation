@@ -88,7 +88,7 @@ def build_preference_matrix(data, models, threshold, verbose=0, images=0):
         plt.imshow(preference_matrix, cmap="Blues")
         plt.colorbar()
         plt.axis("off")
-    return preference_matrix# , data
+    return preference_matrix  # , data
 
 
 ivor_parameters: dict = {'num_trees': 100, 'max_samples': 256, 'branching_factor': 2, 'metric': 'tanimoto',
@@ -192,7 +192,7 @@ class PreferenceIsolationForest:
         chars_to_print = 30
         start_time = time.monotonic()
 
-        sampling_data = self.new_data#.copy()
+        sampling_data = self.new_data  # .copy()
         mss = 2 if self.model_name == LINE \
             else 3 if (self.model_name == CIRCLE or self.model_name == PLANE) \
             else params["mss"]
@@ -200,14 +200,14 @@ class PreferenceIsolationForest:
 
         sampled_ds_idxs = np.random.randint(
             0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
-        
+
         sampled_ds_s = np.array([sampling_data[idxs]
                                 for idxs in sampled_ds_idxs])
 
         if self.model_name == AE:
             dev = torch.device('cpu')
             sampled_ds_s = torch.FloatTensor(sampled_ds_s, device=dev)
-            
+
         models = np.array([
             LineEstimator() if self.model_name == LINE else
             CircleEstimator() if self.model_name == CIRCLE else
@@ -220,7 +220,6 @@ class PreferenceIsolationForest:
 
             NeuralNetwork(neurons=params["AE_structure"]["neurons"],
                           activation=params["AE_structure"]["activation"]) if self.model_name == AE else
-
             MSSModel(mss=sampled_ds_s[i])
             for i in range(params["num_models"])])
 

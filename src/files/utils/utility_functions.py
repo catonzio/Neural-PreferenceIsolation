@@ -117,7 +117,10 @@ def read_dict_json(path):
 
 
 def load_dataset_by_name(name, base_path="", with_outliers=True):
-    file_path = joinpath(base_path, "datasets", "2d",
+    if "plane" in name.lower() or "sphere" in name.lower() or "paraboloid" in name.lower():
+        file_path = joinpath(base_path, "datasets", "3d")
+    else:
+        file_path = joinpath(base_path, "datasets", "2d",
                          "circles" if "circle" in name.lower() else "lines",
                          "with_outliers" if with_outliers else "no_outliers")
     if with_outliers:

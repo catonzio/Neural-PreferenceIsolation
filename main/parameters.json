@@ -47,7 +47,10 @@
         "circle4": 0.004,
         "circle5": 0.003,
         "circles_parable3": 0.01,
-        "lines_rects4": 0.01
+        "lines_rects4": 0.01,
+        "plane": 0.05,
+        "sphere": 0.05,
+        "paraboloid": 0.05
     },
     "datasets_normalization": false,
     "ivor_parameters": {

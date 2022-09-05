@@ -142,7 +142,7 @@ class NeuralNetwork(torch.nn.Module):
             'device': self.device,
         }
 
-    def fit(self, data, epochs=5, lr=1e-2, bs=16, print_training=False):
+    def fit(self, data, epochs=5, lr=1e-2, bs=16, print_training=True):
         data = self.tensor_from_np([data])
 
         torch_dataset = Data.TensorDataset(data, data)  # [:,1].unsqueeze(1))
