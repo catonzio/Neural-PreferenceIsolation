@@ -1,0 +1,14 @@
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Synthetic (2D) datasets settings\relax }}{58}{table.caption.187}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Synthetic (3D) datasets settings\relax }}{58}{table.caption.188}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Auto-Encoders architectures list the number of neurons in each layer. SOM architectures list the number of neurons as a tuple (num of rows, num of cols).\relax }}{59}{table.caption.190}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Results on synthetic 2D datasets. Bold elements represent the higher value on the row. Underlined elements instead represents the maximum value on the row, but without considering PIF results.\relax }}{61}{table.caption.195}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Results on synthetic 3D datasets. Results in bold are the maximum value along the row.\relax }}{63}{table.caption.202}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

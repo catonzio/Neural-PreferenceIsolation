@@ -1,0 +1,240 @@
+\begin{thebibliography}{32}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[ae_()]{ae_examples_nbda}
+Network {Anomaly} {Detection} and {Network} {Behavior} {Analysis} {\textbar}
+  {Flowmon}.
+\newblock URL
+  \url{https://www.flowmon.com/en/solutions/security-operations/network-behavior-analysis-anomaly-detection}.
+
+\bibitem[lin()]{line_between_two_points}
+L'equazione della retta passante tra due punti.
+\newblock URL
+  \url{https://www.andreaminini.org/matematica/spazio-vettoriale/retta-passante-per-due-punti}.
+
+\bibitem[pla({\natexlab{a}})]{plane_between_three_points}
+Equazione cartesiana del piano, {\natexlab{a}}.
+\newblock URL
+  \url{https://www.youmath.it/lezioni/algebra-lineare/geometria-dello-spazio/682-equazione-del-piano.html}.
+
+\bibitem[pla({\natexlab{b}})]{plane_local_approx}
+{\natexlab{b}}.
+\newblock URL
+  \url{https://tutorial.math.lamar.edu/Classes/CalcIII/GradientVectorTangentPlane.aspx}.
+
+\bibitem[sym()]{sympy}
+Sympy.
+\newblock URL \url{https://www.sympy.org/en/index.html}.
+
+\bibitem[tan(2017)]{tangent_line_approx}
+1.8: {The} {Tangent} {Line} {Approximation}, June 2017.
+\newblock URL
+  \url{https://math.libretexts.org/Under_Construction/Purgatory/Book\%3A_Active_Calculus_(Boelkins_et_al.)/01\%3A_Understanding_the_Derivative/1.08\%3A_The_Tangent_Line_Approximation}.
+
+\bibitem[Abe et~al.(2006)Abe, Zadrozny, and Langford]{ad_classific}
+N.~Abe, B.~Zadrozny, and J.~Langford.
+\newblock Outlier detection by active learning.
+\newblock volume 2006, pages 504--509, 01 2006.
+\newblock \doi{10.1145/1150402.1150459}.
+
+\bibitem[Bank et~al.(2021)Bank, Koenigstein, and Giryes]{ae_paper}
+D.~Bank, N.~Koenigstein, and R.~Giryes.
+\newblock Autoencoders, Apr. 2021.
+\newblock URL \url{http://arxiv.org/abs/2003.05991}.
+\newblock arXiv:2003.05991 [cs, stat].
+
+\bibitem[Breunig et~al.()Breunig, Kriegel, Ng, and Sander]{lof}
+M.~M. Breunig, H.-P. Kriegel, R.~T. Ng, and J.~Sander.
+\newblock {LOF}: {Identifying} {Density}-{Based} {Local} {Outliers}.
+\newblock page~12.
+
+\bibitem[Chawla and Wang(2017)]{ae_reconstruction}
+N.~Chawla and W.~Wang, editors.
+\newblock \emph{Proceedings of the 2017 {SIAM} {International} {Conference} on
+  {Data} {Mining}}.
+\newblock Society for Industrial and Applied Mathematics, Philadelphia, PA,
+  June 2017.
+\newblock ISBN 978-1-61197-497-3.
+\newblock \doi{10.1137/1.9781611974973}.
+\newblock URL \url{https://epubs.siam.org/doi/book/10.1137/1.9781611974973}.
+
+\bibitem[Fischler and Bolles(1981)]{ransac}
+M.~A. Fischler and R.~C. Bolles.
+\newblock Random sample consensus: A paradigm for model fitting with
+  applications to image analysis and automated cartography.
+\newblock \emph{Commun. ACM}, 24\penalty0 (6):\penalty0 381–395, jun 1981.
+\newblock ISSN 0001-0782.
+\newblock \doi{10.1145/358669.358692}.
+\newblock URL \url{https://doi.org/10.1145/358669.358692}.
+
+\bibitem[Guo et~al.(2004)Guo, Wang, Bell, and Bi]{knn}
+G.~Guo, H.~Wang, D.~Bell, and Y.~Bi.
+\newblock Knn model-based approach in classification.
+\newblock 08 2004.
+
+\bibitem[He et~al.(2003)He, Xu, and Deng]{clustering_based_ad}
+Z.~He, X.~Xu, and S.~Deng.
+\newblock Discovering {Cluster} {Based} {Local} {Outliers}.
+\newblock \emph{Pattern Recognition Letters}, 2003:\penalty0 9--10, 2003.
+
+\bibitem[Khandelwal(2021)]{ae_anom_detect}
+R.~Khandelwal.
+\newblock Anomaly detection using autoencoders, Jan 2021.
+\newblock URL
+  \url{https://towardsdatascience.com/anomaly-detection-using-autoencoders-5b032178a1ea}.
+
+\bibitem[Kohonen(1990)]{som_paper}
+T.~Kohonen.
+\newblock The self-organizing map.
+\newblock \emph{PROCEEDINGS OF THE IEEE}, 78\penalty0 (9):\penalty0 17, 1990.
+
+\bibitem[Leveni et~al.(2021)Leveni, Magri, Boracchi, and Alippi]{pif}
+F.~Leveni, L.~Magri, G.~Boracchi, and C.~Alippi.
+\newblock {PIF}: {Anomaly} detection via preference embedding.
+\newblock pages 8077--8084, Jan. 2021.
+\newblock \doi{10.1109/ICPR48806.2021.9412658}.
+\newblock URL \url{https://ieeexplore.ieee.org/document/9412658/}.
+
+\bibitem[Liu et~al.(2008)Liu, Ting, and Zhou]{ifor}
+F.~T. Liu, K.~M. Ting, and Z.-H. Zhou.
+\newblock Isolation {Forest}.
+\newblock In \emph{2008 {Eighth} {IEEE} {International} {Conference} on {Data}
+  {Mining}}, pages 413--422, Pisa, Italy, Dec. 2008. IEEE.
+\newblock ISBN 978-0-7695-3502-9.
+\newblock \doi{10.1109/ICDM.2008.17}.
+\newblock URL \url{http://ieeexplore.ieee.org/document/4781136/}.
+
+\bibitem[Liu et~al.(2012)Liu, Ting, and Zhou]{isolation_anomal}
+F.~T. Liu, K.~M. Ting, and Z.-H. Zhou.
+\newblock Isolation-{Based} {Anomaly} {Detection}.
+\newblock \emph{ACM Transactions on Knowledge Discovery from Data}, 6\penalty0
+  (1):\penalty0 1--39, Mar. 2012.
+\newblock ISSN 1556-4681, 1556-472X.
+\newblock \doi{10.1145/2133360.2133363}.
+\newblock URL \url{https://dl.acm.org/doi/10.1145/2133360.2133363}.
+
+\bibitem[Magri and Fusiello(2014)]{t_linkage}
+L.~Magri and A.~Fusiello.
+\newblock T-linkage: A continuous relaxation of j-linkage for multi-model
+  fitting.
+\newblock In \emph{2014 IEEE Conference on Computer Vision and Pattern
+  Recognition}, pages 3954--3961, 2014.
+\newblock \doi{10.1109/CVPR.2014.505}.
+
+\bibitem[Martín et~al.(2021)Martín, Beltrán, Fernández-Isabel, and
+  Martín~de Diego]{ae_examples_behaviour}
+A.~G. Martín, M.~Beltrán, A.~Fernández-Isabel, and I.~Martín~de Diego.
+\newblock An approach to detect user behaviour anomalies within identity
+  federations.
+\newblock \emph{Computers \& Security}, 108:\penalty0 102356, Sept. 2021.
+\newblock ISSN 0167-4048.
+\newblock \doi{10.1016/j.cose.2021.102356}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0167404821001802}.
+
+\bibitem[Maćkiewicz and Ratajczak(1993)]{PCA}
+A.~Maćkiewicz and W.~Ratajczak.
+\newblock Principal components analysis (pca).
+\newblock \emph{Computers and Geosciences}, 19\penalty0 (3):\penalty0 303--342,
+  1993.
+\newblock ISSN 0098-3004.
+\newblock \doi{https://doi.org/10.1016/0098-3004(93)90090-R}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/009830049390090R}.
+
+\bibitem[Mensi and Bicego(2019)]{novel_anomal_score}
+A.~Mensi and M.~Bicego.
+\newblock A {Novel} {Anomaly} {Score} for {Isolation} {Forests}.
+\newblock In \emph{Image {Analysis} and {Processing} – {ICIAP} 2019: 20th
+  {International} {Conference}, {Trento}, {Italy}, {September} 9–13, 2019,
+  {Proceedings}, {Part} {I}}, pages 152--163, Berlin, Heidelberg, Sept. 2019.
+  Springer-Verlag.
+\newblock ISBN 978-3-030-30641-0.
+\newblock \doi{10.1007/978-3-030-30642-7_14}.
+\newblock URL \url{https://doi.org/10.1007/978-3-030-30642-7_14}.
+
+\bibitem[Patel()]{patel_hands-unsupervised_nodate}
+A.~A. Patel.
+\newblock Hands-{On} {Unsupervised} {Learning} {Using} {Python}.
+\newblock page 170.
+
+\bibitem[Pourhabibi et~al.(2020)Pourhabibi, Ong, Kam, and
+  Boo]{ae_examples_fraud}
+T.~Pourhabibi, K.-L. Ong, B.~H. Kam, and Y.~L. Boo.
+\newblock Fraud detection: {A} systematic literature review of graph-based
+  anomaly detection approaches.
+\newblock \emph{Decision Support Systems}, 133:\penalty0 113303, June 2020.
+\newblock ISSN 0167-9236.
+\newblock \doi{10.1016/j.dss.2020.113303}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0167923620300580}.
+
+\bibitem[Riazi et~al.(2019)Riazi, Zaïane, Takeuchi, Maltais, Günther, and
+  Lipsett]{ae_examples_machine_failure}
+M.~Riazi, O.~Zaïane, T.~Takeuchi, A.~Maltais, J.~Günther, and M.~Lipsett.
+\newblock \emph{Detecting the Onset of Machine Failure Using Anomaly Detection
+  Methods}, pages 3--12.
+\newblock 08 2019.
+\newblock ISBN 978-3-030-27519-8.
+\newblock \doi{10.1007/978-3-030-27520-4_1}.
+
+\bibitem[Rogers and Tanimoto(1960)]{tanimoto}
+D.~J. Rogers and T.~T. Tanimoto.
+\newblock A computer program for classifying plants.
+\newblock \emph{Science}, 132\penalty0 (3434):\penalty0 1115--1118, 1960.
+\newblock \doi{10.1126/science.132.3434.1115}.
+\newblock URL
+  \url{https://www.science.org/doi/abs/10.1126/science.132.3434.1115}.
+
+\bibitem[Rowland(2022)]{manifold}
+T.~Rowland.
+\newblock Manifold, 2022.
+\newblock URL \url{https://mathworld.wolfram.com/Manifold.html}.
+
+\bibitem[Schölkopf et~al.()Schölkopf, Williamson, Smola, Shawe-Taylor, and
+  Platt]{one-class-svm}
+B.~Schölkopf, R.~C. Williamson, A.~J. Smola, J.~Shawe-Taylor, and J.~C. Platt.
+\newblock Support {Vector} {Method} for {Novelty} {Detection}.
+\newblock page~7.
+
+\bibitem[Sipes et~al.(2014)Sipes, Jiang, Moore, Li, Karimabadi, and
+  Barr]{ae_examples_treatment}
+T.~Sipes, S.~Jiang, K.~Moore, N.~Li, H.~Karimabadi, and J.~R. Barr.
+\newblock Anomaly {Detection} in {Healthcare}: {Detecting} {Erroneous}
+  {Treatment} {Plans} in {Time} {Series} {Radiotherapy} {Data}.
+\newblock \emph{International Journal of Semantic Computing}, 08\penalty0
+  (03):\penalty0 257--278, Sept. 2014.
+\newblock ISSN 1793-351X.
+\newblock \doi{10.1142/S1793351X1440008X}.
+\newblock URL
+  \url{https://www.worldscientific.com/doi/10.1142/S1793351X1440008X}.
+\newblock Publisher: World Scientific Publishing Co.
+
+\bibitem[Tagawa et~al.(2021)Tagawa, Maskeliūnas, and
+  Damaševičius]{ae_examples_acoustic_failure}
+Y.~Tagawa, R.~Maskeliūnas, and R.~Damaševičius.
+\newblock Acoustic {Anomaly} {Detection} of {Mechanical} {Failures} in {Noisy}
+  {Real}-{Life} {Factory} {Environments}.
+\newblock \emph{Electronics}, 10\penalty0 (19):\penalty0 2329, Sept. 2021.
+\newblock ISSN 2079-9292.
+\newblock \doi{10.3390/electronics10192329}.
+\newblock URL \url{https://www.mdpi.com/2079-9292/10/19/2329}.
+
+\bibitem[Toldo and Fusiello(2008)]{j_linkage}
+R.~Toldo and A.~Fusiello.
+\newblock Robust multiple structures estimation with j-linkage.
+\newblock volume 5302, pages 537--547, 10 2008.
+\newblock \doi{10.1007/978-3-540-88682-2\_41}.
+
+\bibitem[Wanrooij(2018)]{ae_examples_patient_careflow}
+K.~P. A.~v. Wanrooij.
+\newblock Patient {Careflow} {Discovery}.
+\newblock July 2018.
+\newblock URL \url{https://studenttheses.uu.nl/handle/20.500.12932/29558}.
+\newblock Accepted: 2018-07-19T17:04:31Z.
+
+\end{thebibliography}

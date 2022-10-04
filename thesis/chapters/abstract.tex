@@ -1,0 +1,31 @@
+% ABSTRACT IN ENGLISH
+\chapter*{Abstract} 
+\label{ch:abstract_en}
+
+\hspace{5pt}
+Anomaly Detection is a field of data mining applied in numerous contexts such as quality inspection, fraud detection, and medicine, that seeks to detect anomalies in a dataset, defined as those instances that do not have a well-defined behavior or that deviate from usual behavior.
+
+\hspace{5pt}
+In this thesis we focus on anomalies in datasets containing structured normal points, i.e., those in which normal points follow well-defined pattern, while points not following the pattern are considered anomalous. 
+\begin{comment}
+    \newline
+    As an example, consider a dataset containing information about the position of the joints of a mechanical robot; the joints are constrained in the movements and can occupy only certain regions of the space, following predetermined patterns of movements. In this context, correct positions will follow the pattern and will be considered normal points in the space; anomalous positions, instead, indicate a wrong position of a joint not following the pattern, which could cause breakdowns. \newline
+    Therefore, it is very important being able to detect this anomalies in order to mitigate the possibility of unexpected events.
+\end{comment}
+
+\hspace{5pt}
+In this context we want to extend PIF, a model-based anomaly detection algorithm that embeds the points in the dataset in the preference space and applies iVor algorithm on it, in order to compute an anomaly score for each instance. The embedding in the preference space is done through a pool of models sampled from data, containing patterns of which we assume to know the formulation.
+
+\hspace{5pt}
+We will show that is possible to build an ensemble of more general models that extract patterns autonomously, directly from data, without the knowledge of the patterns to search for. Therefore, we will demonstrate 
+\begin{enumerate*}[label=(\roman*)]
+    \item that is possible to locally approximate normal data with a model, and
+    \item that the models can learn the patterns without any information on the type of pattern.
+\end{enumerate*}
+This is possible thanks to two types of Neural Networks, auto-encoders and self-organizing maps, that learn the pattern to search instead of fixing it as in PIF.
+
+\hspace{5pt}
+We tested our algorithm on publicly available synthetic datasets, comparing it with two state-of-the-art density-based methods such as iFor and LOF, showing that our algorithm is superior in terms of ROC AUC on all datasets; we also explored different models and architectures for each model, looking for the right hyper-parameters.
+
+\paragraph{}
+\textbf{Keywords}: anomaly detection, neural networks, preference embedding, self organizing maps, auto encoders

@@ -1,0 +1,341 @@
+\chapter{Background}
+\label{ch:background}
+In this chapter we will present some of the basic concepts used in the Thesis. 
+
+\section{Line}
+\label{sec:line}
+A straight line in a \textit{two-dimensional} plane has an implicit equation, linear in two variables, of the form $ax + by + c = 0$ and each couple of points identifies one and only one line. Thus, given two generic points $p = (x_p, y_p)$ and $q = (x_q, y_q)$, we can estimate the parameters of the straight line with the following equations:
+\begin{equation}
+    a = x_q - y_q
+\end{equation}
+\begin{equation}
+    b = y_p - y_q
+\end{equation}
+\begin{equation}
+    c = x_py_q - x_qy_p
+\end{equation}
+Thanks to this equations it is possible to estimate a simple analytic model that tries to encapsulate the relationship between the two points; this linear model will be used as a baseline of more complex models, like Neural Networks. The geometric distance of a generic point $p$ from the line is defined as follows:
+\begin{equation}
+    d = \frac{ax_p + by_p + c}{\sqrt{a^2 + b^2}}
+\end{equation}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.3\textwidth]{Images/background/generic_line.svg}
+    \caption{Example of a 2D line.}
+    \label{fig:generic_line}
+\end{figure}
+
+Points lying on the line will have distance zero, while for other points this distance is the magnitude of the normal vector passing through the point and the line. This value will be positive if the point lies above the line, while it will be negative if it is below the line; for this reason, we can take the absolute value to have only the magnitude of the normal vector.
+
+\section{Plane}
+\label{sec:plane}
+As we have done for the \textit{two-dimensional} line, we can give a formal definition of a Plane. A plane is a \textit{three-dimensional} objects that is formed by three non-collinear\footnote{Points that do not lie on the same line} points; also this object have an implicit equation of the form $ax + by + cz + d = 0$. \newline
+Given three generic points in the 3D space $p = (x_p, y_p, z_p)$, $q = (x_q, y_q, z_q)$ and $r = (x_r, y_r, z_r)$, we can estimate the parameters of the plane. \newline
+First of all, we define two vectors $\textbf{v}_1$ and $\textbf{v}_2$ as the difference between two points and the third one:
+\begin{equation}
+    \begin{gathered}
+        \textbf{v}_1 = q - p = (v_{1_x}, v_{1_y}, v_{1_z}) = (x_q - x_p, y_q - y_p, z_q - z_p) \\
+        \textbf{v}_2 = r - p = (v_{2_x}, v_{2_y}, v_{2_z}) = (x_r - x_p, y_r - y_p, z_r - z_p)
+    \end{gathered}
+\end{equation}
+
+The parameters $a$, $b$, $c$ are the components of the normal vector to $\textbf{v}_1$ and $\textbf{v}_2$:
+\begin{equation}
+    \begin{gathered}
+        (a, b, c) = \textbf{v}_1 \times \textbf{v}_2 = det \left ( 
+                                    \begin{bmatrix}
+                                        \hat{i} & \hat{j} & \hat{k} \\
+                                        v_{1_x} & v_{1_y} & v_{1_z} \\
+                                        v_{2_x} & v_{2_y} & v_{2_z} \\
+                                    \end{bmatrix}
+                                    \right ) = \\
+             = (v_{1_y}v_{2_z} - v_{1_z}v_{2_y})\hat{i} - (v_{1_x}v_{2_z} - v_{1_z}v_{2_x})\hat{j} + (v_{1_x}v_{2_y} - v_{1_y}v_{2_x})\hat{k}
+    \end{gathered}
+\end{equation}
+
+From the above solution, we get:
+\begin{equation}
+    \begin{gathered}
+        a = (y_q - y_p)(z_r - z_p) - (z_q - z_p)(y_r - y_p) \\
+        b = (x_q - x_p)(z_r - z_p) - (z_q - z_p)(x_r - x_p) \\
+        c = (x_q - x_p)(y_r - y_p) - (y_q - y_p)(x_r - x_p) \\
+        d = -ax -by -c
+    \end{gathered}
+\end{equation}
+
+Thanks to this equations, it is possible to estimate from data a model encapsulating the plane on which the points lie. Again, we can compute a geometric distance of a generic point $p$ from the plane as we have done for the line:
+\begin{equation}
+    d = \frac{|ax_p + by_p + cz_p + d|}{\sqrt{a^2 + b^2 + c^2}}
+\end{equation}
+
+\begin{figure}[htb]
+    \centering
+    \includesvg[width=0.3\textwidth]{Images/background/generic_plane.svg}
+    \caption{Example of a 3D plane.}
+    \label{fig:generic_plane}
+\end{figure}
+
+This distance measures the magnitude of the normal vector passing through the point and the plane. It can be seen as a measure of how much the point deviates from the plane.
+
+\section{Neural Networks}
+\label{sec:neural-net}
+\paragraph{}
+After showing the two simplest models, the Line and the Plane, we will analyze more complex models that can be estimated from data. \newline 
+Artificial Neural Networks (ANN) are one of the most discussed Machine Learning model in the last years, thanks to their ability to handle non-linear transformations of data with very high performances. ANNs perform representation learning, in which each layer of the network learns a representation from the previous layer. By building more robust and detailed representations from a layer to the other, ANNs can accomplish tasks such as speech recognition, computer vision and machine translation \cite{patel_hands-unsupervised_nodate}.
+
+\begin{figure}[h]
+    \centering
+    \includesvg[width=0.7\textwidth]{Images/background/neural_net/neural_network.svg}
+    \caption{Example of a neural network. The various $a_{ij}$ represent the \textit{j-th} neuron of \textit{i-th} layer. Weights $w_{kj}$ represent the weight of the connection from neuron \textit{k} of the preceding layer to neuron \textit{j} of the current layer.}
+\end{figure}
+
+\paragraph{}
+Conceptually, it resembles the structure of human's brain, in which there are two main components: neurons and synapses, that are connections between neurons. In ANNs the neurons are the basic building block and are placed in layers. The typical structure is made of one \textit{input layer}, one (or more) \textit{hidden layer} and finally an \textit{output layer}; the number of hidden layers defines how \textit{deep} the neural network is. Each hidden layer can be thinked as an intermediate computation that allows the network to perform complex function approximation. \newline
+In addition, each layer has a certain number of nodes that build up the layer; the nodes of each layer are connected to the nodes of the following layer.  
+
+\paragraph{}
+In order to build an ANN to solve our specific problem, we need to define several \textit{hyper-parameters}, that will define the structure of the network and how it works. We can play with the number of hidden layers, the number of nodes in each layer and the activation functions to use. The activation function determines what value of the current layer is fed into the next layer of the network. It can be linear, e.g. the identity function $id(\textbf{x}) = \textbf{x}$, but the most interesting ones are non-linear, since can project the output of each neuron into a non-linear space, helping in the majority of the cases. \newline
+Some of the most used non-linear activation functions are
+\begin{equation}
+    sigmoid(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+\begin{equation}
+    tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+\end{equation}
+\begin{equation}
+    relu(x) = \begin{cases} 
+                  x & x > 0 \\
+                  0 & otherwise
+               \end{cases}
+\end{equation}
+
+Given a neuron $j$, its output is computed as
+\begin{equation}
+    h_j(\textbf{x}\ |\ \textbf{w}, b) = h_j\left(\sum_{i=1}^{I} w_{ij} x_i + b_j\right) = h_j(\mathcal{W}_j^T \textbf{x})
+\end{equation}
+where \textit{I} is the number of neurons of the preceding layer, $\mathcal{W}_j = (w_{1j}, ..., w_{ij}, ..., w_{Ij})$ are the weights of the connections between the neurons of the preceding layer and neuron \textit{j}, \textit{\textbf{x}} is the input vector, given as the outputs of the neurons of the preceding layer, $b_j = w_0$ is the bias of the current neuron and $h_j$ is the activation function of the neuron. 
+
+\paragraph{}
+Depending on the problem, it is possible to adapt the output layer for regression, in which the output(s) span in $\mathbb{R}^m$, or classification, in which the output is an array $\Omega \in \mathbb{R}^k$, where $k$ is the number of classes. 
+
+\paragraph{}
+There are also different types of learning techniques that are possible with Neural Networks (and in Machine Learning in general), e.g. supervised learning and unsupervised learning. \newline
+In the former case, the input layer represents the features that are fed into the neural network, and the output layer represents the label assigned to each observation. During the training process, the neural network determines which weights across the neural network help minimize the error between its predicted label for each observation and the true label. \newline
+In the latter case, instead, the neural network learns representations of the input layer via the various hidden layers, but is not guided by labels. 
+
+\paragraph{}
+There are several loss functions that can be defined depending on the task that we want to solve, for example usually for regression is used the Mean Squared Error (MSE) while for classification is used the Cross Entropy. The MSE is defined as
+\begin{equation}
+\label{eq:MSE}
+    E(\textbf{w}) = \sum_{n=1}^N (\textbf{t}_n - g(\textbf{x}_n,\ \textbf{w}))^2
+\end{equation}
+where $N$ is the number of input data, $\textbf{t}_n$ is the label of input $\textbf{x}_n$, while $g(\textbf{x}_n,\ \textbf{w})$ is the output for input $\textbf{x}_n$. \newline
+We want to find the weights matrix $\mathcal{W}$ that minimizes the error, so we apply \textit{Stochastic Gradient Descent} (SGD) and update the weight of each connection as follows:
+\begin{equation}
+    \textbf{w}^{k+1} = \textbf{w}^k - \eta \frac{\partial J(\textbf{w})}{\partial \textbf{w}}\bigg|_{\textbf{w}^k}
+\end{equation}
+
+\paragraph{}
+Although there are multiple types of neural networks, such as \textit{recurrent neural networks} in which data can flow in any direction and \textit{convolutional neural networks}, we will focus on the more straightforward feed-forward neural network, in which data moves just forward.
+In this networks, the training procedure is divided in two phases: the \textit{forward} pass and the \textit{backward} pass. The former computes the output from the input, while the latter computes the error of the output and the gradient with respect the weights of each layer, updating them.
+
+\subsection{Auto-Encoders}
+\label{subsec:ae}
+\paragraph{}
+Auto-Encoders (AE) are a particular kind of ANN that is comprised by two parts: an \textit{encoder} and a \textit{decoder}. The encoder converts the input set of features into a different representation via \textit{representation learning}, while the decoder converts this newly learned representation to the original format. 
+
+\begin{figure}[h]
+    \centering
+    \includesvg[width=0.9\textwidth]{Images/background/neural_net/auto-encoder.svg}
+    \caption{Example of an architecture for an auto-encoder. The input (and output) is \textit{2-dimensional}, thus the latent space must be \textit{1-dimensional}.}
+\end{figure}
+
+\paragraph{}
+An Auto-Encoder does not learn the \textit{identity function}, which would simply be an identical copy of the original input, but they must approximate the original observations as closely as possible - but not exactly - using a newly learned representation. In other words, they learn an \textit{approximation} of the identity function. \newline
+Since the auto-encoder is constrained, it is forced to learn the most salient properties of the original data, capturing the underlying structure of the data. The constraint is a very important attribute of auto-encoders, because it forces the auto-encoder to intelligently choose which important information to capture and which irrelevant information to discard.
+
+\paragraph{}
+As already said, the encoder part is the one that learns a new representation of the original data; we will refer to the encoder function as $h = f(\textbf{x})$, in which $\textbf{x}$ is the input vector and $f(\cdot)$ is the newly learned representation. The decoder function that reconstructs the original observations using the output of the encoder is $r = g(h)$. If done correctly, $r = g(f(\textbf{x}))$ will not be exactly equal to $\textbf{x}$ everywhere, but will be close enough.
+
+\paragraph{}
+In order to restrict the encoder function to only \textit{approximate} the input vector $\textbf{x}$, we can constrain the encoder function to have fewer dimensions than $\textbf{x}$. This is known as an \textit{under-complete auto-encoder}, since the encoder's dimensions are fewer than the original input dimensions. Thanks to this constraint, the auto-encoder tries to minimize a \textit{loss function} we define, e.g. MSE (\ref{eq:MSE}), such that the reconstruction error is as small as possible. The reconstruction error is defined as the error calculated between the original input and the output of the decoder's function: $Loss(\textbf{x}, g(h(\textbf{x}))$.
+
+\paragraph{}
+When the decoder is linear and the loss function is the mean squared error, an under-complete auto-encoder learns the same type of representation as \textbf{PCA} \cite{PCA}, an algorithm for dimensionality reduction that projects data on the highest variance planes. However, if the encoder and decoder functions are nonlinear, the auto-encoder can learn much more complex non-linear representations.
+
+\subsection{Self Organizing Maps}
+\label{subsec:som}
+\paragraph{}
+Another special kind of Neural Network used for unsupervised learning are Self organizing maps \cite{som_paper} (SOM), able to produce a \textit{low-dimensional} representation of a higher dimensional data set, preserving the topological structure of the data. \newline
+This network is made up of two layers: one \textit{input} layer and one \textit{output} layer. The output layer is made of a set of weights $\mathcal{W} = \{\ \textbf{w}\ |\ \textbf{w} \in \mathbb{R}^m\ \}$, that are vectors in the same \textit{m-dimensional} space as the input $\textbf{x} \in \mathbb{R}^m$.
+The set of weights can have different shapes, for example can be \textit{one-dimensional} and act like a line, or can be \textit{two-dimensional} with a grid or hexagonal displacement.
+
+\begin{figure}[ht]
+    \centering
+    \includesvg[width=0.7\textwidth]{Images/background/neural_net/som_weights.svg}
+    \caption{Ideal structure of SOM. Each element of the input vector, $x_i$, is connected to each neuron of the output layer, displaced as a grid.}
+\end{figure}
+
+\paragraph{}
+The weights of this network lies in the same space as the input, so each weight represents a point in the space of the input vector, that is $\mathbb{R}^m$. At each iteration, the weights are update to be nearer to the input data; after the training, the weights of the SOM will be placed near the most concentrated areas of the input data while preserving the topological structure of the weights. Indeed, weights that are neighbor in the network are also near in the \textit{m-dimensional} space. 
+
+\paragraph{}
+This type of network is trained via \textit{competitive learning}, different from the "standard" \textit{error-correction learning}, meaning that for each input vector in the dataset the weights of the network compete to win; the winning vector is the nearest weight to the current input vector. \newline
+When a winning weight is chosen, this vector and its neighbors in the structure of the network will be updated to be nearer to the current input vector. In this way, the weights will concentrate where there are more input points, while preserving the topology of the network.
+
+\paragraph{}
+The training algorithm works as follows: after an initialization of the weights, that can be at random, with a grid-pattern over the input space or using the two largest principal component eigenvectors, for each input data $\textbf{p}$ of a dataset $\mathcal{D} = \{\ \textbf{p}\ |\ \textbf{p} \in \mathbb{R}^m\ \}$ we find the weight of the network that minimizes the distance from the input data and we call it \textbf{BMU}, i.e. \textit{Best Matching Unit}. The distance usually is Euclidean, so 
+\[
+    distance(\textbf{p}, \textbf{w}) = \sqrt{\sum_{i=0}^m \textbf{p}_i^2 - \textbf{w}_i^2}
+\] \newline
+After having found the nearest weight, we can update the weights with the following formula:
+\begin{equation}
+    \textbf{w}_k = \textbf{w}_k + \eta(t) \cdot h_{ik}(t) \cdot (\textbf{p}^n - \textbf{w}_k)
+\end{equation}
+where \textit{k} is the index of the current weight, \textit{i} is the index of the BMU, $\eta$ is the learning rate that scales with time, i.e. as the epochs pass the learning rate gets smaller,  computed as 
+\[
+    \eta(t) = \eta_0 \cdot e^{\displaystyle \left ( -\frac{t}{T} \right )}
+\]
+The function $h_{ik}(t)$, instead, is the \textit{neighboring function} that takes into account the distance in the \textbf{topology} of the current vector $\textbf{w}_k$ from the BMU $\textbf{w}_i$. This function can be any function that is inversely proportional with this distance in the lattice and that decreases while time increases. One example is
+\begin{equation}
+\label{eq:som_neighbor_func}
+    h_{ik}(t) = e^{\displaystyle \left ( - \frac{d_{ik}^2}{2\sigma^2(t)} \right ) }
+\end{equation}
+
+\begin{figure}[h]
+    \centering
+    \includesvg[width=0.5\textwidth]{Images/background/neural_net/som_neighbouring.svg}
+    \caption{Image that shows the effect of the neighboring function. At time 0 several neighbors are considered, while as the time passes ever less neighbors are updated. The color represents the update's intensity; the higher the intensity, the closer the weight is to the BMU.}
+\end{figure}
+
+where $d_{ik}$ is the distance in the lattice and $\sigma(t)$ is a neighborhood size decay rule, defined as
+\[
+    \sigma(t) = \sigma_0 \cdot e^{\displaystyle \left ( -\frac{t}{T} \right )}
+\]
+
+Summarizing, the full train loop is the following:
+\begin{algorithm}[h!]
+    \caption{SOM Training loop}
+    \label{alg:cap}
+    \textbf{Input:}  $\mathcal{D} = \{\ \textbf{p}\ |\ \textbf{p} \in \mathbb{R}^m\ \}$, $\eta_0$, $\sigma_0$, $E$ \Comment{E is the number of epochs}
+    \begin{algorithmic}[1]
+        \State $\mathcal{W} \gets $ Initialize weights
+        \State $T \gets |\mathcal{D}| * E$
+        \State $t \gets 0$
+        \While{$e < E$}
+            \State $\mathcal{D} \gets $ Shuffle $\mathcal{D}$
+            \ForAll{$\textbf{p} \in \mathcal{D}$}
+                \State $i \gets \underset{k}{\mathrm{argmin}} \left \{ distance(\textbf{p}, \textbf{w}_k) \right \}$
+                \ForAll{$\textbf{w}_k \in \mathcal{W}$}
+                    \State $\textbf{w}_k \gets \textbf{w}_k + \eta(t) \cdot h_{ik}(t) \cdot (\textbf{p}^n - \textbf{w}_k)$
+                \EndFor
+                    
+                \State $\eta(t) \gets \eta_0 \cdot e^{( -\frac{t}{T})}$
+                \State $\sigma(t) \gets \sigma_0 \cdot e^{( -\frac{t}{T})}$
+                \State $t \gets t + 1$
+            \EndFor
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\paragraph{}
+As can be noticed from the algorithm, the weights of the network try to lay down to input data, updating the vectors depending on time and on the distance of the current vector from the winning one. In this way, at the beginning the network moves a lot all the weights, but eventually only the winning vectors will be updated.
+
+\section{Voronoi Tessellation}
+\label{sec:voronoi}
+Voronoi tessellation is a partition of a metric space into \textit{b} regions defined by \textit{b} samples, called \textit{seeds}: $\mathcal{S} = \{s_i\}_{i=1,...,b}$. The \textit{i-th} region produced by the tessellation contains all the points \textbf{p} of the space having $s_i$ as the closest seed in $\mathcal{S}$. \newline
+
+
+\section{Manifold}
+\label{sec:manifold}
+A Manifold \cite{manifold} is a topological space (a geometrical space in which closeness is defined) that locally resembles Euclidean Space near each point. As an example to clarify this concept, consider the ancient idea that the Earth was flat; this idea arises from the fact that on the small humans' scale, the Earth looks flat.
+\newline
+Essentially, the Earth is a sphere (a 2D manifold) that locally can be thought as a plane. \textit{One-dimensional} manifolds include lines and circles, while \textit{two-dimensional} manifolds include planes and spheres. More concisely, any object that can be "charted" is a manifold. 
+
+\section{Classification Metrics}
+Our goal is to identify anomalies with respect to normal points. Therefore, we are doing a \textit{two-class} classification, labelling as the Positive class the normal points and as the Negative class the anomalous ones. \newline
+In this context, exist a lot of different metrics that we can use to compare our algorithms. All of this metrics rely on the \textit{Confusion Matrix}, that puts in relationship four quantities: 
+\begin{itemize}
+    \item the \textbf{True Positives} (TP) points, that are the inlier points actually identified as normal;
+    \item the \textbf{False Negatives} (FN) points, that are the inlier points labelled as anomalies;
+    \item the \textbf{False Positives} (FP) points, that are the anomalous points identified as normal;
+    \item the \textbf{True Negatives} (TN) points, the ones that are anomalous and are labelled as anomalies.
+\end{itemize}
+This four quantities can be synthetized in the following matrix:
+\begin{center}
+    \begin{tikzpicture}[
+        box/.style={draw,rectangle,minimum size=2cm,text width=1.5cm,align=right}]
+        \matrix (conmat) [row sep=.1cm,column sep=.1cm] {
+        \node (tpos) [box,
+            label=left:\( \mathbf{p'} \),
+            label=above:\( \mathbf{p} \),
+            align=center] {TP};
+        &
+        \node (fneg) [box,
+            label=above:\textbf{n},
+            label=above right:\textbf{total},
+            label=right:\( \mathrm{P}' \),
+            align=center]
+            {FN};
+        \\
+        \node (fpos) [box,
+            label=left:\( \mathbf{n'} \),
+            label=below left:\textbf{total},
+            label=below:P,
+            align=center] {FP};
+        &
+        \node (tneg) [box,
+            label=right:\( \mathrm{N}' \),
+            label=below:N,
+            align=center] {TN};
+        \\
+        };
+        \node [left=.05cm of conmat, text width=1.5cm,align=right] {\textbf{actual \\ value}};
+        \node [above=.05cm of conmat] {\textbf{prediction outcome}};
+    \end{tikzpicture}
+\end{center}
+And on this matrix we can compute several different metrics:
+\begin{itemize}
+    \item \textbf{Accuracy:} Represents the fraction of correctly labelled instances over the total number of instances.
+    \begin{equation}
+        Accuracy = \frac{TP + TN}{TP + TN + FP + FN}
+    \end{equation}
+    \item \textbf{Precision:} Represents the fraction of items labelled as positive that are actually positive. The higher the Precision, the lower the FPs.
+    \begin{equation}
+        Precision = \frac{TP}{TP + FP}
+    \end{equation}
+    \item \textbf{Recall:} Represents the fraction of positive items labelled as positive. The higher the Recall, the lower the FNs.
+    \begin{equation}
+        Recall = \frac{TP}{TP + FN}
+    \end{equation}
+    \item \textbf{F1-score:} combination of Precision and Recall to better ignore the biases of the precision and recall: the higher the F1-score, the lower FPs and FNs.
+    \begin{equation}
+        F1\-score = \frac{2 \cdot P \cdot R}{P + R}
+    \end{equation}
+    \item \textbf{True Positive Rate (TPR):} Represents the ability to correctly identify the elements of the positive class:
+    \begin{equation}
+    \label{eq:tpr}
+        TPR = \frac{TP}{TP + FN}
+    \end{equation}
+    \item \textbf{True Negative Rate (TNR):} Represents the probability to correctly identify the elements of the negative class:
+    \begin{equation}
+    \label{eq:tnr}
+        TNR = \frac{TN}{TN + FP}
+    \end{equation}
+\end{itemize}
+
+\paragraph{}
+Usually classifiers models outputs a score, a sort of probability to belong to one of the two class; this is also our case. Thus, there is the need of introducing a "cutting-off" threshold, which says at which value samples are classified as positive. For example, the basic threshold is set at $0.5$, thus all samples with a $score < 0.5$ are labelled as positive and all samples with a score $score >= 0.5$ are labelled as negative. \newline
+Depending on the problem and on the requirements of the model, there can be the necessity to modify the threshold. Indeed, using a near one threshold we have a pessimistic classifier, with high Precision (few FPs) and low Recall (many FNs); using a near zero threshold, instead, we have an optimistic classifier since the Precision will be low (high false positive, everything is positive) and the Recall will be high (few false negatives).
+
+\subsection{Receiver Operating Characteristic curve}
+The ROC curve is another curve that we can generate to analyze how model's performances change as the threshold changes. It plots the TPR (equation \ref{eq:tpr}) against the TNR (equation \ref{eq:tnr}) and each point of the curve identifies a different classifier, in our case different "versions" of the same model. \newline
+The ideal classifier would have $TPR = 1$ and $TNR = 0$, so would be located at the point $(0, 1)$; if the classifier always outputs the \textbf{positive class}, it would be located at $(1, 1)$ while if it always predicts the \textbf{negative class}, it is located at $(0, 0)$. We can also compare the algorithm with the random-guessing model\footnote{A very simple model that outputs a random score. It is used as a baseline for classifier models.}, since its performances are on the diagonal line. \newline
+The random-guessing model will have a ROC AUC of $0.5$, thus every expert model are likely to have a greater AUC; if it is smaller, predictions must be flipped, e.g. if an instance is labeled as positive it should be changed as negative and the other way round.
+
+\begin{figure}[hb]
+    \centering
+    \includesvg[width=0.6\textwidth]{Images/background/roc_curve.svg}
+    \caption{An example of a Receiver Operating Characteristic curve, showing both the ideal curve and the curve from a generic model, with good results.}
+\end{figure}

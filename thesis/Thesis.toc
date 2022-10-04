@@ -1,0 +1,177 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Abstract}{i}{chapter*.2}%
+\contentsline {paragraph}{}{i}{paragraph*.3}%
+\contentsline {chapter}{Abstract in lingua italiana}{iii}{chapter*.5}%
+\contentsline {paragraph}{}{iii}{paragraph*.6}%
+\contentsline {chapter}{Acknowledgements}{v}{chapter*.8}%
+\contentsline {paragraph}{}{v}{paragraph*.9}%
+\contentsline {paragraph}{}{v}{paragraph*.10}%
+\contentsline {paragraph}{}{v}{paragraph*.11}%
+\contentsline {paragraph}{}{v}{paragraph*.12}%
+\contentsline {paragraph}{}{v}{paragraph*.13}%
+\contentsline {paragraph}{}{v}{paragraph*.14}%
+\contentsline {paragraph}{}{vi}{paragraph*.15}%
+\contentsline {chapter}{List of Symbols}{vii}{chapter*.17}%
+\contentsline {chapter}{Contents\markboth {\MakeUppercase {Contents}}{\MakeUppercase {Contents}}}{ix}{chapter*.20}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {paragraph}{}{1}{paragraph*.22}%
+\contentsline {paragraph}{}{1}{paragraph*.23}%
+\contentsline {paragraph}{}{1}{paragraph*.25}%
+\contentsline {section}{\numberline {1.1}Use cases}{2}{section.1.1}%
+\contentsline {paragraph}{}{2}{paragraph*.26}%
+\contentsline {section}{\numberline {1.2}Thesis Structure}{3}{section.1.2}%
+\vspace {2em}
+\contentsline {chapter}{\numberline {2}Background}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Line}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Plane}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Neural Networks}{7}{section.2.3}%
+\contentsline {paragraph}{}{7}{paragraph*.38}%
+\contentsline {paragraph}{}{7}{paragraph*.40}%
+\contentsline {paragraph}{}{8}{paragraph*.41}%
+\contentsline {paragraph}{}{9}{paragraph*.46}%
+\contentsline {paragraph}{}{9}{paragraph*.47}%
+\contentsline {paragraph}{}{9}{paragraph*.48}%
+\contentsline {paragraph}{}{9}{paragraph*.51}%
+\contentsline {subsection}{\numberline {2.3.1}Auto-Encoders}{10}{subsection.2.3.1}%
+\contentsline {paragraph}{}{10}{paragraph*.52}%
+\contentsline {paragraph}{}{10}{paragraph*.54}%
+\contentsline {paragraph}{}{10}{paragraph*.55}%
+\contentsline {paragraph}{}{11}{paragraph*.56}%
+\contentsline {paragraph}{}{11}{paragraph*.57}%
+\contentsline {subsection}{\numberline {2.3.2}Self Organizing Maps}{11}{subsection.2.3.2}%
+\contentsline {paragraph}{}{11}{paragraph*.58}%
+\contentsline {paragraph}{}{11}{paragraph*.60}%
+\contentsline {paragraph}{}{11}{paragraph*.61}%
+\contentsline {paragraph}{}{12}{paragraph*.62}%
+\contentsline {paragraph}{}{14}{paragraph*.66}%
+\contentsline {section}{\numberline {2.4}Voronoi Tessellation}{14}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Manifold}{14}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Classification Metrics}{15}{section.2.6}%
+\contentsline {paragraph}{}{16}{paragraph*.73}%
+\contentsline {subsection}{\numberline {2.6.1}Receiver Operating Characteristic curve}{17}{subsection.2.6.1}%
+\contentsline {chapter}{\numberline {3}Related Work}{19}{chapter.3}%
+\contentsline {paragraph}{}{19}{paragraph*.76}%
+\contentsline {paragraph}{}{19}{paragraph*.77}%
+\contentsline {paragraph}{}{19}{paragraph*.78}%
+\contentsline {paragraph}{}{20}{paragraph*.79}%
+\contentsline {section}{\numberline {3.1}Local Outliers Factor}{21}{section.3.1}%
+\contentsline {paragraph}{}{21}{paragraph*.80}%
+\contentsline {paragraph}{}{22}{paragraph*.84}%
+\contentsline {paragraph}{}{22}{paragraph*.86}%
+\contentsline {paragraph}{}{22}{paragraph*.88}%
+\contentsline {paragraph}{}{23}{paragraph*.90}%
+\contentsline {section}{\numberline {3.2}Isolation Forest}{23}{section.3.2}%
+\contentsline {paragraph}{}{23}{paragraph*.91}%
+\contentsline {paragraph}{}{23}{paragraph*.92}%
+\contentsline {paragraph}{}{23}{paragraph*.94}%
+\contentsline {paragraph}{}{23}{paragraph*.95}%
+\contentsline {paragraph}{}{24}{paragraph*.96}%
+\contentsline {paragraph}{}{25}{paragraph*.100}%
+\contentsline {subsection}{\numberline {3.2.1}Training stage}{25}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Evaluation Stage}{26}{subsection.3.2.2}%
+\contentsline {paragraph}{}{26}{paragraph*.101}%
+\contentsline {section}{\numberline {3.3}Preference Isolation Forest}{27}{section.3.3}%
+\contentsline {paragraph}{}{27}{paragraph*.102}%
+\contentsline {paragraph}{}{28}{paragraph*.103}%
+\contentsline {paragraph}{}{28}{paragraph*.104}%
+\contentsline {subsection}{\numberline {3.3.1}Preference Embedding}{29}{subsection.3.3.1}%
+\contentsline {paragraph}{}{29}{paragraph*.105}%
+\contentsline {paragraph}{}{30}{paragraph*.107}%
+\contentsline {subsection}{\numberline {3.3.2}Pi-Forest}{30}{subsection.3.3.2}%
+\contentsline {paragraph}{}{31}{paragraph*.110}%
+\contentsline {subsection}{\numberline {3.3.3}Anomaly Score}{31}{subsection.3.3.3}%
+\contentsline {paragraph}{}{33}{paragraph*.112}%
+\contentsline {paragraph}{}{33}{paragraph*.113}%
+\contentsline {chapter}{\numberline {4}Proposed Method}{35}{chapter.4}%
+\contentsline {paragraph}{}{35}{paragraph*.115}%
+\contentsline {paragraph}{}{35}{paragraph*.116}%
+\contentsline {paragraph}{}{35}{paragraph*.117}%
+\contentsline {paragraph}{}{35}{paragraph*.118}%
+\contentsline {section}{\numberline {4.1}Problem Formulation}{36}{section.4.1}%
+\contentsline {paragraph}{}{36}{paragraph*.119}%
+\contentsline {paragraph}{}{36}{paragraph*.120}%
+\contentsline {paragraph}{}{36}{paragraph*.121}%
+\contentsline {section}{\numberline {4.2}Rationale}{36}{section.4.2}%
+\contentsline {paragraph}{}{36}{paragraph*.122}%
+\contentsline {paragraph}{}{37}{paragraph*.123}%
+\contentsline {paragraph}{}{37}{paragraph*.124}%
+\contentsline {paragraph}{}{37}{paragraph*.125}%
+\contentsline {paragraph}{}{38}{paragraph*.126}%
+\contentsline {section}{\numberline {4.3}Algorithm}{38}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Pattern learners}{39}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Line and Plane}{40}{subsection.4.4.1}%
+\contentsline {paragraph}{}{40}{paragraph*.127}%
+\contentsline {paragraph}{}{41}{paragraph*.130}%
+\contentsline {paragraph}{}{41}{paragraph*.131}%
+\contentsline {subsection}{\numberline {4.4.2}Auto-encoders}{42}{subsection.4.4.2}%
+\contentsline {paragraph}{}{43}{paragraph*.137}%
+\contentsline {paragraph}{}{43}{paragraph*.138}%
+\contentsline {paragraph}{}{44}{paragraph*.139}%
+\contentsline {subsubsection}{Relationship between auto-encoders and lines}{44}{subsubsection*.140}%
+\contentsline {paragraph}{}{44}{paragraph*.141}%
+\contentsline {paragraph}{}{45}{paragraph*.146}%
+\contentsline {paragraph}{}{46}{paragraph*.151}%
+\contentsline {paragraph}{}{47}{paragraph*.155}%
+\contentsline {subsubsection}{Relationship between auto-encoders and planes}{47}{subsubsection*.157}%
+\contentsline {paragraph}{}{47}{paragraph*.158}%
+\contentsline {paragraph}{}{48}{paragraph*.159}%
+\contentsline {paragraph}{}{50}{paragraph*.170}%
+\contentsline {paragraph}{}{51}{paragraph*.173}%
+\contentsline {paragraph}{}{51}{paragraph*.175}%
+\contentsline {subsection}{\numberline {4.4.3}Self Organizing Maps}{51}{subsection.4.4.3}%
+\contentsline {paragraph}{}{52}{paragraph*.177}%
+\contentsline {section}{\numberline {4.5}Preference Embedding}{52}{section.4.5}%
+\contentsline {paragraph}{}{52}{paragraph*.178}%
+\contentsline {paragraph}{}{52}{paragraph*.179}%
+\contentsline {paragraph}{}{52}{paragraph*.182}%
+\contentsline {paragraph}{}{53}{paragraph*.184}%
+\contentsline {chapter}{\numberline {5}Experiments}{57}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Data}{57}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Methodology}{58}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Hyper-parameters}{58}{subsection.5.2.1}%
+\contentsline {paragraph}{}{58}{paragraph*.189}%
+\contentsline {paragraph}{}{59}{paragraph*.191}%
+\contentsline {paragraph}{}{60}{paragraph*.192}%
+\contentsline {subsection}{\numberline {5.2.2}Testing Procedure}{60}{subsection.5.2.2}%
+\contentsline {paragraph}{}{60}{paragraph*.193}%
+\contentsline {section}{\numberline {5.3}Results}{60}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Two-dimensional data}{60}{subsection.5.3.1}%
+\contentsline {paragraph}{}{60}{paragraph*.194}%
+\contentsline {paragraph}{}{62}{paragraph*.196}%
+\contentsline {paragraph}{}{62}{paragraph*.197}%
+\contentsline {paragraph}{}{62}{paragraph*.198}%
+\contentsline {paragraph}{}{62}{paragraph*.199}%
+\contentsline {paragraph}{}{63}{paragraph*.200}%
+\contentsline {subsection}{\numberline {5.3.2}Three-dimensional data}{63}{subsection.5.3.2}%
+\contentsline {paragraph}{}{63}{paragraph*.201}%
+\contentsline {paragraph}{}{63}{paragraph*.203}%
+\contentsline {paragraph}{}{63}{paragraph*.204}%
+\contentsline {chapter}{\numberline {6}Conclusions and future work}{65}{chapter.6}%
+\contentsline {paragraph}{}{65}{paragraph*.206}%
+\contentsline {paragraph}{}{65}{paragraph*.207}%
+\contentsline {paragraph}{}{65}{paragraph*.208}%
+\contentsline {paragraph}{}{65}{paragraph*.209}%
+\contentsline {paragraph}{}{66}{paragraph*.210}%
+\vspace {2em}
+\contentsline {chapter}{Bibliography\markboth {\MakeUppercase {Bibliography}}{\MakeUppercase {Bibliography}}}{67}{chapter*.212}%
+\contentsline {chapter}{\numberline {A}Appendix A}{71}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Code - Plane calculations}{71}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Code - LOF experiments}{73}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Code - iFor experiments}{74}{section.A.3}%
+\vspace {2em}
+\contentsline {chapter}{\numberline {A}Appendix B}{75}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Results - Auto-Encoder}{75}{section.A.1}%
+\contentsline {subsection}{\numberline {A.1.1}Architecture 1 - 2D}{75}{subsection.A.1.1}%
+\contentsline {subsection}{\numberline {A.1.2}Architecture 2 - 2D}{80}{subsection.A.1.2}%
+\contentsline {subsection}{\numberline {A.1.3}Architecture 3 - 3D}{85}{subsection.A.1.3}%
+\contentsline {subsection}{\numberline {A.1.4}Architecture 4 - 3D}{87}{subsection.A.1.4}%
+\contentsline {section}{\numberline {A.2}Results - Self Organizing Maps}{89}{section.A.2}%
+\contentsline {subsection}{\numberline {A.2.1}Architecture 1 - 2D}{89}{subsection.A.2.1}%
+\contentsline {subsection}{\numberline {A.2.2}Architecture 1 - 3D}{94}{subsection.A.2.2}%
+\contentsline {subsection}{\numberline {A.2.3}Architecture 2 - 2D}{96}{subsection.A.2.3}%
+\contentsline {subsection}{\numberline {A.2.4}Architecture 2 - 3D}{101}{subsection.A.2.4}%
+\contentsline {section}{\numberline {A.3}Results - Comparison}{103}{section.A.3}%
+\contentsline {chapter}{List of Figures}{109}{appendix*.273}%
+\contentsline {chapter}{List of Tables}{113}{appendix*.275}%
+\contentsline {chapter}{List of Algorithms\markboth {\MakeUppercase {List of Algorithms}}{\MakeUppercase {List of Algorithms}}}{115}{appendix*.277}%
+\contentsline {chapter}{List of Listings\markboth {\MakeUppercase {List of Listings}}{\MakeUppercase {List of Listings}}}{117}{appendix*.279}%

@@ -1,0 +1,10 @@
+\contentsline {algorithm}{\numberline {2.1}{\ignorespaces SOM Training loop\relax }}{14}{algorithm.2.1}%
+\contentsline {algorithm}{\numberline {3.1}{\ignorespaces $iForest(\mathcal {D},\ \psi ,\ t)$\relax }}{26}{algorithm.3.1}%
+\contentsline {algorithm}{\numberline {3.2}{\ignorespaces $iTree(\mathcal {D},\ e,\ l)$\relax }}{26}{algorithm.3.2}%
+\contentsline {algorithm}{\numberline {3.3}{\ignorespaces $PathLength(\textbf {p},\ T,\ e)$\relax }}{27}{algorithm.3.3}%
+\contentsline {algorithm}{\numberline {3.4}{\ignorespaces $PIF$\relax }}{29}{algorithm.3.4}%
+\contentsline {algorithm}{\numberline {3.5}{\ignorespaces \textit {Pi-Tree}\relax }}{32}{algorithm.3.5}%
+\contentsline {algorithm}{\numberline {3.6}{\ignorespaces \textit {Pi-Forest}\relax }}{32}{algorithm.3.6}%
+\contentsline {algorithm}{\numberline {3.7}{\ignorespaces $PathLength$\relax }}{33}{algorithm.3.7}%
+\contentsline {algorithm}{\numberline {4.1}{\ignorespaces \textit {Neural-PIF}\relax }}{39}{algorithm.4.1}%
+\contentsline {algorithm}{\numberline {5.1}{\ignorespaces \textit {Testing procedure}\relax }}{61}{algorithm.5.1}%

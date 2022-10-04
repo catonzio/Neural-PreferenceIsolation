@@ -1,0 +1,279 @@
+\chapter{Experiments}
+\label{ch:experiments}
+In this section we will show how we experimented our framework, analyzing the datasets used, the hyper-parameters of the framework, the testing procedure and finally commenting the results obtained with our framework, comparing our results with other State-Of-Art algorithms, like LOF and iFor.
+
+\begin{figure}[htb]
+     \centering
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_circle3.svg}
+         \caption{Circle3}
+         \label{subfig:circle3}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_circle4.svg}
+         \caption{Circle4}
+         \label{subfig:circle4}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_circle5.svg}
+         \caption{Circle5}
+         \label{subfig:circle5}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_stair3.svg}
+         \caption{Stair3}
+         \label{subfig:stair3}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_stair4.svg}
+         \caption{Stair4}
+         \label{subfig:stair4}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_star5.svg}
+         \caption{Star5}
+         \label{subfig:star5}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_star11.svg}
+         \caption{Star11}
+         \label{subfig:star11}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_circles-parable3.svg}
+         \caption{Parables}
+         \label{subfig:circles-parable3}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.17\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/datasets/ds_lines-rects4.svg}
+         \caption{Lines}
+         \label{subfig:lines-rects4}
+     \end{subfigure}
+     \hfill
+     \caption{List of all the 2D datasets used in the tests. Three of them contains circles, five contains lines and one contains parables.}
+     \label{fig:all_datasets}
+\end{figure}
+
+\section{Data}
+\hspace{5pt}
+To validate our work, we experimented the algorithm on the same geometrical datasets used in PIF, that are synthetic 2D datasets describing different types of patterns. Moreover, we have generated other two 2D datasets and three 3D, containing four lines, three parables, one plane, one paraboloid and one sphere, respectively. \newline
+The characteristics of the dataset are described in tables \ref{tab:syn_2d_ds_settings} and \ref{tab:syn_3d_ds_settings} and the 2D datasets can be visualized in figure \ref{fig:all_datasets}. \newline
+In all the datasets the points are contaminated with random Gaussian noise and the anomalies are sampled uniformly in the ranges of the normal points. For each dataset, the number of anomalies is equal to the number of normal points, i.e. $|\mathcal{A}| = |\mathcal{N}|$. \newline
+For each dataset, thanks to the available ground truth we were able to estimate the variance of the patterns. In particular, we estimated the variance of each pattern present in the dataset, e.g. in dataset \textit{star11} there are eleven patterns, and the dataset variance has been estimated as the mean value of the variances of each pattern $i \in [1, |\mathcal{M}|]$.
+
+\begin{table}[h]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}[width=\linewidth]{c  c  c  c  c  c}
+        \hline
+        \rowcolor{bluepoli!40}
+             & |$\mathcal{D}$| & |$\mathcal{A}$| & |$\mathcal{N}$| & $E[\hat{\sigma}_{i=1,...,|\mathcal{M}|}]$ & |$\mathcal{M}_1$|, ..., |$\mathcal{M}_k$|  \\
+        \hline
+        circle3 & 1000 & 500 & 500 & 0.006 & $|\mathcal{M}_1| = 376$, $|\mathcal{M}_i| = 62$ $\forall i \in \{2, 3\}$ \\
+        circle4 & 400 & 200 & 200 & 0.004 & $|\mathcal{M}_i| = 50$ $\forall i \in \{1, ..., 4\}$ \\
+        circle5 & 500 & 250 & 250 & 0.003 & $|\mathcal{M}_i| = 50$ $\forall i \in \{1, ..., 5\}$ \\
+        stair3 & 800 & 400 & 400 & 0.003 & $|\mathcal{M}_1| = 272$, $|\mathcal{M}_i| = 64$ $\forall i \in \{2, 3\}$ \\
+        stair4 & 400 & 200 & 200 & 0.004 & $|\mathcal{M}_i| = 50$ $\forall i \in \{1, ..., 4\}$ \\
+        star5 & 500 & 250 & 250 & 0.009 & $|\mathcal{M}_i| = 50$ $\forall i \in \{1, ..., 5\}$ \\
+        star11 & 1100 & 550 & 550 & 0.005 & $|\mathcal{M}_i| = 50$ $\forall i \in \{1, ..., 11\}$ \\
+        parables & 600 & 300 & 300 & 0.02 & $|\mathcal{M}_i| = 100$ $\forall i \in \{1, ..., 3\}$ \\
+        lines & 800 & 400 & 400 & 0.02 & $|\mathcal{M}_i| = 100$ $\forall i \in \{1, ..., 4\}$ \\
+        \hline
+        \end{tabular}
+    }
+    \caption{Synthetic (2D) datasets settings}
+    \label{tab:syn_2d_ds_settings}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}[width=\linewidth]{c  c  c  c  c  c}
+        \hline
+        \rowcolor{bluepoli!40}
+             & |$\mathcal{D}$| & |$\mathcal{A}$| & |$\mathcal{N}$| & $\hat{\sigma}$ & |$\mathcal{M}_1$|, ..., |$\mathcal{M}_k$|  \\
+        \hline
+        plane & 1000 & 500 & 500 & 0.05 & $|\mathcal{M}| = 500$ \\
+        
+        paraboloid & 1000 & 500 & 0.05 & 500 & $|\mathcal{M}| = 500$ \\
+        
+        sphere & 1000 & 500 & 500 & 0.05 & $|\mathcal{M}| = 500$ \\
+        \hline
+        \end{tabular}
+    }
+    \caption{Synthetic (3D) datasets settings}
+    \label{tab:syn_3d_ds_settings}
+\end{table}
+
+
+\section{Methodology}
+\subsection{Hyper-parameters}
+\paragraph{}
+To be able to study the behavior of the algorithm in different scenarios, some hyper-parameters changes test by test while others remain stable. In the latter case we find the number of training epochs, the learning rate, the number of models used and the parameters of the Voronoi Forest built in the last phase of the algorithm; this ones are kept the same as suggested in PIF paper. \newline
+In contrast, what changes depending on the experiment are the Minimum Sample Set Size $\rho$, determining the cardinality of the sub-set on which the models are trained, the architecture of the networks and most important the inlier threshold $\tau$, used for the preference embedding. Possible values of the parameters are listed in table \ref{tab:hyper-params} \newline
+
+\begin{table}[h]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}[width=\linewidth]{c  c}
+        \hline
+        \rowcolor{bluepoli!40}
+             Hyper-parameter & Values \\
+        \hline
+        AE architecture 1 ($AE_1$) & (2, 4, 1, 4, 2) \\
+        AE architecture 2 ($AE_2$) & (2, 8, 4, 1, 4, 8, 2) \\
+        AE architecture 3 ($AE_3$) & (3, 5, 2, 5, 3) \\
+        AE architecture 4 ($AE_4$) & (3, 9, 5, 2, 5, 9, 3) \\
+        SOM architecture 1 ($SOM_1$) & (1, 10) \\
+        SOM architecture 2 ($SOM_2$) & (5, 5) \\
+        $\rho$ & [2, 5, 10, 20, 30, 100] \\
+        $\tau$ & $[1, 4, 7, 10, 25, 50, 100] \cdot \sigma$ \\
+        \hline
+        training epochs & 500 \\
+        n.o models & 2000 \\
+        learning rate & 0.01 \\
+        activation function & tanh($\cdot$) \\
+        \hline
+        \end{tabular}
+    }
+    \caption{Auto-Encoders architectures list the number of neurons in each layer. SOM architectures list the number of neurons as a tuple (num of rows, num of cols).}
+    \label{tab:hyper-params}
+\end{table}
+We choose to keep only some of the hyper-parameters variables, because are the ones that have a higher impact on the performances of the dataset. First, the network's architecture determines how much the network is big and how it is arranged in the case of the SOM. Bigger networks have bigger potential because could learn more, but the number of data on which is trained ($\rho$) is the same; thus, its performances are not necessarily better, because the lack of data and the higher number of parameters to learn could not bring the network to convergence.
+
+\paragraph{}
+As said, $\rho$ determines the size of the sub-set on which networks are trained. Usually, Neural Networks need a high number of samples for training, because they have a high number of parameters compared to other methods; we decided to employ relatively small neural networks in order to have fewer parameters and a better training convergence since $\rho$ is relatively small. This choices leads to have smaller computational complexity, and follow the RANSAC's principle. \newline
+Moreover, $\rho$ controls also the probability of sampling a \textit{pure} $\mathcal{MSS}$, i.e. a $\mathcal{MSS}$ that contains only normal points, without anomalies. Since we employed a randomized sampling, the probability of each point to be selected is $\frac{1}{N}$; therefore, with $\rho = 1$ we have $\frac{1}{2}$ probability of getting a pure $\mathcal{MSS}$. With $\rho = 2$, we have four possibilities of sampling, only one of which comprises both normal samples. Continuing, for each $\rho \in [1, N]$, we can say that the probability of getting at least one pure $\mathcal{MSS}$ is $\displaystyle \frac{1}{2^\rho}$. Therefore, with a higher $\rho$ we increase the number of samples on which each network is trained, but we also reduce the possibility of getting pure models, i.e. those models trained on pure $\mathcal{MSS}$.
+
+\paragraph{}
+Another important hyper-parameter is $\tau$, the \textit{inlier threshold}. This threshold, according to equation \ref{eq:preference_embedding}, determines if a point is considered normal, with its degree of "normality", or an anomaly, with a score of zero, for the current model. Therefore, a near-zero threshold would consider normal points only those that have a very low residual, while a high threshold allows more points to be considered normal. \newline
+This threshold influences the values in the preference matrix, thus changing the functioning of the Isolation Voronoi Forest. Finding the good trade-off between the inlier threshold and accuracy of the model is not easy and a grid-search is required to reach the best performances depending on our requirements. 
+
+\subsection{Testing Procedure}
+\paragraph{}
+The testing procedure has been structured hierarchically and we tested each possible combination comprising the dataset to use, the architecture, the threshold $\tau$ and the size of the sub-sampling set $\rho$. \newline
+Therefore, the testing routine is structured as follows, where \textit{Neural-PIF} is detailed in algorithm \ref{alg:npif}:
+
+\begin{algorithm}[h!]
+    \caption{\textit{Testing procedure}}
+    \label{alg:testing}
+    \textbf{Input:} $\bm{\mathcal{D}}$ - the set of dataset, $\mathcal{G}$ - model to use, $\bm{\tau}$ - all possible values of the normal threshold,  $\bm{\rho}$ - all possible values of the sub-sampling size \\
+    \begin{algorithmic}[1]
+        \ForAll{$\mathcal{D} \in \bm{\mathcal{D}}$}
+            \ForAll{$\tau \in \bm{\tau}$}
+                \ForAll{$\rho \in \bm{\rho}$}
+                    \State $scores = \textit{Neural-PIF}(\mathcal{D}, \tau, \rho, \mathcal{G})$
+                    \State $AUC = \textit{computeROCauc}(scores)$
+                \EndFor
+            \EndFor
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+After running all the experiments, we ended up with the ROC's AUC reached by each combination of parameters. In appendix \ref{app:appendix_b} there are the plots showing for each dataset and for each model how the AUC varies depending on $\tau$ and $\rho$.
+
+\section{Results}
+\subsection{Two-dimensional data}
+
+\paragraph{}
+In this section we will analyze the results obtained with each model, considering different combinations of the aforementioned hyper-parameters. \newline
+In table \ref{tab:results-2d} there are the results reached by each of the presented model, plus two State Of Art algorithms' results. Results of LOF and iFor have been computed running one hundred experiments for each dataset and taking then the mean value, while PIF's results are taken from its paper. In appendix A in lists \ref{lst:lof_exp_code} and \ref{lst:ifor_exp_code}, we show the code to reproduce the above experiments. \newline
+Results of the models presented in this thesis, instead, are taken as the maximum value reached for that specific architecture for that dataset; in other words, we took the maximum value independently of $\tau$ and $\rho$ from the plots in \ref{app:appendix_b}.
+
+\begin{table}[hb]
+    \centering
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}[width=\linewidth]{c c c c c c c c}
+        \hline
+        \rowcolor{bluepoli!40}
+             Dataset & LOF & iFor & $AE_1$ & $AE_2$ & $SOM_1$ & $SOM_2$ & PIF \\
+        \hline
+        circle3              & 0.691 & 0.708 & 0.865 & 0.872 & 0.869 & \underline{0.874} & \textbf{0.930} \\
+        circle4              & 0.610 & 0.633 & 0.656 & 0.689 & \underline{0.756} & 0.726 & \textbf{0.897} \\
+        circle5              & 0.577 & 0.567 & 0.660 & 0.688 & 0.711 & \underline{0.725} & \textbf{0.780} \\
+        stair3               & 0.717 & 0.940 & 0.968 & 0.972 & \underline{0.975} & \textbf{0.977} & 0.971 \\
+        stair4               & 0.809 & 0.889 & \underline{\textbf{0.957}} & 0.950 & 0.955 & 0.956 & 0.952 \\
+        star5                & 0.753 & 0.731 & 0.806 & 0.829 & 0.831 & \underline{0.850} & \textbf{0.910} \\
+        star11               & 0.665 & 0.742 & 0.773 & \underline{0.775} & 0.760 & 0.768 & \textbf{0.796} \\
+        \hline
+        Mean$_{PIF}$           & 0.689 & 0.744 & 0.812 & 0.825 & 0.837 & \underline{0.839} & \textbf{0.891} \\
+        \hline
+        parables             & 0.838 & 0.813 & 0.907 & \underline{\textbf{0.920}} & 0.911 & 0.918 & - \\
+        lines                & 0.809 & 0.818 & 0.914 & 0.913 & 0.914 & \underline{\textbf{0.916}} & - \\
+        \hline
+        Mean$_{TOT}$                 & 0.719 & 0.760 & 0.834 & 0.845 & 0.854 & \underline{\textbf{0.857}} & - \\
+        \end{tabular}
+    }
+    \caption{Results on synthetic 2D datasets. Bold elements represent the higher value on the row. Underlined elements instead represents the maximum value on the row, but without considering PIF results.}
+    \label{tab:results-2d}
+\end{table}
+
+We compared our algorithm, in four different variants, with LOF and iFor; PIF results are shown only as a benchmark and not as a comparision, because it would not be fair. Indeed, PIF has higher knowledge with respect our algorithm, because it assumes to know the correct pattern to search. Therefore, our algorithm lies in the middle between PIF and other density-based or model-based algorithms, because we exploit the preference trick and the structure of the dataset, but we are not as informed as in PIF. \newline
+Therefore, we will make the comparisons by comparing only those algorithms that have the same dataset information as ours, i.e., none.
+
+\paragraph{}
+First of all, we will compare our algorithm in general with the two state-of-art competitors and then we will compare the different versions of our algorithm.
+
+\paragraph{}
+As can be noted from the table, LOF and iFor have much lower performances on this datasets, loosing up to $10\%$ over the mean AUC values. This is due to the fact that this algorithms do not try to understand how data is composed and arranged, i.e. learn the pattern, but rather computes the anomaly scores depending on the density of the point or considering how much the point is easy to isolate. \newline
+Since in structured normal data dataset the density is not informative, this algorithms are not able to reach our algorithm's performances.
+
+\paragraph{}
+Considering instead our algorithm, we can notice that using SOMs as learners we reach higher performances. Both the models, AEs and SOMs, are able to learn a pattern and understand useful information from data, but the difference could be due to how the models learn and computes the preference. \newline
+Auto-Encoders learn a hidden representation of the data and reconstruct original input vector, therefore are able to generate \textit{m-dimensional} vectors in all $\mathbb{R}^m$ and if we input an infinite number of vectors belonging to a continuous function to the auto-encoder, it will output a continuous function. Therefore, it is as if the auto-encoder learns a \textit{continuous} representation of the $\mathcal{MSS}$ on which it is trained.
+
+\paragraph{}
+On the contrary, SOMs during training moves a finite number of weights in the input space and at inference time it returns the weight closer to the input vector. Therefore, if we input to the SOM an infinite number of points belonging to a pattern, as we could do with the auto-encoder, as output we will get only a finite number of points defined by the weights of the network. \newline
+Therefore, it is as if the SOM learns a \textit{discrete} representation of the $\mathcal{MSS}$ on which it is trained, because the possible outputs of the network are defined only where the weights are.
+
+\paragraph{}
+Analyzing this differences in the type of learning and inference performed by the two networks, it is clear why there is such difference in the results in the table. Since the datasets mostly contain several patterns and not only one, the union of all this patterns could be thinked as a unique non-continuous pattern. In this case, therefore, it is better to learn a discrete representation instead of a continuous one. Therefore, theoretically auto-encoders should perform better when the manifolds are continuous and smooth, while SOMs perform better when the manifolds are discontinuous and broken in pieces.
+
+\subsection{Three-dimensional data}
+\paragraph{}
+In table \ref{tab:results-3d} are shown results for the same algorithms as in the \textit{two-dimensional} case, applied to synthetic datasets comprising a plane, a paraboloid and a sphere. In this case the results of PIF are not given, because in the paper it has not been tested on this datasets.
+
+\begin{table}[h]
+    \centering
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}[width=\linewidth]{c c c c c c c}
+        \hline
+        \rowcolor{bluepoli!40}
+             Dataset & LOF & iFor & $AE_3$ & $AE_4$ & $SOM_1$ & $SOM_2$ \\
+        \hline
+            plane                & 0.827 & 0.725 & \textbf{0.940} & 0.936 & 0.897 & 0.899 \\
+            paraboloid           & 0.690 & 0.591 & 0.878 & \textbf{0.906} & 0.845 & 0.845 \\
+            sphere               & 0.651 & 0.783 & 0.828 & \textbf{0.858} & 0.789 & 0.771 \\
+            \hline
+            Mean                 & 0.722 & 0.699 & 0.882 & \textbf{0.900}  & 0.844 & 0.838 \\
+            \hline
+        \end{tabular}
+    }
+    \caption{Results on synthetic 3D datasets. Results in bold are the maximum value along the row.}
+    \label{tab:results-3d}
+\end{table}
+
+\paragraph{}
+In this situations, the comparison with the state-of-art algorithms is the same as in the \textit{two-dimensional} case, with the state-of-art algorithms loosing up to $20\%$ of ROC AUC. \newline
+Again, this discrepancy can be explained by the fact that in the dataset all regions have more or less the same density, since anomalies have been sampled from a uniform distribution. Therefore, also in this case the density is not informative and the algorithms perform poorly.
+
+\paragraph{}
+This results also confirm another observation made for the \textit{two-dimensional} case, that is the fact that SOMs prefer discontinuous and non-smooth manifolds, while auto-encoders prefer continuous and smooth manifolds. Since in each of this dataset there was only one continuous and smooth manifold, the auto-encoder performed better. \newline
+Differences between the two versions of the auto-encoders could be explained by the increased complexity of the network, supported also by the fact that as shown in images in sections \ref{subsec:results_ae_3} and \ref{subsec:results_ae_4}, larger $\mathcal{MSS}$ brings better results, meaning that the networks can use more data to train on.

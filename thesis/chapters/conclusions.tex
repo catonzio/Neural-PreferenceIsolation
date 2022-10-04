@@ -1,0 +1,19 @@
+\chapter{Conclusions and future work}
+\label{ch:conclusions}%
+\paragraph{}
+In this thesis we explored the problem of Anomaly Detection in the context of structured normal data and high number of anomalies, representing half of the dataset. We have studied the possibility of implementing general learners in the preference framework presented in PIF \cite{pif}, evidencing the needs of models learned autonomously from data, instead of forcing a precise pattern as in previous works.
+
+\paragraph{}
+We have explored two kinds of models, the Auto-Encoders and the Self-Organizing Maps, showing their ability of learning useful representations of the dataset and the ability to discover patterns without any prior knowledge. Moreover, we have investigated the possibility of building an ensemble of such models and bring them in the preference framework. Thanks to the locally learned representations, this method shows good results if coupled with the preference framework.
+
+\paragraph{}
+This thesis has been only the first step towards the investigation of general pattern learners, opening the doors for researches in patter-recognition problems approached with the preference framework. Each step of the preference framework is a component that can be changed and depending on the problem, we can use different strategies. \newline
+For example, in T-Linkage \cite{t_linkage} the preference embedding is used in combination with hierarchical clustering to perform multi-model fitting; in this algorithm, the difference with respect to PIF was only in the last phase, in which instead of fitting a Voronoi Isolation Forest on the preference matrix, it applies hierarchical clustering. \newline
+Also in T-Linkage there was the limiting assumption as in PIF, forcing the patterns to be discovered to be as assumed; therefore, it is clear that an approach like the one presented in this thesis can be beneficial for T-Linkage. \newline
+
+\paragraph{}
+Unfortunately it is not simple, thus an extensive research in this field is required, in order to discover new relationships between hyper-parameters or discover new models that could be useful. \newline
+For example, it might be interesting to apply our framework in Computer Vision Anomaly Detection, employing Convolutional Neural Networks for pattern-recognition on non-tabular data like images. 
+
+\paragraph{}
+Thanks to the modularity of the preference framework, implementing it in new tasks and new contexts should be quite straightforward, because it requires only a class of pattern learners that are able to express preferences for instances of the dataset. This instances potentially could be images, points of a point-cloud or everything else; if there is the possibility of learning the patterns in an unsupervised manner, then the preference framework can be implemented.

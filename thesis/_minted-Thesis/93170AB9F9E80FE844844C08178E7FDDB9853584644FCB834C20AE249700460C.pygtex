@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.neighbors} \PYG{k+kn}{import} \PYG{n}{LocalOutlierFactor}
+\PYG{k+kn}{from} \PYG{n+nn}{sklearn.metrics} \PYG{k+kn}{import} \PYG{n}{roc\PYGZus{}curve}\PYG{p}{,} \PYG{n}{auc}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}LOF:}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{lof\PYGZus{}aucs} \PYG{o}{=} \PYG{p}{[]}
+\PYG{k}{for} \PYG{n}{ds\PYGZus{}name} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}circle3\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}circle4\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}circle5\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}stair3\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}stair4\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}star5\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}star11\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}circles\PYGZus{}parable3\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}lines\PYGZus{}rects4\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}plane\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}sphere\PYGZdq{}}\PYG{p}{,}
+                \PYG{l+s+s2}{\PYGZdq{}paraboloid\PYGZdq{}}\PYG{p}{]:}
+    \PYG{n}{ds}\PYG{p}{,} \PYG{n}{gt} \PYG{o}{=} \PYG{n}{load\PYGZus{}dataset\PYGZus{}by\PYGZus{}name}\PYG{p}{(}
+        \PYG{n}{base\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}PATH/TO/FOLDER\PYGZdq{}}\PYG{p}{,} \PYG{n}{name}\PYG{o}{=}\PYG{n}{ds\PYGZus{}name}\PYG{p}{,} \PYG{n}{with\PYGZus{}outliers}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{aucs} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{\PYGZus{}} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{100}\PYG{p}{):}
+        \PYG{n}{lof} \PYG{o}{=} \PYG{n}{LocalOutlierFactor}\PYG{p}{()}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{ds}\PYG{p}{)}
+        \PYG{n}{scores\PYGZus{}lof} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{n}{lof}\PYG{o}{.}\PYG{n}{negative\PYGZus{}outlier\PYGZus{}factor\PYGZus{}}
+        \PYG{n}{fpr}\PYG{p}{,} \PYG{n}{tpr}\PYG{p}{,} \PYG{n}{thr} \PYG{o}{=} \PYG{n}{roc\PYGZus{}curve}\PYG{p}{(}\PYG{n}{gt}\PYG{p}{,} \PYG{n}{scores\PYGZus{}lof}\PYG{p}{,} \PYG{n}{pos\PYGZus{}label}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{n}{aucs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{auc}\PYG{p}{(}\PYG{n}{fpr}\PYG{p}{,} \PYG{n}{tpr}\PYG{p}{))}
+    \PYG{n}{lof\PYGZus{}aucs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{aucs}\PYG{p}{))}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ds\PYGZus{}name}\PYG{l+s+si}{:}\PYG{l+s+s2}{\PYGZlt{}20}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{np}\PYG{o}{.}\PYG{n}{mean}\PYG{p}{(}\PYG{n}{aucs}\PYG{p}{)}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

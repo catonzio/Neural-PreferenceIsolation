@@ -1,0 +1,164 @@
+\chapter{Appendix A}
+\section{Code - Plane calculations}
+\label{sec:code_plane}
+In this appendix we will show the code used to compute the coefficients at section \ref{subsec:ae-planes}. This code uses the SymPy \cite{sympy} package available for Python, that allows for symbolic calculations.
+
+\begin{minted}
+[
+frame=lines,
+framesep=\columnsep,
+baselinestretch=1.2,
+% bgcolor=LightGray,
+% fontsize=\footnotesize,
+linenos
+]{Python}
+import sympy as sy
+
+# function to compute coefficients of the plane
+def compute_a_b_c_d(x_1, x_2, x_3, y_1, y_2, y_3, z_1, z_2, z_3):
+    M = sy.Matrix([[y_2-y_1, z_2-z_1], [y_3-y_1, z_3-z_1]])
+    a = sy.simplify(M.det())
+
+    M = sy.Matrix([[x_2-x_1, z_2-z_1], [x_3-x_1, z_3-z_1]])
+    b = sy.simplify(-M.det())
+
+    M = sy.Matrix([[x_2-x_1, y_2-y_1], [x_3-x_1, y_3-y_1]])
+    c = sy.simplify(M.det())
+
+    d = sy.simplify(-a*x_1 - b*y_1 - c*z_1)
+    return a, b, c, d
+
+# initialize printing system
+sy.init_printing()
+# define symbols for calculations
+syms = w_35, w_36, w_45, w_46, \
+        w_37, w_47, h_3_1, h_3_2, \
+        h_3_3, h_4_1, h_4_2, h_4_3, \
+        b_5, b_6, b_7, x_1, \
+        x_2, x_3, y_1, y_2, \
+        y_3, z_1, z_2, z_3 = sy.symbols(
+                                "w_35 w_36 w_45 w_46 " +
+                                "w_37 w_47 h_3_1 h_3_2 " +
+                                "h_3_3 h_4_1 h_4_2 h_4_3 " +
+                                "b_5 b_6 b_7 x_1 " +
+                                "x_2 x_3 y_1 y_2 " +
+                                "y_3 z_1 z_2 z_3 ")
+
+a, b, c, d = compute_a_b_c_d(x_1, x_2, x_3, y_1, y_2, y_3, z_1, z_2, z_3)
+
+print("a: \n" + sy.latex(a) + "\n")
+print("b: \n" + sy.latex(b) + "\n")
+print("c: \n" + sy.latex(c) + "\n")
+print("d: \n" + sy.latex(d) + "\n")
+
+# define coordinates from network's output
+x_1 = w_35*h_3_1+w_45*h_4_1+b_5
+x_2 = w_35*h_3_2+w_45*h_4_2+b_5
+x_3 = w_35*h_3_3+w_45*h_4_3+b_5
+
+y_1 = w_36*h_3_1+w_46*h_4_1+b_6
+y_2 = w_36*h_3_2+w_46*h_4_2+b_6
+y_3 = w_36*h_3_3+w_46*h_4_3+b_6
+
+z_1 = w_37*h_3_1+w_47*h_4_1+b_7
+z_2 = w_37*h_3_2+w_47*h_4_2+b_7
+z_3 = w_37*h_3_3+w_47*h_4_3+b_7
+
+a, b, c, d = compute_a_b_c_d(x_1, x_2, x_3, y_1, y_2, y_3, z_1, z_2, z_3)
+
+print("a: \n" + sy.latex(a) + "\n")
+print("b: \n" + sy.latex(b) + "\n")
+print("c: \n" + sy.latex(c) + "\n")
+print("d: \n" + sy.latex(d) + "\n")
+
+print("-(a/c): \n" + sy.latex(sy.simplify(-(a/c), syms=syms)) + "\n")
+print("-(b/c): \n" + sy.latex(sy.simplify(-(b/c), syms=syms)) + "\n")
+print("-(d/c): \n" + sy.latex(sy.simplify(-(d/c), syms=syms)) + "\n")
+\end{minted}
+\captionof{listing}{Code reproducing results obtained demonstrating that the auto-encoder is able to learn the representation of the plane.\label{lst:some-label}}
+
+\section{Code - LOF experiments}
+\label{sec:lof_exp}
+
+\begin{minted}
+[
+frame=lines,
+framesep=\columnsep,
+baselinestretch=1.2,
+% bgcolor=LightGray,
+% fontsize=\footnotesize,
+linenos
+]{Python}
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.metrics import roc_curve, auc
+
+print("LOF:\n")
+
+lof_aucs = []
+for ds_name in ["circle3",
+                "circle4",
+                "circle5",
+                "stair3",
+                "stair4",
+                "star5",
+                "star11",
+                "circles_parable3",
+                "lines_rects4",
+                "plane",
+                "sphere",
+                "paraboloid"]:
+    ds, gt = load_dataset_by_name(
+        base_path="PATH/TO/FOLDER", name=ds_name, with_outliers=True)
+    aucs = []
+    for _ in range(100):
+        lof = LocalOutlierFactor().fit(ds)
+        scores_lof = -lof.negative_outlier_factor_
+        fpr, tpr, thr = roc_curve(gt, scores_lof, pos_label=0)
+        aucs.append(auc(fpr, tpr))
+    lof_aucs.append(np.mean(aucs))
+    print(f"{ds_name:<20} {np.mean(aucs)}")
+\end{minted}
+\captionof{listing}{Code reproducing results obtained in the table \ref{tab:results-2d} and \ref{tab:results-3d}.\label{lst:lof_exp_code}}
+
+\section{Code - iFor experiments}
+\label{sec:ifor_exp}
+
+\begin{minted}
+[
+frame=lines,
+framesep=\columnsep,
+baselinestretch=1.2,
+% bgcolor=LightGray,
+% fontsize=\footnotesize,
+linenos
+]{Python}
+from sklearn.ensemble import IsolationForest as iFor
+from sklearn.metrics import roc_curve, auc
+
+print("iFor:\n")
+
+ifor_aucs = []
+for ds_name in ["circle3",
+                "circle4",
+                "circle5",
+                "stair3",
+                "stair4",
+                "star5",
+                "star11",
+                "circles_parable3",
+                "lines_rects4",
+                "plane",
+                "sphere",
+                "paraboloid"]:
+    ds, gt = load_dataset_by_name(
+        base_path="PATH/TO/FOLDER", name=ds_name, with_outliers=True)
+    aucs = []
+    for i in range(100):
+        ifor = iFor().fit(ds)
+        scores_ifor = -ifor.score_samples(ds)
+        fpr, tpr, thr = roc_curve(gt, scores_ifor, pos_label=0)
+        aucs.append(auc(fpr, tpr))
+    ifor_aucs.append(np.mean(aucs))
+    print(f"{ds_name:<20} {np.mean(aucs)}")
+\end{minted}
+\captionof{listing}{Code reproducing results obtained in the table \ref{tab:results-2d} and \ref{tab:results-3d}.\label{lst:ifor_exp_code}}

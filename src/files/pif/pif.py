@@ -10,6 +10,7 @@ from files.classes.mss_model import MSSModel
 from files.pif.voronoi_iforest import *
 from datetime import timedelta
 from numbers import Number
+from numpy.random import default_rng
 
 
 def clustering(pref_m, verbose=0):
@@ -197,9 +198,10 @@ class PreferenceIsolationForest:
             else 3 if (self.model_name == CIRCLE or self.model_name == PLANE) \
             else params["mss"]
         num_models = params["num_models"]
+        rng = default_rng()
 
-        sampled_ds_idxs = np.random.randint(
-            0, len(sampling_data), size=(num_models, mss)) if self.sampling == UNIFORM else np.array([localized_sampling(sampling_data, mss) for _ in range(num_models)])
+        sampled_ds_idxs = [rng.choice(len(sampling_data), size=(mss), replace=False) for _ in range(num_models)] if self.sampling == UNIFORM else np.array(
+            [localized_sampling(sampling_data, mss) for _ in range(num_models)])
 
         sampled_ds_s = np.array([sampling_data[idxs]
                                 for idxs in sampled_ds_idxs])

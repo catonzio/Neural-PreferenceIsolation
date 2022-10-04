@@ -1,0 +1,231 @@
+\chapter{Experiments (Temporary)}
+Here I will present some content that will be used in other chapters. In particular, I will present the datasets used, some plots of best AUC Rocs and some tables summarizing the results obtained until now.
+
+\section{2D}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c ||}
+    \hline
+         & |X| & |A| & |S| & |$S_1$|, ..., |$S_k$|  \\
+    \hline \hline
+    stair3 & 800 & 400 & 400 & $|S_1| = 272$, $|S_i| = 64$ $\forall i \in \{2, 3\}$ \\
+    \hline
+    stair4 & 400 & 200 & 200 & $|S_i| = 50$ $\forall i \in \{1, ..., 4\}$ \\
+    \hline
+    star5 & 500 & 250 & 250 & $|S_i| = 50$ $\forall i \in \{1, ..., 5\}$ \\
+    \hline
+    star11 & 1100 & 550 & 550 & $|S_i| = 50$ $\forall i \in \{1, ..., 11\}$ \\
+    \hline
+    circle3 & 1000 & 500 & 500 & $|S_1| = 376$, $|S_i| = 62$ $\forall i \in \{2, 3\}$ \\
+    \hline
+    circle4 & 400 & 200 & 200 & $|S_i| = 50$ $\forall i \in \{1, ..., 4\}$ \\
+    \hline
+    circle5 & 500 & 250 & 250 & $|S_i| = 50$ $\forall i \in \{1, ..., 5\}$ \\
+    \hline
+    lines & 800 & 400 & 400 & $|S_i| = 100$ $\forall i \in \{1, ..., 4\}$ \\
+    \hline
+    parables & 600 & 300 & 300 & $|S_i| = 100$ $\forall i \in \{1, ..., 3\}$ \\
+    \hline
+    \end{tabular}
+    \caption{Synthetic (2D) datasets settings}
+    \label{tab:syn_2d_ds_settings}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Stair3 results}
+    \label{tab:stair3_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Stair4 results}
+    \label{tab:stair4_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Star5 results}
+    \label{tab:star5_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Star11 results}
+    \label{tab:star11_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Circle3 results}
+    \label{tab:circle3_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Circle4 results}
+    \label{tab:circle4_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Circle5 results}
+    \label{tab:circle5_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Lines results}
+    \label{tab:lines_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Parables results}
+    \label{tab:parables_res}
+\end{table}
+
+\section{3D}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c ||}
+    \hline
+         & |X| & |A| & |S|  \\
+    \hline \hline
+    plane & 1000 & 500 & 500 \\ \hline
+    paraboloid & 400 & 200 & 200 \\ \hline
+    sphere & 500 & 250 & 250 \\ \hline
+    \end{tabular}
+    \caption{Synthetic (3D) datasets settings}
+    \label{tab:syn_3d_ds_settings}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Plane results}
+    \label{tab:plane_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Paraboloid results}
+    \label{tab:paraboloid_res}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \def\arraystretch{1.5}
+    \begin{tabular}{|| c | c | c | c | c | c | c ||}
+    \hline
+         & 0.1 & 0.5 & 1 & 1.5 & 2 & 2.5  \\
+    \hline \hline
+    AutoEncoder & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    SOM & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    Subsampling & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 & 0.99 \\ \hline
+    \end{tabular}
+    \caption{Sphere results}
+    \label{tab:sphere_res}
+\end{table}

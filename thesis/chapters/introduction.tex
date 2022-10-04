@@ -1,0 +1,60 @@
+\chapter{Introduction}
+\label{ch:introduction}
+\paragraph{}
+From financial fraud detection to healthcare insurance, anomaly detection is one of the most studied problem in data analysis and inspired the research towards the design of statistical or machine learning algorithms. \newline
+The objective of this task is to identify \textbf{anomalies}, defined as a dataset instance that deviates from expected behavior, or is otherwise distinct from other instances. \newline
+In the literature, \textit{normal} points are data instances that lie in denser regions or that follow a certain structure, while \textit{anomalies} fall in low-density regions or that do not follow any structure.
+
+\paragraph{}
+Applications for anomaly detection algorithms are fraud detection, cyber-security intrusions, insurance forgery and other fraudulent or hazardous activities, but they are also employed in other contexts such as finding anomalous pixels inside an image or, in quality inspection, understand if a component is faulty or not. \newline
+The methods to solve this problems has been used in a range of industries in order to advance IT safety and detect potential abuse or assaults, since anomalies in information systems frequently indicate some security breaches or violations. Thus, anomaly detection methods can also guarantee a greater level of security. 
+
+\begin{figure}[tb]
+  \begin{center}
+    \includesvg[width=0.6\textwidth]{Images/sinusoidal.svg}
+  \end{center}
+  \caption{Example of structured dataset $\mathcal{D} \in \mathbb{R}^2$. \textbf{Normal} points are shown in \textbf{orange}, while \textbf{anomalies} are shown in \textbf{blue}. The pattern in the dataset is a sinusoidal function $f(x) = y = sin(x)cos(x)$. Anomalies are random points that do not follow any pattern, laying in the same space of the normal points.}
+\label{fig:sinusoidal}
+\end{figure}
+
+\paragraph{}
+In this thesis we will mainly focus on structured datasets, in which anomalies are generated from a different structure, or pattern, with respect to the one that generated normal points. In this case, the density of the points can be unimportant to identify anomalies because it does not say anything about the pattern. There are situations in which the instances of the dataset with a normal behaviour follow a precise pattern, e.g. can be plotted on a line or on a circle or on more complex figures, while anomalies are outside this structures. In other words, the normal behavior is guided by an unknown pattern, or manifold, and anomalies lie outside this manifold and do not conform to any specific behavior. As an example, in figure \ref{fig:sinusoidal} is shown a dataset with a sinusoidal pattern: orange points follow the pattern, being normal; the blue ones, instead, do not have a structure and represents the anomalies.
+
+
+In this context, Anomaly Detection can be seen as a pattern-recognition problem, solved using parametric techniques, in which we need to identify the patterns that generated the data in order to understand if a point follows one of them or it is an anomaly not following any pattern. \newline
+The challenging element is that the manifolds are unknown, and we need to identify the anomalies in the dataset in order to understand the structures. But we need the original pattern in order to identify the anomalies.
+In this context, we have developed a \textbf{novel} algorithm able at identifying the patterns in the data using \textbf{robust model regression} and the \textbf{preference embedding}. 
+
+\begin{comment}
+    \paragraph{}
+    Consequently, the formation of patterns is a necessary first step in the detection process, followed by the identification of the units that violate those patterns.
+    Each method specifies a distance function, such as the Euclidean distance for numerical data, that can be used to calculate how far away and so unique an instance is from other instances. \newline
+    As a result, according to the description given above, one may define an "anomalous" point as one that deviates from the norm, or the expected normal behavior or value usual for a given dataset. The data unit could be out of proportion to the majority of the data, which would cause it to deviate from the average values. When the dataset is visualized, an anomalous data unit will stand out significantly from the other data units, which are all closely spaced. \newline
+    
+    \paragraph{}
+    However, in reality, anomaly identification is still difficult because most anomalies have unclear definitions. The term "global anomaly" typically refers to a unit that is significantly different from the dataset from any perspective. Both automatically and manually, it is simple to recognize. Local anomalies, however, or little clusters of aberrant data that are relatively close to the main dataset or values that differ from it insignificantly, are the problem. These ambiguities suggest that rather than using one of the two labels—normal or anomalous—a more sensitive method of finding anomalies is through their scoring in terms of anomaly intensity.
+\end{comment}
+
+\section{Use cases}
+\paragraph{}
+In order to give a context to this task, we show here some use cases in which Anomaly Detection is the key to avoid bad consequences.
+
+\begin{itemize}
+    \item \textbf{Cyber-intrusion}: Cyber-security is usually guaranteed with the help of network
+        behavior anomaly detection (NBAD) technology \cite{ae_examples_nbda}. The system analyzes packet signatures to detect security threats and block incoming/outgoing data that is compromised. NBAD also conducts continuous network monitoring to detect suspicious events or trends
+    \item \textbf{Fraud}: Graph-based anomaly detection (GBAD) is used to prevent fraud with
+        credit cards, bank accounts, and insurance \cite{ae_examples_fraud}. Machine Learning systems also enable online banking fraud with the help of behavioral biometrics that also detects anomalies in consumer spending in real-time \cite{ae_examples_behaviour}.
+    \item \textbf{Medical anomaly detection}: Outlier identification has been applied in clinical
+        settings in a variety of ways. For instance, the density-based clustering method can be applied to patient careflow log analysis \cite{ae_examples_patient_careflow} to see whether the particular patient's careflow trace is anomalous. Anomaly detection in medical image analysis is helpful in accurate diagnostics, while treatment plan analysis may help determine potentially fatal errors in the treatment plans \cite{ae_examples_treatment}.
+    \item \textbf{Industrial damage}: In the conditions of industrial automation, anomaly
+        detection systems use data coming from numerous sensors to identify any malfunctions in the machinery \cite{ae_examples_machine_failure} \cite{ae_examples_acoustic_failure}, thus able to detect abnormalities early to prevent further damage or manufacturing defects.
+    \item \textbf{Image processing}: The ability of anomaly detection systems to compare and
+        analyze images allows accurate fraud detection in banking and insurance (when one recipient of a service submits duplicate reimbursement claims or when fraudsters try to receive reimbursement on fake claims)
+    \item \textbf{Stock trading}: Anomaly detection algorithms deal quite well with the big masses
+        of unstructured data in the stock exchanges, be it regular stocks or cryptocurrencies. ML systems classify the available data about price movements and sales volumes to detect anomalies and give alerts to the users about price outliers. This information may be instrumental in trading decision-making.
+\end{itemize}
+
+\section{Thesis Structure}
+The rest of the thesis will be organized as follows: in Chapter \ref{ch:background} we present some background concepts that can help the reader to understand the basic concepts used in our solution. In Chapter \ref{ch:state_of_art} we show a brief taxonomy of Anomaly Detection algorithms, explaining the idea behind the families of algorithms and explaining in-depth the algorithms used in our comparisons. \newline
+In Chapter \ref{ch:proposed_solution} we explain our solution to the problem, giving a formal definition of it and describing how and why we developed this method. In Chapter \ref{ch:experiments} we will show the results obtained by our algorithm, comparing it to the State-of-Art algorithms on synthetic datasets.
+Finally, in Chapter \ref{ch:conclusions} we make our final thought about the project and explain how it can be improved and which are the next steps.

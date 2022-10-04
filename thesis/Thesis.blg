@@ -1,0 +1,84 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Thesis.aux
+The style file: abbrvnat.bst
+A level-1 auxiliary file: chapters/abstract.aux
+A level-1 auxiliary file: chapters/abstract_italian.aux
+A level-1 auxiliary file: chapters/acknowledgments.aux
+A level-1 auxiliary file: chapters/introduction.aux
+A level-1 auxiliary file: chapters/background.aux
+A level-1 auxiliary file: chapters/state_of_art.aux
+A level-1 auxiliary file: chapters/proposed_solution.aux
+A level-1 auxiliary file: chapters/results.aux
+A level-1 auxiliary file: chapters/conclusions.aux
+A level-1 auxiliary file: chapters/appendix_a.aux
+A level-1 auxiliary file: chapters/appendix_b.aux
+Database file #1: Thesis_bibliography.bib
+Warning--to sort, need author or key in ae_examples_nbda
+Warning--to sort, need author or key in tangent_line_approx
+Warning--to sort, need author or key in plane_local_approx
+Warning--to sort, need author or key in line_between_two_points
+Warning--to sort, need author or key in plane_between_three_points
+Warning--to sort, need author or key in sympy
+Warning--empty year in ae_examples_nbda
+Warning--empty year in line_between_two_points
+Warning--empty year in plane_between_three_points
+Warning--empty year in plane_local_approx
+Warning--empty year in sympy
+Warning--empty booktitle in ad_classific
+Warning--empty journal in lof
+Warning--empty year in lof
+Warning--empty year in lof
+Warning--empty journal in knn
+Warning--empty journal in pif
+Warning--empty journal in patel_hands-unsupervised_nodate
+Warning--empty year in patel_hands-unsupervised_nodate
+Warning--empty year in patel_hands-unsupervised_nodate
+Warning--empty publisher in ae_examples_machine_failure
+Warning--empty journal in one-class-svm
+Warning--empty year in one-class-svm
+Warning--empty year in one-class-svm
+Warning--empty booktitle in j_linkage
+Warning--empty journal in ae_examples_patient_careflow
+You've used 32 entries,
+            2773 wiz_defined-function locations,
+            823 strings with 11415 characters,
+and the built_in function-call counts, 14900 in all, are:
+= -- 1389
+> -- 735
+< -- 24
++ -- 255
+- -- 222
+* -- 1219
+:= -- 2150
+add.period$ -- 135
+call.type$ -- 32
+change.case$ -- 167
+chr.to.int$ -- 31
+cite$ -- 96
+duplicate$ -- 701
+empty$ -- 1259
+format.name$ -- 262
+if$ -- 3232
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 24
+newline$ -- 205
+num.names$ -- 105
+pop$ -- 387
+preamble$ -- 1
+purify$ -- 138
+quote$ -- 0
+skip$ -- 555
+stack$ -- 0
+substring$ -- 479
+swap$ -- 127
+text.length$ -- 12
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 342
+warning$ -- 26
+while$ -- 111
+width$ -- 0
+write$ -- 476
+(There were 26 warnings)

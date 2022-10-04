@@ -1,0 +1,64 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{sympy} \PYG{k}{as} \PYG{n+nn}{sy}
+
+\PYG{c+c1}{\PYGZsh{} function to compute coefficients of the plane}
+\PYG{k}{def} \PYG{n+nf}{compute\PYGZus{}a\PYGZus{}b\PYGZus{}c\PYGZus{}d}\PYG{p}{(}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{x\PYGZus{}2}\PYG{p}{,} \PYG{n}{x\PYGZus{}3}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}2}\PYG{p}{,} \PYG{n}{y\PYGZus{}3}\PYG{p}{,} \PYG{n}{z\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{p}{,} \PYG{n}{z\PYGZus{}3}\PYG{p}{):}
+    \PYG{n}{M} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{Matrix}\PYG{p}{([[}\PYG{n}{y\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{z\PYGZus{}1}\PYG{p}{],} \PYG{p}{[}\PYG{n}{y\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{z\PYGZus{}1}\PYG{p}{]])}
+    \PYG{n}{a} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{n}{M}\PYG{o}{.}\PYG{n}{det}\PYG{p}{())}
+
+    \PYG{n}{M} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{Matrix}\PYG{p}{([[}\PYG{n}{x\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{z\PYGZus{}1}\PYG{p}{],} \PYG{p}{[}\PYG{n}{x\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{z\PYGZus{}1}\PYG{p}{]])}
+    \PYG{n}{b} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{M}\PYG{o}{.}\PYG{n}{det}\PYG{p}{())}
+
+    \PYG{n}{M} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{Matrix}\PYG{p}{([[}\PYG{n}{x\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}2}\PYG{o}{\PYGZhy{}}\PYG{n}{y\PYGZus{}1}\PYG{p}{],} \PYG{p}{[}\PYG{n}{x\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}3}\PYG{o}{\PYGZhy{}}\PYG{n}{y\PYGZus{}1}\PYG{p}{]])}
+    \PYG{n}{c} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{n}{M}\PYG{o}{.}\PYG{n}{det}\PYG{p}{())}
+
+    \PYG{n}{d} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{a}\PYG{o}{*}\PYG{n}{x\PYGZus{}1} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{o}{*}\PYG{n}{y\PYGZus{}1} \PYG{o}{\PYGZhy{}} \PYG{n}{c}\PYG{o}{*}\PYG{n}{z\PYGZus{}1}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{,} \PYG{n}{d}
+
+\PYG{c+c1}{\PYGZsh{} initialize printing system}
+\PYG{n}{sy}\PYG{o}{.}\PYG{n}{init\PYGZus{}printing}\PYG{p}{()}
+\PYG{c+c1}{\PYGZsh{} define symbols for calculations}
+\PYG{n}{syms} \PYG{o}{=} \PYG{n}{w\PYGZus{}35}\PYG{p}{,} \PYG{n}{w\PYGZus{}36}\PYG{p}{,} \PYG{n}{w\PYGZus{}45}\PYG{p}{,} \PYG{n}{w\PYGZus{}46}\PYG{p}{,} \PYGZbs{}
+        \PYG{n}{w\PYGZus{}37}\PYG{p}{,} \PYG{n}{w\PYGZus{}47}\PYG{p}{,} \PYG{n}{h\PYGZus{}3\PYGZus{}1}\PYG{p}{,} \PYG{n}{h\PYGZus{}3\PYGZus{}2}\PYG{p}{,} \PYGZbs{}
+        \PYG{n}{h\PYGZus{}3\PYGZus{}3}\PYG{p}{,} \PYG{n}{h\PYGZus{}4\PYGZus{}1}\PYG{p}{,} \PYG{n}{h\PYGZus{}4\PYGZus{}2}\PYG{p}{,} \PYG{n}{h\PYGZus{}4\PYGZus{}3}\PYG{p}{,} \PYGZbs{}
+        \PYG{n}{b\PYGZus{}5}\PYG{p}{,} \PYG{n}{b\PYGZus{}6}\PYG{p}{,} \PYG{n}{b\PYGZus{}7}\PYG{p}{,} \PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYGZbs{}
+        \PYG{n}{x\PYGZus{}2}\PYG{p}{,} \PYG{n}{x\PYGZus{}3}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}2}\PYG{p}{,} \PYGZbs{}
+        \PYG{n}{y\PYGZus{}3}\PYG{p}{,} \PYG{n}{z\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{p}{,} \PYG{n}{z\PYGZus{}3} \PYG{o}{=} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{symbols}\PYG{p}{(}
+                                \PYG{l+s+s2}{\PYGZdq{}w\PYGZus{}35 w\PYGZus{}36 w\PYGZus{}45 w\PYGZus{}46 \PYGZdq{}} \PYG{o}{+}
+                                \PYG{l+s+s2}{\PYGZdq{}w\PYGZus{}37 w\PYGZus{}47 h\PYGZus{}3\PYGZus{}1 h\PYGZus{}3\PYGZus{}2 \PYGZdq{}} \PYG{o}{+}
+                                \PYG{l+s+s2}{\PYGZdq{}h\PYGZus{}3\PYGZus{}3 h\PYGZus{}4\PYGZus{}1 h\PYGZus{}4\PYGZus{}2 h\PYGZus{}4\PYGZus{}3 \PYGZdq{}} \PYG{o}{+}
+                                \PYG{l+s+s2}{\PYGZdq{}b\PYGZus{}5 b\PYGZus{}6 b\PYGZus{}7 x\PYGZus{}1 \PYGZdq{}} \PYG{o}{+}
+                                \PYG{l+s+s2}{\PYGZdq{}x\PYGZus{}2 x\PYGZus{}3 y\PYGZus{}1 y\PYGZus{}2 \PYGZdq{}} \PYG{o}{+}
+                                \PYG{l+s+s2}{\PYGZdq{}y\PYGZus{}3 z\PYGZus{}1 z\PYGZus{}2 z\PYGZus{}3 \PYGZdq{}}\PYG{p}{)}
+
+\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{,} \PYG{n}{d} \PYG{o}{=} \PYG{n}{compute\PYGZus{}a\PYGZus{}b\PYGZus{}c\PYGZus{}d}\PYG{p}{(}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{x\PYGZus{}2}\PYG{p}{,} \PYG{n}{x\PYGZus{}3}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}2}\PYG{p}{,} \PYG{n}{y\PYGZus{}3}\PYG{p}{,} \PYG{n}{z\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{p}{,} \PYG{n}{z\PYGZus{}3}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}a: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}b: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}c: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}d: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{d}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{} define coordinates from network\PYGZsq{}s output}
+\PYG{n}{x\PYGZus{}1} \PYG{o}{=} \PYG{n}{w\PYGZus{}35}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}1}\PYG{o}{+}\PYG{n}{w\PYGZus{}45}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}1}\PYG{o}{+}\PYG{n}{b\PYGZus{}5}
+\PYG{n}{x\PYGZus{}2} \PYG{o}{=} \PYG{n}{w\PYGZus{}35}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}2}\PYG{o}{+}\PYG{n}{w\PYGZus{}45}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}2}\PYG{o}{+}\PYG{n}{b\PYGZus{}5}
+\PYG{n}{x\PYGZus{}3} \PYG{o}{=} \PYG{n}{w\PYGZus{}35}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}3}\PYG{o}{+}\PYG{n}{w\PYGZus{}45}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}3}\PYG{o}{+}\PYG{n}{b\PYGZus{}5}
+
+\PYG{n}{y\PYGZus{}1} \PYG{o}{=} \PYG{n}{w\PYGZus{}36}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}1}\PYG{o}{+}\PYG{n}{w\PYGZus{}46}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}1}\PYG{o}{+}\PYG{n}{b\PYGZus{}6}
+\PYG{n}{y\PYGZus{}2} \PYG{o}{=} \PYG{n}{w\PYGZus{}36}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}2}\PYG{o}{+}\PYG{n}{w\PYGZus{}46}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}2}\PYG{o}{+}\PYG{n}{b\PYGZus{}6}
+\PYG{n}{y\PYGZus{}3} \PYG{o}{=} \PYG{n}{w\PYGZus{}36}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}3}\PYG{o}{+}\PYG{n}{w\PYGZus{}46}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}3}\PYG{o}{+}\PYG{n}{b\PYGZus{}6}
+
+\PYG{n}{z\PYGZus{}1} \PYG{o}{=} \PYG{n}{w\PYGZus{}37}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}1}\PYG{o}{+}\PYG{n}{w\PYGZus{}47}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}1}\PYG{o}{+}\PYG{n}{b\PYGZus{}7}
+\PYG{n}{z\PYGZus{}2} \PYG{o}{=} \PYG{n}{w\PYGZus{}37}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}2}\PYG{o}{+}\PYG{n}{w\PYGZus{}47}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}2}\PYG{o}{+}\PYG{n}{b\PYGZus{}7}
+\PYG{n}{z\PYGZus{}3} \PYG{o}{=} \PYG{n}{w\PYGZus{}37}\PYG{o}{*}\PYG{n}{h\PYGZus{}3\PYGZus{}3}\PYG{o}{+}\PYG{n}{w\PYGZus{}47}\PYG{o}{*}\PYG{n}{h\PYGZus{}4\PYGZus{}3}\PYG{o}{+}\PYG{n}{b\PYGZus{}7}
+
+\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{,} \PYG{n}{d} \PYG{o}{=} \PYG{n}{compute\PYGZus{}a\PYGZus{}b\PYGZus{}c\PYGZus{}d}\PYG{p}{(}\PYG{n}{x\PYGZus{}1}\PYG{p}{,} \PYG{n}{x\PYGZus{}2}\PYG{p}{,} \PYG{n}{x\PYGZus{}3}\PYG{p}{,} \PYG{n}{y\PYGZus{}1}\PYG{p}{,} \PYG{n}{y\PYGZus{}2}\PYG{p}{,} \PYG{n}{y\PYGZus{}3}\PYG{p}{,} \PYG{n}{z\PYGZus{}1}\PYG{p}{,} \PYG{n}{z\PYGZus{}2}\PYG{p}{,} \PYG{n}{z\PYGZus{}3}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}a: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{a}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}b: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}c: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{c}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}d: }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{d}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}(a/c): }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{a}\PYG{o}{/}\PYG{n}{c}\PYG{p}{),} \PYG{n}{syms}\PYG{o}{=}\PYG{n}{syms}\PYG{p}{))} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}(b/c): }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{b}\PYG{o}{/}\PYG{n}{c}\PYG{p}{),} \PYG{n}{syms}\PYG{o}{=}\PYG{n}{syms}\PYG{p}{))} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}(d/c): }\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}} \PYG{o}{+} \PYG{n}{sy}\PYG{o}{.}\PYG{n}{latex}\PYG{p}{(}\PYG{n}{sy}\PYG{o}{.}\PYG{n}{simplify}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{n}{d}\PYG{o}{/}\PYG{n}{c}\PYG{p}{),} \PYG{n}{syms}\PYG{o}{=}\PYG{n}{syms}\PYG{p}{))} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,409 @@
+\chapter{Related Work}
+\label{ch:state_of_art}
+\paragraph{}
+\textbf{Anomaly Detection} refers to the problem of finding patterns in data that do not conform to expected behavior. 
+This is a well-known problem in the literature and a lot of work has been done in this field since the end of the eighties. 
+
+\paragraph{}
+Generally speaking, there are three broad categories of anomaly detection algorithms, all based on the type of learning. Indeed, we can find anomaly detection exploiting \textit{supervised learning}, \textit{semi-supervised learning} and \textit{unsupervised learning}.
+In particular,
+\begin{itemize}
+    \item \textbf{Supervised learning} means that all the instances of the dataset have a label indicating if the instance is anomalous or not. Algorithms of this kind are trained as two (or one)-class classifiers, such as \textit{One-Class SVM} \cite{one-class-svm}.
+    
+    \item \textbf{Semi-supervised learning} means that only a portion of data is labelled, that can be a subset of both inliers and outliers or only of one of them. It can also mean that we only have samples of the inliers and we train an algorithm on those; then, we can use the same algorithm to discriminize between inliers and outliers. One example of the latter technique are Auto-Encoders for computer vision, in which we train an Auto-Encoder to replicate the normal images and then we measure how much an instance is probably an outlier depending on the reconstruction error.
+    
+    \item \textbf{Unsupervised learning} means that we do not have labels at all, but only data instances. This is the most commonly used due to their wider and relevant application.
+\end{itemize}
+
+\paragraph{}
+Another possible taxonomy of anomaly detection algorithms envisages three main categories: \textit{distance-based}, \textit{density-based} and \textit{model-based}. The first two categories are quite similar, because they define a measure of outlierness based on the number of neighboring points for each point, considered in the space of input vectors.
+The three categories can be summarized as follows:
+\begin{itemize}
+    \item \textbf{Distance-based} methods compute, for each point $\textbf{p} \in \mathcal{D}$ in the dataset, the number of points inside the neighboring of radius $\varepsilon$ around this point; the set of neighbors is composed as $Neigh(\textbf{p}) = \{\ \textbf{q} \in \mathcal{D}\ |\ distance(\textbf{p}, \textbf{q}) < \varepsilon\ \}$. If this number is below a certain threshold, the point is considered as anomalous. \newline
+    An example of algorithm belonging to this family is \textit{K-Nearest Neighbors} \cite{knn}.
+    
+    \item \textbf{Density-based} methods instead compute the density for each point $\textbf{p}$ as the fraction of points in the k-neighborhood of $\textbf{p}$ with respect the density around other points. In particular, a point is considered \textbf{inlier} if the density around the point is similar to the density around its \textit{k-neighbors}, while the point is considered as an \textbf{outlier} if the density around the point is significantly different from the local density of its \textit{k-neighbors}. \newline
+    An example of algorithm belonging to this family is \textit{LOF} (\ref{sec:lof}) \cite{lof}.
+    
+    \item \textbf{Reconstruction-based} methods usually employ Neural Networks, training them to reconstruct the normal instances minimizing the reconstruction error \cite{ae_reconstruction}. The anomaly score is then computed as the reconstruction error: the higher it is, the higher the probability of being an anomaly.
+    
+    \item \textbf{Model-based} methods assume that inlier data points are generated from a model, thus the anomaly score is computed as the degree of deviation of the point from the model. The more an instance deviates from the model, the higher its probability to be an outlier. This methods try to fit some models on the data and then measure the deviation of the points from this fitted models. \newline
+    Examples of this approach are classification based methods \cite{ad_classific} and clustering based methods \cite{clustering_based_ad}.
+    Other examples of algorithms belonging to this family are Isolation Forest (iFor) \cite{ifor}, that builds an ensemble of Random Trees to isolate outliers, and Preference Isolation Forest (PIF) \cite{pif}, from which we take inspiration.
+
+\end{itemize}
+
+\paragraph{}
+In the following we will analyze more in depth the algorithms that we will use for our comparisons in the results part, i.e. LOF, Isolation Forest and Preference Isolation Forest, that extends Isolation Forest. \newline
+We choose those algorithms because we want to show that in the context of structured datasets, the density as used in LOF or iFor is not informative because the patterns can have different densities or anomalies can be found in high density regions even if they are not following any pattern. PIF has been chosen because it is our starting point and because we want to show the goal of our Thesis, that is building general models without any assumption on the nature of the patterns.
+
+\section{Local Outliers Factor}
+\label{sec:lof}
+\paragraph{}
+As already said, this algorithm belongs to the density-based family. In order to define what is the local density of a point, we need to introduce some concepts. \newline
+First of all, we can introduce the notion of \textbf{k-distance} of a point $\textbf{p} \in \mathcal{D}$ in a dataset as the distance $distance(\textbf{p}, \textbf{q})$ between $\textbf{p}$ and $\textbf{q} \in \mathcal{D}$ such that, for any $k \in \mathbb{N}$:
+\begin{enumerate}[label=(\roman*)]
+    \item for at least $k$ objects $\textbf{q}' \in \mathcal{D} \backslash \{\textbf{p}\}$ it holds that $distance(\textbf{p}, \textbf{q}') \leq distance(\textbf{p}, \textbf{q})$, and
+    \item for at most $k-1$ objects $\textbf{q}' \in \mathcal{D} \backslash \{\textbf{p}\}$ it holds that $distance(\textbf{p}, \textbf{q}') < distance(\textbf{p}, \textbf{q})$
+\end{enumerate}
+Then, we can define the \textit{k-distance neighborhood}, $N_k(\textbf{p})$, of an object $\textbf{p}$ as the set of points whose distance from $\textbf{p}$ is not greater than the \textit{k-distance}, i.e. 
+\begin{equation}
+    N_k(\textbf{p}) = N_{\textit{k-distance}(\textbf{p})}(\textbf{p}) = \{\ \textbf{q} \in \mathcal{D} \backslash \{\textbf{p}\}\ |\ distance(\textbf{p}, \textbf{q}) \leq \textit{k-distance}(\textbf{p}, \textbf{q})\ \}
+\end{equation}
+
+We can now introduce the notion of \textit{reachability-distance} of an object $\textbf{p}$ with respect to object $\textbf{o}$ as:
+\begin{equation}
+    \textit{reach-dist}_k(\textbf{p}, \textbf{o}) = max\ \{\ \textit{k-distance}(\textbf{o}), distance(\textbf{o}, \textbf{p})\ \}
+\end{equation}
+
+\begin{figure}[b]
+    \centering
+    \includesvg{Images/state_of_art/lof_kdist.svg}
+    \caption{\textit{reach-dist}($\textbf{p}_1$, $\textbf{o}$) and \textit{reach-dist}($\textbf{p}_2$, $\textbf{o}$) for $k=4$}
+    \label{fig:lof_kdist}
+\end{figure}
+
+This distance is equal to the actual distance between object $\textbf{p}$ and object $\textbf{o}$ if the two are far enough, while when they are "sufficiently" close, the distance becomes the \textit{k-distance} of $\textbf{o}$. This is done because with the parameter $k$ we can control the smoothing effect of the statistical fluctuations of the $distance(\textbf{o}, \textbf{p})$. 
+
+\paragraph{}
+Usually, in other density-based algorithms, there are two parameters that define the notion of density:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{MinPts} specifying a minimum number of objects
+    \item \textbf{Volume} specifying the volume in which to compute outlierness
+\end{enumerate}
+These two parameters determine a density \textit{threshold} for the algorithm to operate: objects or regions are connected if their neighborhood densities exceed the given density threshold. \newline
+In LOF, instead, only \textbf{MinPts} is needed and to determine the density in the neighborhood of object \textbf{p} it uses the values $\textit{reach-dist}_{MinPts}(\textbf{p}, \textbf{o})$, for $\textbf{o} \in N_{MinPts}(\textbf{p})$.
+
+We can now compute the \textit{local reachability density} of a point \textbf{p} as
+\begin{equation}
+    lrd_{MinPts}(\textbf{p}) = \frac{1}{
+    \displaystyle \left ( \frac{\sum\limits_{\textbf{o} \in N_{MinPts}(\textbf{p}) } \textit{reach-dist}_{MinPts}(\textbf{p}, \textbf{o})}
+    {|N_{MinPts}(\textbf{p}) |} \right ) }
+\end{equation}
+
+Intuitively, the local reachability density of an object \textbf{p} is the inverse of the average reachability distance based on the \textit{MinPts}-nearest neighbors of \textbf{p}. This quantity can be $\infty$ if all the reachability distances sums up to 0, that can occur whene there are at least \textit{MinPts} duplicates of \textbf{p} in the dataset.
+
+\paragraph{}
+Finally, we can introduce the \textit{Local Outlier Factor} of an object \textbf{p} as:
+\begin{equation}
+    LOF_{MinPts}(\textbf{p}) = \frac
+    {\displaystyle \sum\limits_{\textbf{o} \in N_{MinPts}(\textbf{p}) } 
+        \frac{lrd_{MinPts}(\textbf{o})}{lrd_{MinPts}(\textbf{p})}
+    }
+    {|N_{MinPts}(\textbf{p})|}
+\end{equation}
+that captures the degree to which we call \textbf{p} an outlier. It is computed as the average of the ratio of the \textit{local reachability density} of \textbf{p} and those of \textbf{p}'s \textit{MinPts}-nearest neighbors. The lower the \textbf{p}'s \textit{local reachability density} is, and the higher the \textit{local reachability density} of \textbf{p}'s \textit{MinPts}-nearest neighbors are, the higher is the \textit{LOF} value of \textbf{p}.
+
+\paragraph{}
+In the paper it is demonstrated that the \textit{LOF} value of each point is bounded as follows:
+\begin{equation}
+    \frac{direct_{min}(\textbf{p})}{indirect_{max}(\textbf{p})}
+    \leq
+    LOF(\textbf{p})
+    \leq
+    \frac{direct_{max}(\textbf{p})}{indirect_{min}(\textbf{p})}
+\end{equation}
+where $direct_{min}(\textbf{p}) = min\ \{\ \textit{reach-dist}(\textbf{p}, \textbf{q})\ |\ \textbf{q} \in N_{MinPts}(\textbf{p})\ \}$ is the minimum reachability distance between \textbf{p} and a \textit{MinPts}-nearest neighbor of \textbf{p} and $direct_{max}(\textbf{p})$ the corresponding maximum; $indirect_{min}(\textbf{p}) = min\ \{\ \textit{reach-dist}(\textbf{q}, \textbf{o})\ |\ \textbf{q} \in N_{MinPts}(\textbf{p})\ \wedge\ \textbf{o} \in N_{MinPts}(\textbf{q})\ \ \}$ instead represents the minimum reachability distance between \textbf{q} and a \textit{MinPts}-nearest neighbor of \textbf{q} and $indirect_{max}(\textbf{p})$ the corresponding maximum.
+
+\paragraph{}
+Summing up, LOF is a very famous algorithm that is able to capture the relative degree of isolation between points. Before this algorithm, most of the methods for outliers detection consider being an outlier as a binary property. In this algorithm, instead, they give a \textit{degree} of outlierness based on the isolation of the points. When an object is deep inside a cluster, its LOF value is approximately 1, while for other objects there are upper and lower bounds based on the \textit{MinPts} parameter.
+
+\section{Isolation Forest}
+\label{sec:ifor}
+\paragraph{}
+This algorithm \cite{ifor} belongs to the family of \textit{model-based} algorithms. This algorithm suggests an alternative method that explicitly isolates anomalies instead of incorporating normal instances behavior, unlike most existing model-based approaches that construct a profile of normal instances and then identify as anomalies those points that do not conform to the normal behavior. 
+
+\paragraph{}
+The main idea of the algorithm is to build an \textbf{ensemble} of \textit{random trees} that recursively partition a subset of the dataset $\mathcal{D}$ and gives a score to each point $\textbf{p} \in \mathcal{D}$ based on the average path-length of the point in the ensemble. The depth in which we find a point determines how many partitions are required to isolate the point; ideally, if a point is easy to isolate it is in a less dense region or has some parameters significantly different from other points, so it is more probably an outlier. On the contrary, normal points usually are in denser regions and have attribute values similar to other points, so they are more difficult to isolate and they are more probably inliers.
+
+\begin{figure}[h!]
+     \centering
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/state_of_art/ifor_normal.svg}
+         \caption{Isolation of a normal point}
+         \label{subfig:ifor-normal}
+     \end{subfigure}
+     \begin{subfigure}{0.49\textwidth}
+         \centering
+        \includesvg[width=\textwidth]{Images/state_of_art/ifor_anom.svg}
+         \caption{Isolation of an anomaly}
+         \label{subfig:ifor-anom}
+     \end{subfigure}
+     \caption{Two examples of how a point can be isolated. If it is a normal point, figure \ref{subfig:ifor-normal}, it is harder to isolate and more splits are required. If instead it is an anomaly, figure \ref{subfig:ifor-anom}, it is easier to isolate and less splits are required.}
+     \label{fig:ifor_isol}
+\end{figure}
+
+\paragraph{}
+The algorithm is divided in two phases: \textbf{training} and \textbf{testing}. In the former, we build the ensemble of trees that isolate points; in the latter, we compute the path-length of the points and so the anomaly score for each point. \newline
+The only parameters needed by the algorithm are the sub-sampling size $\psi$ and the number of trees in the ensemble, \textit{t}; in the paper, values suggested for this parameters are $\psi = 256$ and $t = 100$.
+
+\paragraph{}
+In order to show how the algorithm works, we need to introduce some concepts. First of all, we said that this algorithm builds an \textbf{ensemble} of \textbf{random trees}; an ensemble is simply a collection of models that are used all together, in order to have a more accurate result. \newline
+A random tree, instead, is a \textit{binary decision tree} that, for each \textit{test-node}, selects randomly an attribute and a value for the split. Let \textit{T} be a node of the tree; \textit{T} can be an external node with no child, or an internal-node with one test and exactly two daughter nodes, $(T_L, T_R)$. A test consists of an attribute $a$ and a split value $v$ such that the test $a < v$ divides data points in $T_L$ and $T_R$. \newline
+
+Given a dataset of points $\mathcal{D} = \{\ \textbf{p}_1,\ ...,\ \textbf{p}_n\ \}$ with $n$ instances, to build an isolation tree (iTree), we recursively divide $\mathcal{D}$ by randomly selecting an attribute $a$ and a value $v$ until one of the following conditions are met:
+\begin{enumerate}[label=(\roman*)]
+    \item The tree reaches a height limit;
+    \item $|\mathcal{D}| = 1$;
+    \item all data in $\mathcal{D}$ have the same value.
+\end{enumerate}
+When the tree is fully grown, the number of nodes is $2n - 1$ and so the total memory requirement is bounded linearly to \textit{n}.
+
+\paragraph{}
+In order to give an \textit{outlierness score} to points, it is possible to use the average path-length of the point in the trees, scaled by some factor. We can define the \textit{path-length} of a point \textbf{p}, $h(\textbf{p})$, as the number of edges traversed in an iTree from the root node until an external node containing \textbf{p} is reached. To normalize the \textit{path-length} we can compute the average path-length as an unsuccessful search in a BST\footnote{Binary Search Tree}, since they are structurally equivalent to iTrees, that is:
+\begin{equation}
+\label{eq:ifor_score_ad}
+    c(n) = 2H(n-1) - \frac{2(n - 1)}{n}
+\end{equation}
+where $H(i)$ is the harmonic number, estimated as $H(i) \approx \ln{(i)} + e$, where the second term is the \textit{Euler's constant}. \newline
+Since $c(n)$ is the average of $h(\textbf{p})$ given $n$, we can compute the anomaly score as
+\begin{equation}
+    \label{eq:ifor_score}
+    s(\textbf{p}, n) = 2^{\displaystyle - \frac{E(h(\textbf{p}))}{c(n)}}
+\end{equation}
+where $E(h(\textbf{p}))$ is the average of $h(\textbf{p})$ from a collection of iTrees. From equation (\ref{eq:ifor_score}) it is possible to notice that $s$ is monotonic to $h(\textbf{p})$:
+\begin{table}[h!]
+    \begin{tabular}{l l l l l}
+        \quad & $\bullet$ & when $E(h(\textbf{p})) \to 0$, & $s \to 1$; & \textbf{p} is an anomaly \\
+        \quad & $\bullet$ & when $E(h(\textbf{p})) \to n-1$, & $s \to 0$; & \textbf{p} is an inlier \\
+        \quad & $\bullet$ & when $E(h(\textbf{p})) \to c(n)$, & $s \to 0.5$; & \textbf{p} ambiguous situation
+    \end{tabular}
+\end{table}
+
+\paragraph{}
+At this point, we can analyze more in depth the training and evaluation stages.
+
+\subsection{Training stage}
+In this stage, we build the iTrees by recursively partitioning the dataset, until instances are isolated or a specific height threshold is reached. In this case, the tree height limit $l$ is automatically set by the sub-sampling size $\psi:\ l = ceiling(\log_2 \psi)$; this value represents the average tree height and the rationale to limit the trees at this height is that we are only interested in data points that have shorter-than-average path lengths, as those points are more probable to be outliers. \newline
+Moreover, in the paper is shown that building the ensemble on a sub-sampled dataset without replacement\footnote{Sampling means that you (randomly) select a sub-set of the original set. Without replacement means that samples in the sub-set are not statistically independent because once you have selected an object, you cannot select the same object again; in other words, the same object cannot be selected twice.} leads to better results with respect when the whole dataset is used. \newline
+The algorithm of iForest is the following:
+
+\begin{algorithm}[h!]
+    \caption{$iForest(\mathcal{D},\ \psi,\ t)$}
+    \label{alg:iFor}
+    \textbf{Input:} $\mathcal{D} = \{\ \textbf{p}\ |\ \textbf{p} \in \mathbb{R}^m\ \}$, $\psi$, $t$\\
+    \textbf{Output:} a set of $t$ iTrees
+    \begin{algorithmic}[1]
+    \State \textit{F} $\gets$ Initialize forest
+    \State $l \gets ceiling(\log_2 \psi)$ \Comment{set height limit}
+    \ForAll{$i \in [0,\ t]$}
+        \State $\textbf{D'} \gets sample(\mathcal{D},\ \psi)$
+        \State $F \gets F\ \cup\ iTree(\textbf{D'},\ 0,\ l)$
+    \EndFor
+    \State \Return $F$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h!]
+    \caption{$iTree(\mathcal{D},\ e,\ l)$}
+    \label{alg:iTree}
+    \textbf{Input:} $\mathcal{D} = \{\ \textbf{p}\ |\ \textbf{p} \in \mathbb{R}^m\ \}$, $e$ - current tree height, $l$ - height limit \\
+    \textbf{Output:} an iTree
+    \begin{algorithmic}[1]
+    \If{$e \geq l\ or\ |\mathcal{D}| \leq 1$}
+    \State \Return $exNode\{\ Size \gets |\mathcal{D}|\ \}$
+    \Else
+        \State $A \gets $ list of attributes in $\mathcal{D}$
+        \State $a \in A$ select random attribute
+        \State $v \in [min(a),\ max(a)]$ select random split value
+        \State $\mathcal{D}_L \gets filter(\mathcal{D},\ a < v)$
+        \State $\mathcal{D}_R \gets filter(\mathcal{D},\ a \geq v)$
+        \State \Return $inNode\{\ Left \gets iTree(\mathcal{D}_L,\ e+1,\ l),$ \\
+            \quad \quad \quad \quad \quad \quad \quad \quad \quad\ $Right \gets iTree(\mathcal{D}_R,\ e+1,\ l),$ \\
+            \quad \quad \quad \quad \quad \quad \quad \quad \quad\ $SplitAtt \gets a$ \\
+            \quad \quad \quad \quad \quad \quad \quad \quad \quad\ $SplitValue \gets v \}$
+    \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Evaluation Stage}
+In this stage, an anomaly score $s$ is derived from the expected path length, $E(h(\textbf{p}))$, for each point in the dataset $\textbf{p} \in \mathcal{D}$. Using \textit{PathLength} (\ref{alg:path_function}), a single path length $h(\textbf{p})$ is derived by counting the number of edges $e$ from the root node to an external node as instance \textbf{p} traverses through an iTree. When \textbf{p} is terminated at an external node with more than one single point, the return value is $e + c(Size)$, where the adjustment account for an unbuilt subtree beyond the tree height limit. \newline
+After having calculated $h(\textbf{p})$ for each iTree in the ensemble, we can compute $s(\textbf{p},\ \psi)$ (\ref{eq:ifor_score}) with a complexity of $O(n \cdot t \cdot \log \psi)$, where $n = |\mathcal{D}|$.
+
+\begin{algorithm}[h!]
+    \caption{$PathLength(\textbf{p},\ T,\ e)$}
+    \label{alg:path_function}
+    \textbf{Input:} $\textbf{p} \in \mathcal{D}$, $T$ - an iTree, $e$ - current tree height \\
+    \textbf{Output:} path length of \textbf{p}
+    \begin{algorithmic}[1]
+    \If{$T$ is an external node}
+        \State \Return $e + c(T.size)$ \Comment{$c(\cdot)$ is defined in equation \ref{eq:ifor_score_ad}}
+    \EndIf
+    \State $a \gets T.splitValue$
+    \If{$\textbf{p}_a < T.splitValue$}
+        \State \Return $PathLength(\textbf{p},\ T.left,\ e+1)$
+    \Else   \Comment{$\textbf{p}_a \geq T.splitValue$}
+        \State \Return $PathLength(\textbf{p},\ T.right,\ e+1)$
+    \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+\paragraph{}
+Summing up, this algorithm proposes a new \textit{model-based} solution to Anomaly Detection, by isolating instances rather than profiling normal instance. It exploits the property of outliers that are "few and different" and an iTree is able to isolate anomalies closer to the root of the tree, compared to normal points. Exploiting random decision trees, it is able to have both spatial and temporal linear complexities. \newline
+When examined more closely, it can be noticed that in reality this algorithm is \textit{density-based}, because anomalies are found depending on their isolation level: if a point is in a high density region, it will be harder to isolate. On the contrary, if a point is in a less dense region, it will be easier to isolate; therefore, the concept of isolation is in reality based on the concept of density.
+
+\section{Preference Isolation Forest}
+\label{sec:pif}
+
+Also this algorithm belongs to the \textit{model-based} family, considering the problem of anomaly detection in a \textit{pattern-recognition} setup, where anomalies are samples that deviate from certain structured patterns. As previously stated, this differs from other algorithms, such as \textit{density-based} ones, in that we try to forecast the models (or patterns) that produced normal data rather than using a statistical measure to determine the outlierness score. Although density-based algorithms, in which the model describing inliers is a pdf\footnote{Probability Density Function}, can be seen as a special case of these \textit{pattern-recognition} algorithms, density-based and model-based algorithms are traditionally treated separately in the literature because they use different algorithms and methodologies. 
+
+\paragraph{}
+Anomaly detection in this setting is very challenging, since anomalies cannot be directly removed without having identified each and every structure first, but at the same time anomalies hinder the identification of existing structures. For this reason, anomalies are often detected as a byproduct of a multi-structure estimation process, performed with robust model fitting algorithms, like e.g. RANSAC \cite{ransac}, J-Linkage \cite{j_linkage} or T-Linkage \cite{t_linkage}. Within this framework, the structures underlying normal data are first identified and then all those points that do not conform with them are labeled as anomalous.
+
+\paragraph{}
+\textbf{Random Sample Consensus}\footnote{RANSAC} tries to fit a model to a dataset with a significat percentage of gross errors in a robust way. It follows the idea that rather than usign as much of the data as possible to obtain a model from data, it uses as small an initial dataset as feasible and enlarges this set with consistent data when possible. For example, given the task of fitting a line or an arc of a circle to a set of \textit{two-dimensional} points, RANSAC would select respectively a set of two or three points, since two points are required to fit a line and three are required to fit a circle. \newline
+More formally, we can state the basic RANSAC paradigm as follows: \newline
+Given a model that requires a minimum of $n$ points to instantiate its free parameters, and a set of data points $\mathcal{D}$ such that the number of points in $\mathcal{D}$ is greater than $n$ ($|\mathcal{D}| \geq n$), randomly select a subset $S_1$ of $n$ data points from \textbf{P} and instantiate the model. Use then the instantiated model $M_1$ to determine the subset $S_1^*$ of points that are within some error tolerance of $M_1$. The set $S_1^*$ is called \textbf{consensus set} of $S_1$. \newline
+If $|S_1^*| \geq t$, with $t$ a threshold that is a function of the estimate of the number of errors in $\mathcal{D}$, use $S_1^*$ to compute a new model $M_1^*$. \newline
+If $|S_1^*| < t$, randomly select a new subset $S_2$ and repeat the above process. If, after some predetermined number of trials, no consensus set with $t$ or more members has been found, either solve the model with the largest consensus set found or terminate in failure. 
+
+\paragraph{}
+Exploiting this robust model-fitting methods, PIF detects anomalies among structures whose nature is described by a given parametric function of unknown parameters. In order to do this, data is embedded in a high dimensional space called \textit{preference space} and then performs anomaly detection in this space relying on \textit{Pi-Forest}, an efficient tree-based method exploiting Voronoi Tessellations.
+Given a dataset $\mathcal{D}$ of \textit{m-dimensional} points, the anomaly score of a point $s(\textbf{p})$ is computed in two main steps:
+\begin{enumerate}[label=(\roman*)]
+    \item Embed the data in the preference space;
+    \item Adopt a tree-based isolation approach to detect anomalies in the preference space.
+\end{enumerate}
+The entire algorithm is detailed in \ref{alg:pif}.
+
+\begin{algorithm}[h!]
+    \caption{$PIF$}
+    \label{alg:pif}
+    \textbf{Input:} $\textbf{p} \in \mathcal{D}$, $t$ - number of trees, $\psi$ - sub-sampling size, $b$ - branching factor \\
+    \textbf{Output:} Anomaly scores $\{\ s_\psi(\mathcal{E}(\textbf{p}_i))\ \}_{i=1,\ ...,\ n}$
+    \begin{algorithmic}[1]
+        \State \textit{/* Preference embedding */}
+        \State $M_k \gets \{\ \bm{\theta}_i \ \}_{i=1,\ ...,\ k}$ \Comment{Sample $k$ models from $\mathcal{D}$}
+        \State $P \gets preferenceEmbedding(\mathcal{D},\ M_k) \in \mathbb{R}^{nk}$
+        \State
+        \State \textit{/* Train Preference Isolation Forest */}
+        \State $F \gets \textit{PI-Forest}(P,\ t,\ \psi,\ b)$
+        \State
+        \State \textit{/* Scoring input data */}
+        \ForAll{$i \in [1,\ |P|]$}
+            \State $\textbf{h} \gets [0,\ ...,\ 0] \in \mathbb{R}^t$
+            \ForAll{$j \in [1,\ t]$}
+                \State $T \gets $ \textit{j-th} PI-Tree in $F$
+                \State $[\textbf{h}]_j \gets \textit{pathLength}(\textbf{pr}_i, T, 0)$ 
+            \EndFor
+            \State $s_\psi(\textbf{p}_i) \gets 2^{- \frac{E(\textbf{h}(\textbf{p}_i))}{c(\psi)}}$
+        \EndFor
+        \State \Return $\{\ s_\psi(\textbf{p}_i) \ \}_{i=1,\ ...,\ n}$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Preference Embedding}
+\label{subsec:preference_embedding}
+\paragraph{}
+Preference embedding refers to the procedure in which we map each point $\textbf{p} \in \mathcal{D},\ \textbf{p} \in \mathbb{R}^m$ in a k-dimensional vector, having components in the interval $[0,\ 1]$, via a mapping $\mathcal{E}: \mathcal{D} \rightarrow [0,\ 1]^k$. The space $[0,\ 1]^k$ is called \textbf{preference space}. \newline
+More precisely, the embedding depends on a family of models $\mathcal{F}$ parametric in \textbf{$\theta$}, a set of $k$ model instances $\{\ \bm{\theta}_i\ \}_{i=1,\ ...,\ k}$ and an estimate of the standard deviation of the noise affecting the data, $\sigma$. \newline
+A sample $\textbf{p}_i \in \mathcal{D}$ is then embedded to a vector $\textbf{pr}_i = \mathcal{E}(\textbf{p}_i)$ whose \textit{j-th} component is defined as:
+\begin{equation}
+\label{eq:preference_embedding}
+    \textbf{pr}_i = \begin{cases} 
+                      \phi(\delta_{ij}) & \delta_{ij} \leq 3\sigma \\
+                      0 & otherwise
+                   \end{cases}
+\end{equation}
+where $\delta_{ij} = \mathcal{F}(\textbf{p}_i, \bm{\theta}_j)$ is the residual of $\textbf{p}_i$ from the model $\bm{\theta}_j$; in other words, it represents how much the point deviates from the model. It is possible to use different functions to compute the preference, but $\phi$ must be monotonically decreasing in $[0,\ ...,\ 1]$ and such that $\phi(0) = 1$. In the paper the authors chose a Gaussian function of the form $\phi(\delta) = e^{ -\frac{\delta^2}{\sigma}}$. \newline
+To give an idea of what the preference matrix $P$ represents, we can say that the \textit{j-th} component of the preference vector $\textbf{pr}_i$, namely $[\textbf{pr}_i]_j$, is the preference that a model $\bm{\theta}_j$ expresses for point $\textbf{p}_i$: the closer the point $\textbf{p}_i$ to the model $\bm{\theta}_j$, the higher the preference. The embedding function $\mathcal{E}$ maps dataset $\mathcal{D}$ to the set of preference vectors:
+\[
+    P = \{\ \textbf{pr}_i = \mathcal{E}(\textbf{p}_i)\ |\ \textbf{p}_i \in \mathcal{D}\ \}
+\]
+which represents the image of $\mathcal{D}$ through the embedding $\mathcal{E}$. As already said, the pool of models $\{\ \bm{\theta}_i\ \}_{i=1,...,k}$ of $k$ models is built using a RANSAC-like strategy: at each step, a new model is built sampling from the whole dataset.
+
+\paragraph{}
+In order to measure the distance in this new space, one very useful metric is the \textit{Tanimoto Distance}\footnote{First cited in \cite{tanimoto}, it is a generalization of the Jaccard Distance. If all the elements of the two vectors are binary (can be only 0 or 1), the two distances are the same. They are not the same if the two vectors can also have discrete values between 0 and 1.}, because points conforming to the same structures share similar preferences, yielding low distances. On the contrary, outliers would result in null (or few) preferences to the majority of structures, thus resulting in sparse preference vectors that tend to have distance close to 1 with the majority of other samples. \newline
+Given two samples $\textbf{pr}_i = \mathcal{E}(\textbf{p}_i)$ and $\textbf{pr}_j = \mathcal{E}(\textbf{p}_j)$, their Tanimoto distance is:
+\begin{equation}
+    \label{eq:tanimoto}
+    \tau(\textbf{pr}_i, \textbf{pr}_j) = 1 - \frac{\langle \textbf{pr}_i, \textbf{pr}_j \rangle}{||\textbf{pr}_i||^2 + ||\textbf{pr}_j||^2 - \langle \textbf{pr}_i, \textbf{pr}_j \rangle}
+\end{equation}
+
+\subsection{Pi-Forest}
+
+At this point, after having built the preference matrix, we can isolate instances in the new space to identify outliers. Since in this space the Euclidean Distance, used e.g. in Isolation Forest \ref{sec:ifor}, is not informative, the authors needed to introduce a new type of Decision Tree, called \textit{Pi-Tree}, based on \textit{Voronoi Tessellation} (\ref{sec:voronoi}) and \textit{Tanimoto Distance}. \newline
+The construction of a Pi-Tree is described in algorithm \ref{alg:pitree} and starts from a single region corresponding to the whole space $[0,\ 1]^k$ that is then recursively split in $b$ sub-regions by randomly selecting $b$ seeds $\{\ \textbf{s}_i \ \}_{i=1,...,b} \subset P$. At this point, the dataset is partitioned into $b$ subsets $\mathcal{P} = \{\ P_i \ \}_{i=1,...,b}$ and in each $P_i \subset P$ there are the points that have $\textbf{s}_i$ as the closest seed, according to Tanimoto Distance. The number of seeds $b$ is the branching factor of the tree associated to the splitting process; the construction of the tree stops when it is not possible to further split a region (i.e., the number of points in the region is less than $b$) or the tree has reached a maximum height, set as $l = \log_b \psi$, where $\psi$ is the number of points used to build the tree. In figure \ref{fig:voronoi} is illustrated the splitting procedure of a Pi-Tree.
+
+\begin{figure}[h!]
+    \centering
+    \includesvg[width=0.9\textwidth]{Images/state_of_art/voronoi.svg}
+    \caption{Example of a Pi-Tree with branching factor $b = 3$ and height limit $l = 3$, built from a set of points in $\mathbb{R}^2$. Every region is recursively split in $b$ sub-regions and can be noted that the most isolated samples fall in leaves at lowest heights, such as \textit{a} and \textit{d} cells.}
+    \label{fig:voronoi}
+\end{figure}
+
+\begin{algorithm}[h]
+    \caption{\textit{Pi-Tree}}
+    \label{alg:pitree}
+    \textbf{Input:} $P$ - preference matrix, $e$ - current tree height, $l$ - height limit, $b$ - branching factor\\
+    \textbf{Output:} A Pi-Tree
+    \begin{algorithmic}[1]
+        \If{$e \geq l$ or $|P| < b$}
+            \State \Return \textit{exNode}{$Size \gets |P|$}
+        \Else
+            \State randomly select a set of $b$ seeds $\{\ \textbf{s}_i\ \}_{i=1,...,b} \subset P$
+            \State $\mathcal{P} \gets voronoiPartition(P,\ \{\ \textbf{s}_i\ \}_{i=1,...,b})$
+            \State \textit{chNodes} $\gets \emptyset$
+            \ForAll{$i \in [1,\ b]$}
+                \State \textit{chNodes} $\gets chNodes \cup \textit{Pi-Tree}(P_i,\ e+1,\ l,\ b)$
+            \EndFor
+            \State \Return \textit{inNode} \{
+                                            $ChildNodes \gets chNodes$, \\
+                \quad \quad \quad \quad \quad \quad \quad \quad \quad\ $SplitPoints \gets \{\ \textbf{s}_i\ \}_{i=1,...,b}$
+            \}   
+        \EndIf
+    \end{algorithmic}
+\end{algorithm}
+
+\paragraph{}
+As already said for Isolation Forest (\ref{sec:ifor}), the outlierness score of a point depends on the height of the tree in which lies the point. This height is directly related to its separability, so a lower height corresponds to points that are separable with few splits, while a higher height corresponds to points hard to separate, thus are less probable to be outliers. \newline
+In order to decrease the random fluctuations of the results of the algorithm, it is possible to build an ensemble of models called \textit{Pi-Forest}. We can build $t$ Pi-Trees each trained on a subset $P' \subset P$ of the preference representations of the dataset $\mathcal{D}$; the sub-sampling factor is controlled by $\psi$. \newline
+The procedure is detailed in algorithm \ref{alg:piforest}.
+
+\begin{algorithm}[h]
+    \caption{\textit{Pi-Forest}}
+    \label{alg:piforest}
+    \textbf{Input:} $P$ - preference matrix, $\psi$ - sub-sampling size, $t$ - number of trees, $b$ - branching factor\\
+    \textbf{Output:} A set of $t$ Pi-Tree
+    \begin{algorithmic}[1]
+        \State $F \gets \emptyset$
+        \State set height limit $l = \log_b \psi$
+        \ForAll{$i \in [1,\ t]$}
+            \State $P^{'} \gets subSample(P,\ \psi)$
+            \State $F \gets F \union \textit{Pi-Tree}(P^{'},\ 0,\ l,\ b)$
+        \EndFor
+        \State \Return $F$
+    \end{algorithmic}
+\end{algorithm}
+
+\subsection{Anomaly Score}
+Anomaly scores are computed as in Isolation Forest and other tree-based isolation methods, like \cite{isolation_anomal} and \cite{novel_anomal_score}. With reference to Isolation Forest, in this framework to compute the anomaly scores of the points we need first to embed the points in the preference space, build the Pi-Forest and then pass each instance $\textbf{pr} \in P$ through all the Pi-Trees of the ensemble. The heights reached in every tree are computed and collected in a vector $\textbf{h}(\textbf{pr}) = [h_1(\textbf{pr}),\ ...,\ h_t(\textbf{pr})]$ and are used to compute the anomaly score $s_\psi$ of an element as in Isolation Forest:
+\begin{equation}
+    s_\psi(\textbf{pr}) = 2^{\displaystyle \left ( - \frac{E(\textbf{h}(\textbf{p}))}{c(\psi)} \right )}
+\end{equation}
+where $E(\textbf{h}(\textbf{pr}))$ is the mean value over the elements of $\textbf{h}(\textbf{pr})$ and $c(\psi)$ is an adjustment factor with the same role as in Isolation Forest, see equation \ref{eq:ifor_score_ad}. \newline
+Also the heights of elements in the trees are computed with a function similar to \textit{PathLength} - algorithm \ref{alg:path_function} - in Isolation Forest, but adapted for the Voronoi Tessellation:
+
+\begin{algorithm}[h]
+    \caption{$PathLength$}
+    \label{alg:pathlength_pif}
+    \textbf{Input:} $\textbf{pr}$ - a sample, $T$ - a Pi-Tree, $e$ - current path length \\
+    \textbf{Output:} Path length of \textbf{pr}
+    \begin{algorithmic}[1]
+        \If{$T \textit{is an external node}$}
+            \State \Return $e + c(T.size)$
+        \EndIf
+        \State $childNode \gets voronoiLocate(\textbf{pr},\ T.splitPoints,\ T.childNodes)$
+        \State \Return $PathLength(\textbf{pr},\ childNode,\ e+1)$
+    \end{algorithmic}
+\end{algorithm}
+
+Also in this case, all the observations for the adjustment factor has already been discussed in Isolation Forest. Notice that when the branching factor $b = 2$, the adjustment factor becomes as in \ref{eq:ifor_score_ad}, but if $n = 1$ the adjustment is $0$ and if $n = 2$, the adjustment is $1$.
+
+\paragraph{}
+The complexity of building the Pi-Forest is $\mathcal{O}(\psi \cdot t \cdot b \cdot log_b \psi)$ and the scoring phase has a complexity of $\mathcal{O}(n \cdot t \cdot b \cdot log_b \psi)$, where $n = |\mathcal{D}|$; with respect to Isolation Forest there is an additional overhead due to the preference embedding $\mathcal{E}(\cdot)$.
+
+\paragraph{}
+Concluding, we can state that Preference Isolation Forest has two main advantages over other isolation-based anomaly detection tools, that are the \textit{so-called} preference trick and the Voronoi Tessellation. The former, allows to integrate useful information about normal data and to better characterize structure-less anomalies. The latter, instead, preserves the intrinsic distance of the preference space during the splitting process, since the Tanimoto Distance (\ref{eq:tanimoto}) is employed. \newline
+In the paper have been conducted several experiments on datasets generated by some pattern, like a line or a circle; in the majority of the experiments, this method gets better results because is able to distinguish between model-generated points and anomalous points. Other methods, instead, has troubles in identifying the patterns that generated the data.

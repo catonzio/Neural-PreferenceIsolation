@@ -1,0 +1,23 @@
+% ABSTRACT IN ITALIAN
+\chapter*{Abstract in lingua italiana}
+L'Anomaly Detection è un campo del data mining applicato in numerosi contesti, come l'ispezione della qualità, il rilevamento delle frodi e in medicina, che cerca di individuare le anomalie presenti in un set di dati, definite come quelle istanze che non hanno un comportamento ben definito o che si discostano dal comportamento abituale.
+
+\hspace{5pt}
+In questa tesi ci concentriamo sulle anomalie nei set di dati contenenti punti normali strutturati, cioè quelli in cui i punti normali seguono schemi (pattern) ben definiti, mentre i punti che non seguono gli schemi sono considerati anomali.
+
+\hspace{5pt}
+In questo contesto, vogliamo estendere PIF, un algoritmo di Anomaly Detection che incorpora i punti del set di dati nello spazio delle preferenze e applica Voronoi Isolation Forest su di essi, al fine di calcolare un punteggio di anomalia per ogni istanza. L'incorporazione nello spazio delle preferenze avviene attraverso un insieme di modelli campionati dai dati, contenenti pattern di cui si presume di conoscere la formulazione.
+
+\hspace{5pt}
+Dimostreremo che è possibile costruire un ensemble di modelli più generali che estraggono i pattern autonomamente, direttamente dai dati, senza la conoscenza dei pattern da ricercare. Pertanto, dimostreremo
+\begin{enumerate*}[label=(\roman*)]
+    \item che è possibile approssimare localmente i dati normali con un modello, e
+    \item che i modelli possono apprendere i pattern senza alcuna informazioni sul tipo di modello.
+\end{enumerate*}
+Questo è possibile grazie a due tipi di reti neurali, gli auto-encoders e le self-organizing maps, che apprendono il modello da ricercare invece di fissarlo come nel PIF.
+
+\hspace{5pt}
+Abbiamo testato il nostro algoritmo su dataset sintetici disponibili pubblicamente, confrontandolo con due metodi dello stato dell'arte basati sulla densità come iFor e LOF, dimostrando che il nostro algoritmo è superiore in termini di ROC AUC su tutti i dataset; abbiamo inoltre esplorato diversi modelli e architetture per ogni modello, alla ricerca degli hyper-parametri giusti.
+
+\paragraph{}
+\textbf{Parole chiave}: rilevamento di anomalie, reti neurali, preference embedding, self-organizing maps, auto-encoder

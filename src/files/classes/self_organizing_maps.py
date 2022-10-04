@@ -60,6 +60,14 @@ class SelfOrganizingMaps:
             self.minisom.pca_weights_init(data=data)
         elif self.init_type == RND:
             self.minisom.random_weights_init(data=data)
+        elif self.init_type == GRID:
+            x_, _x = np.min(data[:,0]), np.max(data[:,0])
+            y_, _y = np.min(data[:,1]), np.max(data[:,1])
+
+            a = np.linspace(x_, _x, self.n_rows)
+            b = np.linspace(y_, _y, self.n_cols)
+            weights = np.array(np.meshgrid(a, b)).T
+            self.minisom._weights = weights
 
     def fit(self, epochs, data, verbose=False):
         if not self.initialized:
@@ -126,7 +134,7 @@ class SelfOrganizingMaps:
                 else:
                     return np.array([[np.inf, np.inf]])
 
-    def plot_weights_lattice(self, data=None, dpi=100, title="", ax=None):
+    def plot_weights_lattice(self, data=None, c=None, dpi=100, title="", ax=None):
         dict = {}
         weights = self.minisom.get_weights()
         for a, row in enumerate(weights):
@@ -134,7 +142,7 @@ class SelfOrganizingMaps:
                 neighb_idxs = find_neighbors_idxs(
                     weights, (a, b), to_be_indexed=True)
                 dict[tuple(weight)] = weights[neighb_idxs]
-        w = 1e-5  # Errorwidth
+        w = 1e-7  # Errorwidth
         h = 0.5   # Errorhead width
 
         if ax is None:
@@ -142,7 +150,7 @@ class SelfOrganizingMaps:
             if title:
                 fig.suptitle(title)
         if data is not None:
-            plot(data, ax=ax, c='gray', alpha=0.4)
+            plot(data, ax=ax, c="gray" if c is None else c, alpha=0.4, s=20)
         ax.grid(False)
 
         for point, connections in dict.items():
@@ -151,13 +159,14 @@ class SelfOrganizingMaps:
                 dy = outgoing[1] - point[1]
                 ax.arrow(point[0], point[1],
                          dx, dy,
-                         alpha=0.3,
+                         alpha=1,
                          width=w,
-                         facecolor="k")
+                         color=(0, 0, 0, 1),
+                         )
 
             ax.plot(*point,
-                    marker="o", markersize=3,
-                    markeredgecolor="k",
+                    marker="o", markersize=5,
+                    markeredgecolor=(0.5, 0.5, 0.5, 0.5),
                     markerfacecolor="red")
 
 
